@@ -428,6 +428,7 @@ export const AppProvider = (props) => {
   return (
     <Provider
       value={{
+        scrollbar,
         addTrackToPlaylist,
         getUserPlaylists,
         setBannerInfoGenre,
