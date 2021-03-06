@@ -1,0 +1,27 @@
+@import './global';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800;900&display=swap');
+@import "./mixin";
+@import "./variable";
+
+.App {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  color: white;
+}
+
+.loggin {
+  @include flex-sp-b-ai-c;
+  justify-content: center;
+  width: 100%;
+  background-color: $color-dark;
+
+  &__btn {
+    color: white;
+    text-decoration: none;
+    background-color: $color-light;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+  }
+}

@@ -1,0 +1,47 @@
+@import "./variable";
+@import "./mixin";
+@import "./_global.scss";
+
+.searchBar {
+    width: 100%;
+    background-color: transparent;
+    @include flex-center;
+    z-index: 500;
+    padding: 2rem 2rem 1rem 2rem;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+
+    &__container {
+        position: relative;
+        height: fit-content;
+
+        .iconSearch {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $color-light;
+        }
+    }
+
+    &__input {
+        height: 2.5rem;
+        width: 500px;
+        border-radius: 25px;
+        border: none;
+        outline: none;
+        padding-left: 2.5rem;
+        padding-right: 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $color-dark;
+        background-color: whitesmoke;
+
+        &::placeholder {
+
+            color: $color-light;
+            opacity: 0.5;
+        }
+
+    }
+}

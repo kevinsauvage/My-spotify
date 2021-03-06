@@ -1,0 +1,24 @@
+@import "../stylesheets/mixin";
+
+.play-btn {
+    padding: 0.8rem 2rem;
+    border-radius: 20px;
+    height: 35px;
+    cursor: pointer;
+    font-weight: 700;
+    background-color: #21D4FD;
+    background: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+    width: fit-content;
+    transition: all 0.2s ease-in;
+    margin: 1rem auto 0;
+    box-shadow: 0px 1px 5px -1px #21D4FD;
+    -webkit-box-shadow: 0px 1px 5px -1px #21D4FD;
+    -moz-box-shadow: 0px 1px 5px -1px #21D4FD;
+    @include flex-center;
+
+    p {
+        font-size: 15px;
+        color: whitesmoke;
+
+    }
+}

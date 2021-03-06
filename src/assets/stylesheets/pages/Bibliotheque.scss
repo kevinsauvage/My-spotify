@@ -1,0 +1,54 @@
+@import "../variable";
+@import "../mixin";
+@import "../global";
+
+.bibliotheque {
+    margin: 0 2rem 2rem 2rem;
+    border-radius: 10px;
+
+    &__tracks {
+        @include xl-card;
+        margin-bottom: 2rem;
+    }
+
+    &__banner {
+        width: 100%;
+        height: fit-content;
+        position: relative;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+        @include xl-card
+    }
+
+    &__item {
+        display: flex;
+    }
+
+    &__name {
+        text-transform: capitalize;
+        color: whitesmoke;
+        margin-bottom: 1rem;
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    &__playlist-detail {
+        margin: 2rem 0;
+        width: 60%;
+        font-size: 14px;
+        z-index: 400;
+    }
+
+    &__description {
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        @include flex-center;
+    }
+
+    &__followers {
+        font-size: 12px;
+    }
+
+}

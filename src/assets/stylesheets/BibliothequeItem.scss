@@ -1,0 +1,75 @@
+@import "./mixin";
+
+.bibliotheque-item {
+    width: 100%;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    @include flex-sp-b-ai-c;
+    @include openSans(500, 11px);
+
+    &__wrapper {
+        width: 80%;
+        display: flex;
+
+        a {
+            flex: 1;
+            align-self: center;
+        }
+    }
+
+    &__name {
+        width: 100%;
+        padding-right: 2rem;
+        @include flex-ai-c;
+    }
+
+    &__artist {
+        padding-left: 0rem
+    }
+
+    &__time {
+        @include flex-ai-c;
+        justify-content: flex-start;
+        max-width: 64px;
+        overflow: hidden;
+    }
+
+    .preview__btn {
+        width: 80px;
+        text-align: start;
+
+        svg {
+            cursor: pointer;
+            fill: #21d5fda1;
+        }
+    }
+
+    &__wrapper-right {
+        width: 40%;
+        align-items: flex-end;
+        @include flex-space-b;
+
+        .btn {
+            display: flex;
+            justify-content: space-between;
+            width: 40%;
+
+            svg {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.content-right {
+    .bibliotheque-item {
+
+        .preview__btn {
+            display: none;
+        }
+
+        &__wrapper-right {
+            justify-content: flex-end;
+        }
+    }
+}

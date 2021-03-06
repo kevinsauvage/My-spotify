@@ -1,0 +1,10 @@
+@import "./mixin";
+
+.sectionTitle {
+    padding: 1rem 0 0 0;
+
+    &__title {
+        @include openSans(600, 13px);
+        color: whitesmoke;
+    }
+}

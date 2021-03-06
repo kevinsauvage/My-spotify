@@ -1,0 +1,36 @@
+@mixin flex-sp-b-ai-c {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-space-b {
+    display: flex;
+    justify-content: space-between;
+}
+
+@mixin flex-ai-c {
+    display: flex;
+    align-items: center;
+}
+
+@mixin openSans($weight, $px) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: $weight;
+    font-size: $px;
+}
+
+@mixin xl-card {
+    padding: 2rem;
+    background-color: $color-mediumLight;
+    border-radius: 5px;
+    box-shadow: 0px 1px 18px -1px $color-mediumLight;
+    -webkit-box-shadow: 0px 1px 18px -1px $color-mediumLight;
+    -moz-box-shadow: 0px 1px 18px -1px $color-mediumLight;
+}
