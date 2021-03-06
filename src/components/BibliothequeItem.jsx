@@ -20,8 +20,10 @@ const BibliothequeItem = ({
   albumId,
   albumName,
   queu,
+  addToQueu,
 }) => {
   const handleClickMenu = (e) => {
+    addToQueu(e);
     console.log(e.currentTarget.getBoundingClientRect());
   };
   return (
