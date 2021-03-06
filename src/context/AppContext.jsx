@@ -4,12 +4,12 @@ import Scrollbar from "smooth-scrollbar";
 import Cookies from "js-cookie";
 
 export const AppContext = createContext();
+const { Provider } = AppContext;
+const spotifyApi = new SpotifyWebApi();
 
 export const AppProvider = (props) => {
   const token = Cookies.get("spotifyAuthToken");
-  const spotifyApi = new SpotifyWebApi();
   spotifyApi.setAccessToken(token);
-  const { Provider } = AppContext;
   const [user, setUser] = useState(); // user info
   const [playlists, setPlaylists] = useState([]); // user Playlist
   const [categories, setCategories] = useState(); // all categories
@@ -129,21 +129,12 @@ export const AppProvider = (props) => {
     setSavedAlbums(albums.items);
   };
 
-  // Fetching recently played tracks by user
-  const getRecentlyPlayed = async () => {
-    setDescription("");
-    setFollowers("");
-    handleLoader();
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
+  const fetchRecentlyPlayed = async () => {
     const recentlyPlayed = await spotifyApi.getMyRecentlyPlayedTracks({
       type: "track",
       limit: 50,
     });
-    setTracks(recentlyPlayed.items);
-    setPlaylistToPlay("");
-    setNameB("Recently Played");
+    return recentlyPlayed;
   };
 
   const getLikedTracks = async () => {
@@ -199,21 +190,6 @@ export const AppProvider = (props) => {
   };
   // General function -----------------------------------------------------------------------------------------------General function
 
-  // Setting top track when clicking on link sidebar
-  const setMyToptracks = () => {
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
-    handleLoader();
-    if (topTracks.lenght !== 0) {
-      setTracks(topTracks);
-      setNameB("Top Tracks");
-    }
-    setPlaylistToPlay(topTracks);
-    setDescription("");
-    setFollowers("");
-  };
-
   // Seting playlist Uri when user click on play btn playlist
   const setPlaylistUri = () => {
     if (playlistToPlay.lenght === 1) {
@@ -222,19 +198,6 @@ export const AppProvider = (props) => {
       const uris = playlistToPlay.map((track) => track.uri);
       setUri(uris);
     }
-  };
-
-  // Getting track saved in user bibliotheque
-  const settingSavedTracks = async () => {
-    setDescription("");
-    setFollowers("");
-    handleLoader();
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
-    setTracks(savedTracks);
-    setPlaylistToPlay(savedTracks);
-    setNameB("Liked Tracks");
   };
 
   // Fetch the plyalist content when clickinng on playlist link
@@ -314,19 +277,12 @@ export const AppProvider = (props) => {
   };
 
   // Get recommended track for a genre ID
-  const getRecomended = async (e) => {
-    handleLoader();
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
-    const id = e.currentTarget.dataset.id;
+  const fetchRecomendedGenres = async (id) => {
     const recommendations = await spotifyApi.getRecommendations({
       seed_genres: id,
       limit: 50,
     });
-    setBannerInfoGenre(id);
-    setTracks(recommendations.tracks);
-    setPlaylistToPlay(recommendations.tracks);
+    return recommendations;
   };
 
   // Get recommendation tracks for a track
@@ -422,16 +378,6 @@ export const AppProvider = (props) => {
     setUri(tracksq);
   };
 
-  // Search bar display
-  const handleShowSearch = () => {
-    setShowSearch(!showSearch);
-  };
-
-  // Handle the search input change
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
-
   // change milliseconde to second
   const millisToMinutesAndSeconds = (millis) => {
     var minutes = Math.floor(millis / 60000);
@@ -468,9 +414,27 @@ export const AppProvider = (props) => {
     spotifyApi.queue(uri);
   };
 
+  const scrollTop = () => {
+    if (props.scrollbar) {
+      scrollbar.scrollTop = 0;
+    }
+  };
+
   return (
     <Provider
       value={{
+        setBannerInfoGenre,
+        fetchRecomendedGenres,
+        fetchRecentlyPlayed,
+        setInput,
+        scrollTop,
+        handleLoader,
+        topTracks,
+        setTracks,
+        setPlaylistToPlay,
+        setNameB,
+        setDescription,
+        setFollowers,
         addToQueu,
         newReleases,
         settingAlbumToPlay,
@@ -482,7 +446,7 @@ export const AppProvider = (props) => {
         savedTracks,
         playlistSearchResult,
         showSearch,
-        handleShowSearch,
+        setShowSearch,
         setUriFromArtistTopTracks,
         setPlaylistUri,
         playlistToPlay,
@@ -493,7 +457,6 @@ export const AppProvider = (props) => {
         isLoading,
         searchResultArtist,
         getSearch,
-        handleInputChange,
         input,
         artistTopTracks,
         artistToShow,
@@ -506,16 +469,11 @@ export const AppProvider = (props) => {
         followers,
         description,
         nameB,
-        getRecomended,
         getAlbumTracks,
         fetchPlaylistContent,
-        setMyToptracks,
-        settingSavedTracks,
-        getRecentlyPlayed,
         categories,
         featuredPlaylists,
         topArtists,
-        topTracks,
         savedAlbums,
         playlists,
         user,

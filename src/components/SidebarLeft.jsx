@@ -13,6 +13,45 @@ SmoothScrollbar.use(OverscrollPlugin);
 const SidebarLeft = () => {
   const props = useContext(AppContext);
 
+  const setMyToptracks = () => {
+    props.scrollTop();
+    props.handleLoader();
+    if (props.topTracks.lenght !== 0) {
+      props.setTracks(props.topTracks);
+      props.setNameB("Top Tracks");
+    }
+    props.setPlaylistToPlay(props.topTracks);
+    props.setDescription("");
+    props.setFollowers("");
+  };
+
+  // Search bar display
+  const handleShowSearch = () => {
+    props.setShowSearch(!props.showSearch);
+  };
+
+  // Fetching recently played tracks by user
+  const getRecentlyPlayed = async () => {
+    props.setDescription("");
+    props.setFollowers("");
+    props.handleLoader();
+    props.scrollTop();
+    const recentlyPlayed = await props.fetchRecentlyPlayed();
+    props.setTracks(recentlyPlayed.items);
+    props.setPlaylistToPlay("");
+    props.setNameB("Recently Played");
+  };
+
+  const settingSavedTracks = async () => {
+    props.setDescription("");
+    props.setFollowers("");
+    props.handleLoader();
+    props.scrollTop();
+    props.setTracks(props.savedTracks);
+    props.setPlaylistToPlay(props.savedTracks);
+    props.setNameB("Liked Tracks");
+  };
+
   return (
     <div className="sidebarLeft">
       <Scrollbar
@@ -32,21 +71,15 @@ const SidebarLeft = () => {
         <div className="sidebarLeft__userLibrary">
           <SectionTitle title="LIBRARY" />
           <div className="libraryItem">
-            <Subtitle onClick={props.handleShowSearch} text="Browse" />
+            <Subtitle onClick={handleShowSearch} text="Browse" />
             <Link to="/Biblio">
-              <Subtitle
-                text="Recently Played"
-                onClick={props.getRecentlyPlayed}
-              />
+              <Subtitle text="Recently Played" onClick={getRecentlyPlayed} />
             </Link>
             <Link to="/Biblio">
-              <Subtitle
-                text="Liked Tracks"
-                onClick={props.settingSavedTracks}
-              />
+              <Subtitle text="Liked Tracks" onClick={settingSavedTracks} />
             </Link>
             <Link to="/Biblio">
-              <Subtitle text="Top Tracks" onClick={props.setMyToptracks} />
+              <Subtitle text="Top Tracks" onClick={setMyToptracks} />
             </Link>
           </div>
         </div>

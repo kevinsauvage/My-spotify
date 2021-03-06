@@ -13,6 +13,10 @@ const SearchBar = () => {
     props.getSearch(e);
     history.push("/Search");
   };
+  // Handle the search input change
+  const handleInputChange = (e) => {
+    props.setInput(e.target.value);
+  };
 
   return (
     <div className="searchBar" style={{ opacity: props.showSearch ? 1 : 0 }}>
@@ -22,7 +26,7 @@ const SearchBar = () => {
         onSubmit={handleSubmit}>
         <input
           value={props.input}
-          onChange={props.handleInputChange}
+          onChange={handleInputChange}
           className="searchBar__input"
           placeholder="Search"
           type="search"

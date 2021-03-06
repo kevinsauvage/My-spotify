@@ -13,6 +13,18 @@ import { motion } from "framer-motion";
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarRight = () => {
+  const props = useContext(AppContext);
+
+  const getRecomended = async (e) => {
+    props.handleLoader();
+    props.scrollTop();
+    const id = e.currentTarget.dataset.id;
+    const recommendations = await props.fetchRecomendedGenres(id);
+    props.setBannerInfoGenre(id);
+    props.setTracks(recommendations.tracks);
+    props.setPlaylistToPlay(recommendations.tracks);
+  };
+
   const categories = [
     "chill",
     "pop",
@@ -30,7 +42,6 @@ const SidebarRight = () => {
     "punk",
     "country",
   ];
-  const props = useContext(AppContext);
 
   const handleClick = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle(
@@ -65,7 +76,7 @@ const SidebarRight = () => {
                   <Subtitle
                     text={category}
                     id={category}
-                    onClick={props.getRecomended}
+                    onClick={getRecomended}
                   />
                 </Link>
               );
