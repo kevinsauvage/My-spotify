@@ -56,7 +56,7 @@ const Bibliotheque = React.memo(() => {
                   minute="Duration"
                   preview="Play"
                   artistId="0"
-                  queu="Queu"
+                  queu="0"
                 />
               </div>
               {props.tracks &&

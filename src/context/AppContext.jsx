@@ -79,7 +79,7 @@ export const AppProvider = (props) => {
 
   // Getting user playlist
   const getUserPlaylists = async () => {
-    const userPlaylist = await spotifyApi.getUserPlaylists(user && user.id);
+    const userPlaylist = await spotifyApi.getUserPlaylists({ limit: 50 });
     setPlaylists(userPlaylist.items);
   };
 
@@ -420,9 +420,16 @@ export const AppProvider = (props) => {
     }
   };
 
+  const addTrackToPlaylist = async (playlistId, uri) => {
+    const response = await spotifyApi.addTracksToPlaylist(playlistId, [uri]);
+    console.log(response);
+  };
+
   return (
     <Provider
       value={{
+        addTrackToPlaylist,
+        getUserPlaylists,
         setBannerInfoGenre,
         fetchRecomendedGenres,
         fetchRecentlyPlayed,

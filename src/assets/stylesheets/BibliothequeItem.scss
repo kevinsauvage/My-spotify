@@ -11,24 +11,27 @@
 
     &__menu {
         position: absolute;
-        bottom: -100%;
-        bottom: -80px;
+        top: 100%;
         right: 0;
         width: fit-content;
         z-index: 10000;
-        height: 80px;
+        height: fit-content;
         background-color: $color-dark;
         border-radius: 10px;
         padding: 1rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+
+        .arrow-icon {
+            color: $color-dark;
+        }
     }
 
     &__add-to-queu {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        margin-bottom: 5px;
 
         svg {
             margin-right: 1rem;
@@ -41,7 +44,6 @@
 
     &__add-to-playlist {
         display: flex;
-        justify-content: space-between;
         align-items: center;
 
         svg {
@@ -92,13 +94,13 @@
 
     &__wrapper-right {
         width: 40%;
-        align-items: flex-end;
         @include flex-space-b;
 
         .btn {
             display: flex;
             justify-content: space-between;
             width: 40%;
+            align-items: center;
 
             svg {
                 cursor: pointer;
