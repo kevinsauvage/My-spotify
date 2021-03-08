@@ -134,12 +134,6 @@ const BibliothequeItem = ({
             </div>
           )}
 
-          {displayPlaylistModal && (
-            <PlaylistModal
-              setDisplayPlaylistModal={setDisplayPlaylistModal}
-              handleClickPlaylist={handleClickPlaylist}
-            />
-          )}
           {preview && <p>{preview}</p>}
           {id && (
             <p className="queu-icon" ref={iconMenu} onClick={handleClickMenu}>
@@ -151,6 +145,12 @@ const BibliothequeItem = ({
           )}
         </div>
       </div>
+      {displayPlaylistModal && (
+        <PlaylistModal
+          setDisplayPlaylistModal={setDisplayPlaylistModal}
+          handleClickPlaylist={handleClickPlaylist}
+        />
+      )}
     </div>
   );
 };
