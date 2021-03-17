@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import Scrollbar from "smooth-scrollbar";
 import Cookies from "js-cookie";

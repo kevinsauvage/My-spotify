@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import React from "react";
 import "./Subtitle.scss";
 
 const Subtitle = ({ text, onClick, id, name }) => {

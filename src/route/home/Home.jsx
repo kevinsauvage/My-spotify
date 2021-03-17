@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "./Home.scss";
 import Card from "../../components/card/Card";
 import SectionTitle from "../../components/sectionTtitle/SectionTitle";

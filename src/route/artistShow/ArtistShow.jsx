@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import "./ArtistShow.scss";
 import { AppContext } from "../../context/AppContext";
 import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem";
@@ -14,17 +14,6 @@ const ArtistShow = () => {
       props.isFollowingArtist(props.artistToShow.id);
     }
   }, []);
-
-  let artist = undefined;
-  if (props.artistToShow) {
-    artist = props.artistToShow;
-  }
-
-  const setUrl = () => {
-    if (artist !== undefined) {
-      return artist.images[1].url;
-    }
-  };
 
   return (
     <div className="artist-show">
@@ -43,12 +32,15 @@ const ArtistShow = () => {
           <div className="artist-show__first-wrapper">
             <div
               className="artist-show__banner-image"
-              style={{ backgroundImage: "url(" + setUrl() + ")" }}>
+              style={{
+                backgroundImage:
+                  "url(" + props.artistToShow?.images[1].url + ")",
+              }}>
               <div className="artist-show__detail">
-                {artist !== undefined && (
+                {props.artistToShow && (
                   <div className="artist-show__detail__title">
                     <h1 className="artist-show__detail__title">
-                      {artist.name}
+                      {props.artistToShow?.name}
                     </h1>
                     {props.isFollowing ? (
                       <p onClick={props.handleFollow} className="follow-btn">
@@ -62,7 +54,9 @@ const ArtistShow = () => {
                   </div>
                 )}
                 <div className="artist-show__detail__wrapper">
-                  {artist !== undefined && <p>{artist.followers.total}</p>}
+                  {props.artistToShow && (
+                    <p>{props.artistToShow?.followers.total}</p>
+                  )}
                   <p>Followers</p>
                 </div>
                 <div className="artist-show__playBtn">

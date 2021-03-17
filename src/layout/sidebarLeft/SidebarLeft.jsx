@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "./SidebarLeft.scss";
 import SectionTitle from "../../components/sectionTtitle/SectionTitle";
 import Subtitle from "../../components/subtitle/Subtitle";

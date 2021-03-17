@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem";
 import { AppContext } from "../../context/AppContext";
 import Loader from "react-loader-spinner";

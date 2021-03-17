@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import "./Bibliotheque.scss";
 import Loader from "react-loader-spinner";
@@ -6,7 +6,7 @@ import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Bibliotheque = React.memo(() => {
+const Bibliotheque = () => {
   const props = useContext(AppContext);
 
   return (
@@ -109,6 +109,6 @@ const Bibliotheque = React.memo(() => {
       </AnimatePresence>
     </div>
   );
-});
+};
 
-export default React.memo(Bibliotheque);
+export default Bibliotheque;

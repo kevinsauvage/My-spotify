@@ -1,6 +1,5 @@
 import "./app.scss";
 import "react-spotify-auth/dist/index.css";
-import React from "react";
 import SidebarLeft from "../sidebarLeft/SidebarLeft";
 import Main from "../main/Main";
 import SidebarRight from "../sidebarRight/SidebarRight";

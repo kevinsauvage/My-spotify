@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "./SearchBar.scss";
 import { CgSearchLoading } from "react-icons/cg";
 import { AppContext } from "../../context/AppContext";
