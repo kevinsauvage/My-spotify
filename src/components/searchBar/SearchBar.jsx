@@ -2,21 +2,11 @@ import React, { useContext } from "react";
 import "./SearchBar.scss";
 import { CgSearchLoading } from "react-icons/cg";
 import { AppContext } from "../../context/AppContext";
-import { useHistory } from "react-router-dom";
+import SearchBarLogic from "./SearchBarLogic";
 
 const SearchBar = () => {
   const props = useContext(AppContext);
-  const history = useHistory();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    props.getSearch(e);
-    history.push("/Search");
-  };
-  // Handle the search input change
-  const handleInputChange = (e) => {
-    props.setInput(e.target.value);
-  };
+  const { handleSubmit, handleInputChange } = SearchBarLogic();
 
   return (
     <div className="searchBar" style={{ opacity: props.showSearch ? 1 : 0 }}>

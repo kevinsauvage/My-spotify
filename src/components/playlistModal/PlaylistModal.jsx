@@ -1,19 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../context/AppContext";
 import "./PlaylistModal.scss";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { MdAddCircleOutline } from "react-icons/md";
+import PlaylistModalLogic from "./PlaylistModalLogic";
 
 const PlaylistModal = ({ handleClickPlaylist, setDisplayPlaylistModal }) => {
-  const props = useContext(AppContext);
-  const [userPlaylists, setUserPlaylists] = useState();
+  const { userPlaylists } = PlaylistModalLogic();
 
-  useEffect(() => {
-    const playlistuser = props.playlists.filter((playlist) => {
-      return playlist.owner.id === props.user.id;
-    });
-    setUserPlaylists(playlistuser);
-  }, []);
   const handleClickClose = () => {
     setDisplayPlaylistModal(false);
   };

@@ -1,4 +1,3 @@
-import React from "react";
 import "./Card.scss";
 
 const Card = ({ url, name, artist, onClick, id }) => {

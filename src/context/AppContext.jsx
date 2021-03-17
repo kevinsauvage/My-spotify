@@ -69,7 +69,7 @@ export const AppProvider = (props) => {
     disableFirstLoader();
   };
 
-  // Fetching use info -----------------------------------------------------------------------------------------Fetching user info-----------
+  // Fetching user info -----------------------------------------------------------------------------------------Fetching user info-----------
 
   // Getting user profil
   const getMe = async () => {

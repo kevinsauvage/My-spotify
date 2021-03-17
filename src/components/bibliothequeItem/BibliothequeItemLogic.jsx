@@ -40,9 +40,7 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
       "afterEnd",
       "<p class='span-copied'>Correctly added !</p>"
     );
-    setTimeout(() => {
-      setDisplayPlaylistModal(false);
-    }, 1100);
+
     props.getUserPlaylists();
   };
 
