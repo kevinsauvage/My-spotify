@@ -1,0 +1,11 @@
+@import "../../assets/stylesheets/mixin";
+
+.subtitle {
+  padding: 0.3rem 0;
+  cursor: pointer;
+
+  &__title {
+    text-transform: capitalize;
+    @include openSans(500, 11px);
+  }
+}

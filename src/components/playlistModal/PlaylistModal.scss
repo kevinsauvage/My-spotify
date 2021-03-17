@@ -1,0 +1,103 @@
+@import "../../assets/stylesheets/mixin";
+@import "../../assets/stylesheets/variable";
+
+.playlist-modal {
+  position: absolute;
+  bottom: -200px;
+  right: 200px;
+  width: 300px;
+  border-radius: 5px;
+
+  background-color: rgba($color-dark, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50000;
+
+  &__container {
+    background-color: rgba($color-dark, 0.9);
+    padding: 3rem;
+    position: relative;
+    border-radius: 5px;
+    width: 300px;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: whitesmoke;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__icon-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  &__item {
+    margin: 5px 0;
+    display: flex;
+    @include openSans(500, 11px);
+
+    p.span-copied {
+      margin-left: 10px;
+      color: rgba(98, 210, 141, 1);
+      @include openSans(800, 12px);
+    }
+
+    p {
+      cursor: pointer;
+    }
+  }
+
+  &__wrapper:nth-child(2) {
+    margin-bottom: 1rem;
+    background-color: $color-mediumLight;
+    padding: 0 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      width: 1em;
+    }
+
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+
+      background-color: darkgrey;
+      outline: none;
+    }
+  }
+
+  &__wrapper:nth-child(3) {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: whitesmoke;
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+    }
+  }
+
+  &__new-btn {
+    display: flex;
+    border: 1px solid whitesmoke;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
