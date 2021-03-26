@@ -5,6 +5,7 @@ import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem
 import Loader from "react-loader-spinner";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
+import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 
 const ArtistShow = () => {
   const props = useContext(AppContext);
@@ -69,13 +70,7 @@ const ArtistShow = () => {
                 Artist top tracks
               </h1>
               <div className="artist-show__artist-top__header section-header">
-                <BibliothequeItem
-                  name="Name"
-                  artist="Artist"
-                  minute="Duration"
-                  queu="Queu"
-                  preview="Play"
-                />
+                <BibliothequeItemHeader name artist duration queu play />
               </div>
               <div className="artist-show____artist-top">
                 {props.artistTopTracks &&
@@ -84,16 +79,18 @@ const ArtistShow = () => {
                       <BibliothequeItem
                         key={track.id + Math.random(1000)}
                         name={track.name}
-                        onClick={props.setTrackShow}
                         id={track.id}
+                        artistId={track.artists[0].id}
                         artist={track.artists[0].name}
-                        href={track.preview_url}
-                        minute={props.millisToMinutesAndSeconds(
+                        duration={props.millisToMinutesAndSeconds(
                           track.duration_ms
                         )}
                         setTrackToPlay={props.setTrackToPlay}
                         uri={track.track ? track.track.uri : track.uri}
                         addToQueu={props.addToQueu}
+                        onClick={props.setTrackShow}
+                        onClickArtist={props.setArtistShow}
+                        play
                       />
                     );
                   })}
@@ -107,7 +104,7 @@ const ArtistShow = () => {
                   Artist Albums
                 </h1>
                 <div className="section-header">
-                  <BibliothequeItem albumName="Name" minute="Years" />
+                  <BibliothequeItemHeader album year />
                 </div>
                 {props.artistAlbums &&
                   props.artistAlbums.map((album) => {
@@ -115,7 +112,7 @@ const ArtistShow = () => {
                       <BibliothequeItem
                         key={album.id}
                         albumName={album.name}
-                        minute={album.release_date.split("-")[0]}
+                        year={album.release_date.split("-")[0]}
                         onClick={props.settingAlbumToPlay}
                         albumId={album.id}
                       />
@@ -127,19 +124,15 @@ const ArtistShow = () => {
                   Related Artists
                 </h1>
                 <div className="section-header">
-                  <BibliothequeItem
-                    name="Name"
-                    artistId=""
-                    minute="Popularity"
-                  />
+                  <BibliothequeItemHeader artist popularity />
                 </div>
                 {props.relatedArtists &&
                   props.relatedArtists.map((artist) => {
                     return (
                       <BibliothequeItem
                         key={artist.id}
-                        artistName={artist.name}
-                        minute={artist.popularity}
+                        artist={artist.name}
+                        popularity={artist.popularity}
                         onClickArtist={props.setArtistShow}
                         artistId={artist.id}
                       />
@@ -154,14 +147,7 @@ const ArtistShow = () => {
                 </h1>
                 <PlayBtn onClick={props.setPlaylistUri} />
                 <div className="section-header">
-                  <BibliothequeItem
-                    name="Name"
-                    artistName="Artist"
-                    minute="Duration"
-                    preview="Play"
-                    artistId="0"
-                    queu="Queu"
-                  />
+                  <BibliothequeItemHeader name artist duration play queu />
                 </div>
                 {props.recomendedTracks &&
                   props.recomendedTracks.map((track) => {
@@ -171,9 +157,8 @@ const ArtistShow = () => {
                         name={track.name}
                         onClick={props.setTrackShow}
                         id={track.id}
-                        href={track.preview_url}
-                        artistName={track.artists[0].name}
-                        minute={props.millisToMinutesAndSeconds(
+                        artist={track.artists[0].name}
+                        duration={props.millisToMinutesAndSeconds(
                           track.duration_ms
                         )}
                         onClickArtist={props.setArtistShow}
@@ -189,6 +174,7 @@ const ArtistShow = () => {
                         setTrackToPlay={props.setTrackToPlay}
                         uri={track.track ? track.track.uri : track.uri}
                         addToQueu={props.addToQueu}
+                        play
                       />
                     );
                   })}

@@ -5,6 +5,7 @@ import { AppContext } from "../../context/AppContext";
 import Loader from "react-loader-spinner";
 import { MdPlayCircleFilled } from "react-icons/md";
 import PlayBtn from "../../components/playBtn/PlayBtn";
+import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 
 const TrackShow = () => {
   const props = useContext(AppContext);
@@ -67,14 +68,7 @@ const TrackShow = () => {
               <h2 className="title">Similar Tracks</h2>
               <PlayBtn onClick={props.setPlaylistUri} />
               <div className="section-header">
-                <BibliothequeItem
-                  name="Name"
-                  artistName="Artist"
-                  minute="Duration"
-                  preview="Play"
-                  artistId="0"
-                  queu="Queu"
-                />
+                <BibliothequeItemHeader name artist duration play queu />
               </div>
               {props.recomendedTracks &&
                 props.recomendedTracks.map((track) => {
@@ -83,11 +77,10 @@ const TrackShow = () => {
                       onClick={props.setTrackShow}
                       id={track.id}
                       name={track.name}
-                      artistName={track.artists[0].name}
-                      minute={props.millisToMinutesAndSeconds(
+                      artist={track.artists[0].name}
+                      duration={props.millisToMinutesAndSeconds(
                         track.duration_ms
                       )}
-                      href={track.preview_url}
                       onClickArtist={props.setArtistShow}
                       artistId={
                         track.track
@@ -101,6 +94,7 @@ const TrackShow = () => {
                       setTrackToPlay={props.setTrackToPlay}
                       uri={track.track ? track.track.uri : track.uri}
                       addToQueu={props.addToQueu}
+                      play
                     />
                   );
                 })}
@@ -108,19 +102,15 @@ const TrackShow = () => {
             <div className="content-right">
               <h2 className="title">Similar Artist</h2>
               <div className="section-header">
-                <BibliothequeItem
-                  name="Name"
-                  minute="Popularity"
-                  avatar="Cover"
-                />
+                <BibliothequeItemHeader name popularity />
               </div>
               {props.relatedArtists &&
                 props.relatedArtists.map((artist) => {
                   return (
                     <BibliothequeItem
                       img={artist.images[0] ? artist.images[0].url : ""}
-                      artistName={artist.name && artist.name}
-                      minute={artist.popularity && artist.popularity}
+                      artist={artist.name && artist.name}
+                      popularity={artist.popularity && artist.popularity}
                       onClickArtist={props.setArtistShow}
                       artistId={artist.id}
                     />

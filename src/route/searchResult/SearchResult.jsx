@@ -5,6 +5,7 @@ import Loader from "react-loader-spinner";
 import "./SearchResult.scss";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { AnimatePresence, motion } from "framer-motion";
+import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 
 const SearchResult = () => {
   const props = useContext(AppContext);
@@ -36,29 +37,27 @@ const SearchResult = () => {
                 <PlayBtn onClick={props.setPlaylistUri} />
               )}
               <div className="section-header">
-                <BibliothequeItem
-                  name="Name"
-                  artist="Artist"
-                  minute="Duration"
-                  preview="Play"
-                  queu="Queu"
-                />
+                <BibliothequeItemHeader name artist duration play queu />
               </div>
               {props.tracks.map((track) => {
+                console.log(track.artists[0].name);
+                console.log(track.artists[0].id);
                 return (
                   <BibliothequeItem
                     key={track.id}
                     onClick={props.setTrackShow}
                     id={track.id}
                     name={track.name}
-                    artist={track.artists ? track.artists[0].name : null}
-                    minute={props.millisToMinutesAndSeconds(track.duration_ms)}
-                    href={track.preview_url}
+                    artist={track.artists[0]?.name}
+                    duration={props.millisToMinutesAndSeconds(
+                      track.duration_ms
+                    )}
                     onClickArtist={props.setArtistShow}
-                    artistId={track.artists ? track.artists[0].id : null}
+                    artistId={track.artists[0]?.id}
                     setTrackToPlay={props.setTrackToPlay}
                     uri={track.track ? track.track.uri : track.uri}
                     addToQueu={props.addToQueu}
+                    play
                   />
                 );
               })}
@@ -67,20 +66,17 @@ const SearchResult = () => {
               <div className="search-result__playlists">
                 <h1 className="search-result__playlists__title">Playlist</h1>
                 <div className="section-header">
-                  <BibliothequeItem
-                    playlist="Name"
-                    avatar="Cover"
-                    minute="Owner"
-                  />
+                  <BibliothequeItemHeader name owner play />
                 </div>
                 {props.playlistSearchResult &&
                   props.playlistSearchResult.map((playlist) => {
                     return (
                       <BibliothequeItem
-                        playlist={playlist.name && playlist.name}
-                        minute={playlist.owner && playlist.owner.display_name}
-                        id={playlist.id}
-                        onClickPlaylist={props.fetchPlaylistContent}
+                        name={playlist.name && playlist.name}
+                        owner={playlist.owner && playlist.owner.display_name}
+                        playlistId={playlist.id}
+                        play
+                        setTrackToPlay={props.fetchPlaylistContent}
                       />
                     );
                   })}
@@ -88,19 +84,14 @@ const SearchResult = () => {
               <div className="search-result__artists">
                 <h1 className="search-result__tracks__title">Artist</h1>
                 <div className="section-header">
-                  <BibliothequeItem
-                    artistName="Name"
-                    minute="Popularity"
-                    avatar="Cover"
-                    artistId="0"
-                  />
+                  <BibliothequeItemHeader artist popularity />
                 </div>
                 {props.searchResultArtist &&
                   props.searchResultArtist.map((artist) => {
                     return (
                       <BibliothequeItem
-                        artistName={artist.name && artist.name}
-                        minute={artist.popularity && artist.popularity}
+                        artist={artist.name && artist.name}
+                        popularity={artist.popularity && artist.popularity}
                         onClickArtist={props.setArtistShow}
                         artistId={artist.id && artist.id}
                       />

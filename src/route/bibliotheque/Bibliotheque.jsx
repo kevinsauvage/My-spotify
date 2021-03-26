@@ -5,6 +5,7 @@ import Loader from "react-loader-spinner";
 import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { AnimatePresence, motion } from "framer-motion";
+import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 
 const Bibliotheque = () => {
   const props = useContext(AppContext);
@@ -50,14 +51,7 @@ const Bibliotheque = () => {
               className="bibliotheque__tracks"
               style={{ marginBottom: props.showSearch ? "4rem" : "3rem" }}>
               <div className="section-header">
-                <BibliothequeItem
-                  name="Name"
-                  artistName="Artist"
-                  minute="Duration"
-                  preview="Play"
-                  artistId="0"
-                  queu="0"
-                />
+                <BibliothequeItemHeader name artist duration play queu />
               </div>
               {props.tracks &&
                 props.tracks.map((track) => {
@@ -67,10 +61,8 @@ const Bibliotheque = () => {
                         track.id + Math.random(1000) ||
                         track.track.id + Math.random(1000)
                       }
-                      onClick={props.setTrackShow}
-                      id={track.id || track.track.id}
                       name={track.name || track.track.name}
-                      artistName={
+                      artist={
                         track.track
                           ? track.track.artists[0].name
                           : track.album
@@ -79,15 +71,9 @@ const Bibliotheque = () => {
                           ? track.artists[0].name
                           : null
                       }
-                      minute={props.millisToMinutesAndSeconds(
+                      duration={props.millisToMinutesAndSeconds(
                         track.duration_ms || track.track.duration_ms
                       )}
-                      href={
-                        track.track
-                          ? track.track.preview_url
-                          : track.preview_url
-                      }
-                      onClickArtist={props.setArtistShow}
                       artistId={
                         track.track
                           ? track.track.artists[0].id
@@ -97,9 +83,13 @@ const Bibliotheque = () => {
                           ? track.artists[0].id
                           : null
                       }
-                      setTrackToPlay={props.setTrackToPlay}
-                      uri={track.track ? track.track.uri : track.uri}
                       addToQueu={props.addToQueu}
+                      uri={track.track ? track.track.uri : track.uri}
+                      setTrackToPlay={props.setTrackToPlay}
+                      onClickArtist={props.setArtistShow}
+                      id={track.id || track.track.id}
+                      onClick={props.setTrackShow}
+                      play
                     />
                   );
                 })}

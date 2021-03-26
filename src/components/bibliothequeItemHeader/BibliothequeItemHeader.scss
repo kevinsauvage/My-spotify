@@ -1,0 +1,33 @@
+.bibliothequeItemHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  align-items: flex-end;
+  margin-top: 2rem;
+
+  &__name {
+    flex: 4;
+  }
+
+  &__artist {
+    flex: 3;
+  }
+
+  &__duration {
+    flex: 1;
+  }
+
+  &__play {
+    flex: 1;
+    text-align: end;
+  }
+
+  &__owner {
+    flex: 1;
+  }
+
+  &__icon {
+    flex: 1;
+    text-align: end;
+  }
+}

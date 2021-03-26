@@ -28,95 +28,43 @@
     }
   }
 
-  &__add-to-queu {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-
-    svg {
-      margin-right: 1rem;
-    }
-
-    p {
-      cursor: pointer;
-    }
-  }
-
-  &__add-to-playlist {
-    display: flex;
-    align-items: center;
-
-    svg {
-      margin-right: 1rem;
-    }
-
-    p {
-      cursor: pointer;
-    }
-  }
-
-  &__wrapper {
-    width: 80%;
-    display: flex;
-
-    a {
-      flex: 1;
-      align-self: center;
-    }
-  }
-
   &__name {
-    width: 100%;
-    padding-right: 2rem;
-    @include flex-ai-c;
+    flex: 4;
   }
 
   &__artist {
-    padding-left: 0rem;
+    flex: 3;
   }
 
-  &__time {
-    @include flex-ai-c;
-    justify-content: flex-start;
-    max-width: 64px;
-    overflow: hidden;
-  }
-
-  .preview__btn {
-    width: 80px;
-    text-align: start;
+  &__play {
+    flex: 1;
 
     svg {
-      cursor: pointer;
-      fill: #21d5fda1;
+      color: $color-strong;
     }
   }
 
-  &__wrapper-right {
-    width: 40%;
-    @include flex-space-b;
-
-    .btn {
-      display: flex;
-      justify-content: space-between;
-      width: 40%;
-      align-items: center;
-
-      svg {
-        cursor: pointer;
-      }
-    }
+  &__duration {
+    flex: 1;
   }
-}
 
-.content-right {
-  .bibliotheque-item {
-    .preview__btn {
-      display: none;
-    }
+  &__play {
+    flex: 1;
+    text-align: end;
+  }
 
-    &__wrapper-right {
-      justify-content: flex-end;
-    }
+  &__year,
+  &__popularity {
+    flex: 1;
+    text-align: end;
+  }
+
+  &__owner {
+    flex: 1;
+  }
+
+  &__queu-icon {
+    flex: 1;
+    text-align: end;
   }
 }
