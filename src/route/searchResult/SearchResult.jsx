@@ -9,7 +9,6 @@ import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/Bibl
 
 const SearchResult = () => {
   const props = useContext(AppContext);
-
   return (
     <div className="search-result">
       <AnimatePresence>
@@ -40,8 +39,6 @@ const SearchResult = () => {
                 <BibliothequeItemHeader name artist duration play queu />
               </div>
               {props.tracks.map((track) => {
-                console.log(track.artists[0].name);
-                console.log(track.artists[0].id);
                 return (
                   <BibliothequeItem
                     key={track.id}

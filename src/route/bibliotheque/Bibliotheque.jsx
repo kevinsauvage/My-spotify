@@ -9,7 +9,6 @@ import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/Bibl
 
 const Bibliotheque = () => {
   const props = useContext(AppContext);
-
   return (
     <div className="bibliotheque">
       <AnimatePresence>

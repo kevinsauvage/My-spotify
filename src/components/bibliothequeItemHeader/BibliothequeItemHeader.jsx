@@ -2,7 +2,6 @@ import "./BibliothequeItemHeader.scss";
 import { MdQueueMusic } from "react-icons/md";
 
 const BibliothequeItemHeader = ({
-  albumName,
   name,
   artist,
   duration,
