@@ -4,7 +4,8 @@
 .bibliotheque-item {
   width: 100%;
   position: relative;
-  padding: 8px 0;
+  padding: 8px 1rem;
+  border-radius: 3px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   @include flex-sp-b-ai-c;
   @include openSans(500, 12px);
@@ -41,6 +42,7 @@
 
     svg {
       color: $color-strong;
+      cursor: pointer;
     }
   }
 

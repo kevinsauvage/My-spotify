@@ -42,11 +42,30 @@ export const AppProvider = (props) => {
   const [followedArtists, setFollowedArtists] = useState();
   const [artistAlbums, setArtistAlbums] = useState();
   const [newReleases, setNewReleases] = useState();
+  const [trackCurrentlyPlayed, setTrackCurrentlyPlayed] = useState("");
 
   useEffect(() => {
     setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
     initialFetch();
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      spotifyApi.getMyCurrentPlayingTrack().then((response) => {
+        response && setTrackCurrentlyPlayed(response.item.name);
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  });
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      spotifyApi.getMyCurrentPlayingTrack().then((response) => {
+        response && setTrackCurrentlyPlayed(response.item.name);
+      });
+    }, 500);
+    return () => clearTimeout(timeOut);
+  }, [uri]);
 
   const disableFirstLoader = () => {
     setTimeout(() => {
@@ -430,6 +449,7 @@ export const AppProvider = (props) => {
   return (
     <Provider
       value={{
+        trackCurrentlyPlayed,
         scrollbar,
         addTrackToPlaylist,
         getUserPlaylists,

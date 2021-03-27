@@ -25,11 +25,6 @@ const SidebarLeft = () => {
     props.setFollowers("");
   };
 
-  // Search bar display
-  const handleShowSearch = () => {
-    props.setShowSearch(!props.showSearch);
-  };
-
   // Fetching recently played tracks by user
   const getRecentlyPlayed = async () => {
     props.setDescription("");
