@@ -1,8 +1,8 @@
 import "./app.scss";
 import "react-spotify-auth/dist/index.css";
-import SidebarLeft from "../sidebarLeft/SidebarLeft";
+import SidebarLeft from "../../components/sidebarLeft/SidebarLeft";
 import Main from "../main/Main";
-import SidebarRight from "../sidebarRight/SidebarRight";
+import SidebarRight from "../../components/sidebarRight/SidebarRight";
 import Cookies from "js-cookie";
 import { AppProvider } from "../../context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";

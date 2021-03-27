@@ -26,11 +26,23 @@
     font-size: $px;
 }
 
-@mixin xl-card {
-    padding: 2rem;
-    background-color: $color-mediumLight;
-    border-radius: 5px;
-    box-shadow: 0px 1px 18px -1px $color-mediumLight;
-    -webkit-box-shadow: 0px 1px 18px -1px $color-mediumLight;
-    -moz-box-shadow: 0px 1px 18px -1px $color-mediumLight;
+
+@mixin respond($breakpoint) {
+    @if $breakpoint==tablet {
+        @media only screen and (max-width: 1050px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==mobile {
+        @media only screen and (max-width: 767px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==mobileS {
+        @media only screen and (max-width: 548px) {
+            @content;
+        }
+    }
 }

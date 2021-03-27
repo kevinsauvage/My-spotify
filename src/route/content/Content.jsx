@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import "./Content.scss";
 import { Route } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
-import Home from "../../route/home/Home";
-import Bibliotheque from "../../route/bibliotheque/Bibliotheque";
-import TrackShow from "../../route/trackShow/TrackShow";
-import Artistshow from "../../route/artistShow/ArtistShow";
-import SearchResult from "../../route/searchResult/SearchResult";
+import Home from "../home/Home";
+import Bibliotheque from "../bibliotheque/Bibliotheque";
+import TrackShow from "../trackShow/TrackShow";
+import Artistshow from "../artistShow/ArtistShow";
+import SearchResult from "../searchResult/SearchResult";
 import Scrollbar from "smooth-scrollbar";
-import NotFound from "../../route/notFound/NotFound";
+import NotFound from "../notFound/NotFound";
 
 const Content = () => {
   useEffect(() => {

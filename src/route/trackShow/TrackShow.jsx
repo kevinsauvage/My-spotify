@@ -23,46 +23,6 @@ const TrackShow = () => {
         </div>
       ) : (
         <>
-          <div className="track-show__banner">
-            {props.trackToShow && (
-              <>
-                <div
-                  className="track-show__album-cover"
-                  style={{
-                    backgroundImage:
-                      "url(" + props.trackToShow.album.images[1].url + ")",
-                  }}>
-                  <div
-                    className="track-show__hover"
-                    onClick={props.setTrackToPlay}
-                    data-id={props.trackToShow.id}
-                    data-uri={props.trackToShow.uri}>
-                    <p className="icon-play">
-                      <MdPlayCircleFilled size={60} />
-                    </p>
-                  </div>
-                  <div className="track-show__track-detail">
-                    <div>
-                      <h1 className="track-show__title">
-                        {props.trackToShow.name}
-                      </h1>
-                      <span className="track-show__duration">
-                        {props.millisToMinutesAndSeconds(
-                          props.trackToShow.duration_ms
-                        )}
-                      </span>
-                    </div>
-                    <h2 className="track-show__artist-name">
-                      {props.trackToShow.artists[0].name}
-                    </h2>
-                    <h3 className="track-show__popularity">
-                      <span>Popularity</span> {props.trackToShow.popularity}
-                    </h3>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
           <div className="track-show__content">
             <div className="content-left">
               <h2 className="title">Similar Tracks</h2>
@@ -99,24 +59,48 @@ const TrackShow = () => {
                   );
                 })}
             </div>
-            <div className="content-right">
-              <h2 className="title">Similar Artist</h2>
-              <div className="section-header">
-                <BibliothequeItemHeader name popularity />
-              </div>
-              {props.relatedArtists &&
-                props.relatedArtists.map((artist) => {
-                  return (
-                    <BibliothequeItem
-                      img={artist.images[0] ? artist.images[0].url : ""}
-                      artist={artist.name && artist.name}
-                      popularity={artist.popularity && artist.popularity}
-                      onClickArtist={props.setArtistShow}
-                      artistId={artist.id}
-                    />
-                  );
-                })}
-            </div>
+          </div>
+          <div className="track-show__banner">
+            {props.trackToShow && (
+              <>
+                <div
+                  className="track-show__album-cover"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(0deg, rgba(2,8,17,1) 35%, rgba(2,8,17,0.8155637254901961) 100%)" +
+                      "," +
+                      "url(" +
+                      props.trackToShow.album.images[1].url +
+                      ")",
+                  }}>
+                  <div className="track-show__track-detail">
+                    <h1 className="track-show__title">
+                      {props.trackToShow.name}
+                    </h1>
+                    <h2 className="track-show__artist-name">
+                      {props.trackToShow.artists[0].name}
+                    </h2>
+                    <h3 className="track-show__popularity">
+                      <span>Popularity</span> {props.trackToShow.popularity}
+                    </h3>
+                    <span className="track-show__duration">
+                      {props.millisToMinutesAndSeconds(
+                        props.trackToShow.duration_ms
+                      )}
+                    </span>
+                    <div
+                      className="track-show__play"
+                      onClick={props.setTrackToPlay}
+                      data-id={props.trackToShow.id}
+                      data-uri={props.trackToShow.uri}>
+                      <p className="icon-play">
+                        <MdPlayCircleFilled size={60} />
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}

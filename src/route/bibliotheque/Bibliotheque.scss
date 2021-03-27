@@ -7,7 +7,6 @@
   border-radius: 10px;
 
   &__tracks {
-    @include xl-card;
     margin-bottom: 2rem;
   }
 
@@ -17,7 +16,6 @@
     position: relative;
     margin-bottom: 2rem;
     margin-top: 2rem;
-    @include xl-card;
   }
 
   &__item {

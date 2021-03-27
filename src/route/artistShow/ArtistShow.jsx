@@ -35,7 +35,11 @@ const ArtistShow = () => {
               className="artist-show__banner-image"
               style={{
                 backgroundImage:
-                  "url(" + props.artistToShow?.images[1].url + ")",
+                  "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +
+                  "," +
+                  "url(" +
+                  props.artistToShow?.images[1].url +
+                  ")",
               }}>
               <div className="artist-show__detail">
                 {props.artistToShow && (

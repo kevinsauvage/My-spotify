@@ -10,6 +10,7 @@ const SearchBarLogic = () => {
     e.preventDefault();
     props.getSearch(e);
     history.push("/Search");
+    props.setInput("");
   };
   // Handle the search input change
   const handleInputChange = (e) => {

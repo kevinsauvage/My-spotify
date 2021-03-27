@@ -4,10 +4,10 @@
 .bibliotheque-item {
   width: 100%;
   position: relative;
-  padding: 4px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   @include flex-sp-b-ai-c;
-  @include openSans(500, 11px);
+  @include openSans(500, 12px);
 
   &__menu {
     position: absolute;
@@ -44,27 +44,27 @@
     }
   }
 
-  &__duration {
-    flex: 1;
-  }
-
-  &__play {
-    flex: 1;
-    text-align: end;
-  }
-
-  &__year,
-  &__popularity {
-    flex: 1;
-    text-align: end;
-  }
-
+  &__duration,
   &__owner {
     flex: 1;
   }
 
+  &__year,
+  &__play,
+  &__popularity,
   &__queu-icon {
     flex: 1;
     text-align: end;
+  }
+
+  &__add-to-queu,
+  &__add-to-playlist {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+      margin-right: 0.5rem;
+    }
   }
 }

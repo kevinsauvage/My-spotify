@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import "./SidebarLeft.scss";
-import SectionTitle from "../../components/sectionTtitle/SectionTitle";
-import Subtitle from "../../components/subtitle/Subtitle";
+import SectionTitle from "../sectionTtitle/SectionTitle";
+import Subtitle from "../subtitle/Subtitle";
 import SmoothScrollbar from "smooth-scrollbar";
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import Scrollbar from "react-smooth-scrollbar";
 import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
-
+import SearchBar from "../searchBar/SearchBar";
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarLeft = () => {
@@ -68,10 +68,10 @@ const SidebarLeft = () => {
             }}></div>
           <h1 className="userName">{props.user && props.user.display_name}</h1>
         </div>
+        <SearchBar />
         <div className="sidebarLeft__userLibrary">
           <SectionTitle title="LIBRARY" />
           <div className="libraryItem">
-            <Subtitle onClick={handleShowSearch} text="Browse" />
             <Link to="/Biblio">
               <Subtitle text="Recently Played" onClick={getRecentlyPlayed} />
             </Link>

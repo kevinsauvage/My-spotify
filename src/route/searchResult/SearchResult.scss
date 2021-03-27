@@ -5,7 +5,6 @@
   padding: 2rem;
 
   &__tracks {
-    @include xl-card;
     flex: 2;
     margin-bottom: 2rem;
 
@@ -23,7 +22,6 @@
   }
 
   &__playlists {
-    @include xl-card;
     flex: 1;
     margin-right: 2rem;
 
@@ -46,7 +44,6 @@
   }
 
   &__artists {
-    @include xl-card;
     flex: 1;
 
     .bibliotheque-item__wrapper-right {

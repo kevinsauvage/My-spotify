@@ -9,7 +9,6 @@
   &__userInfo {
     height: fit-content;
     @include flex-sp-b-ai-c;
-    justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     padding: 0 0 1rem 0;
 

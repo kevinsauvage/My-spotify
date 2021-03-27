@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import "./Main.scss";
-import Content from "../content/Content";
+import Content from "../../route/content/Content";
 import ControlBar from "../../components/controlBar/ControlBar";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { AppContext } from "../../context/AppContext";
@@ -31,15 +31,7 @@ const Main = () => {
           </motion.div>
         ) : (
           <>
-            <div
-              id="my-scrollbar"
-              style={{
-                transform: props.showSearch
-                  ? "translateY(0)"
-                  : "translateY(-106px)",
-                height: props.showSearch ? "92vh" : "107vh",
-              }}>
-              <SearchBar />
+            <div id="my-scrollbar">
               <Content />
             </div>
             <ControlBar />

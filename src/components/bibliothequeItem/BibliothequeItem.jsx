@@ -92,6 +92,7 @@ const BibliothequeItem = ({
             style={{ position: "absolute", top: "-8px", right: "5px" }}
           />
           <div className="bibliotheque-item__add-to-queu">
+            <MdAddCircleOutline size={18} />
             <p data-uri={uri} onClick={handleClickAddToQueu}>
               Add to Queu
             </p>

@@ -3,13 +3,8 @@
 @import "../../assets/stylesheets/global";
 
 .searchBar {
-  width: 100%;
-  background-color: transparent;
+  width: inherit;
   @include flex-center;
-  z-index: 500;
-  padding: 2rem 2rem 1rem 2rem;
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
 
   &__container {
     position: relative;
@@ -26,8 +21,6 @@
 
   &__input {
     height: 2.5rem;
-    width: 500px;
-    border-radius: 25px;
     border: none;
     outline: none;
     padding-left: 2.5rem;
