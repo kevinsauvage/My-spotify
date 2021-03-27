@@ -63,7 +63,7 @@ export const AppProvider = (props) => {
       spotifyApi.getMyCurrentPlayingTrack().then((response) => {
         response && setTrackCurrentlyPlayed(response.item.name);
       });
-    }, 500);
+    }, 100);
     return () => clearTimeout(timeOut);
   }, [uri]);
 

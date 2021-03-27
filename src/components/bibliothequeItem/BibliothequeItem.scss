@@ -10,6 +10,17 @@
   @include flex-sp-b-ai-c;
   @include openSans(500, 12px);
 
+  &--played {
+    background-color: $color-mediumLight;
+    box-shadow: 0px 0px 41px -6px rgba(44, 59, 87, 0.75);
+    -webkit-box-shadow: 0px 0px 41px -6px rgba(44, 59, 87, 0.75);
+    -moz-box-shadow: 0px 0px 41px -6px rgba(44, 59, 87, 0.75);
+
+    p {
+      color: white;
+    }
+  }
+
   &__menu {
     position: absolute;
     top: 100%;
@@ -57,6 +68,10 @@
   &__queu-icon {
     flex: 1;
     text-align: end;
+  }
+
+  &__queu-icon {
+    cursor: pointer;
   }
 
   &__add-to-queu,

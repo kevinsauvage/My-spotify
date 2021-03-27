@@ -41,10 +41,11 @@ const BibliothequeItem = ({
   } = BibliothequeItemLogic(menu, iconMenu, addToQueu);
   return (
     <div
-      className="bibliotheque-item"
-      style={{
-        backgroundColor: props.trackCurrentlyPlayed === name ? "#192131" : null,
-      }}>
+      className={
+        props.trackCurrentlyPlayed === name
+          ? "bibliotheque-item bibliotheque-item--played"
+          : "bibliotheque-item"
+      }>
       {name && (
         <Link
           className="bibliotheque-item__name"
