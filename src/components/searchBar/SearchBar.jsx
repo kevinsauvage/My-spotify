@@ -9,7 +9,7 @@ const SearchBar = () => {
   const { handleSubmit, handleInputChange } = SearchBarLogic();
 
   return (
-    <div className="searchBar" style={{ opacity: props.showSearch ? 1 : 0 }}>
+    <div className="searchBar">
       <form
         type="submit"
         className="searchBar__container"
