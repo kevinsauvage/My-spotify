@@ -441,9 +441,8 @@ export const AppProvider = (props) => {
     }
   };
 
-  const addTrackToPlaylist = async (playlistId, uri) => {
-    const response = await spotifyApi.addTracksToPlaylist(playlistId, [uri]);
-    console.log(response);
+  const addTrackToPlaylist = (playlistId, uri) => {
+    spotifyApi.addTracksToPlaylist(playlistId, [uri]);
   };
 
   return (
