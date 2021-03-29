@@ -50,6 +50,7 @@
     color: white;
     @include openSans(700, 17px);
     margin-top: 1rem;
+    cursor: pointer;
   }
 
   &__popularity {

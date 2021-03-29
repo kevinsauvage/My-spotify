@@ -6,6 +6,7 @@ import Loader from "react-loader-spinner";
 import { MdPlayCircleFilled } from "react-icons/md";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
+import { Link } from "react-router-dom";
 
 const TrackShow = () => {
   const props = useContext(AppContext);
@@ -77,9 +78,15 @@ const TrackShow = () => {
                     <h1 className="track-show__title">
                       {props.trackToShow.name}
                     </h1>
-                    <h2 className="track-show__artist-name">
-                      {props.trackToShow.artists[0].name}
-                    </h2>
+                    <Link
+                      to="/Artist"
+                      onClick={props.setArtistShow}
+                      data-id={props.trackToShow.artists[0].id}>
+                      <h2 className="track-show__artist-name">
+                        {props.trackToShow.artists[0].name}
+                      </h2>
+                    </Link>
+
                     <h3 className="track-show__popularity">
                       <span>Popularity</span> {props.trackToShow.popularity}
                     </h3>
