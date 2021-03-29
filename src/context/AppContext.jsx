@@ -411,11 +411,15 @@ export const AppProvider = (props) => {
     if (isFollowing) {
       spotifyApi.unfollowArtists([artistToShow.id]);
       setIsFollowing(false);
-      settingFollowedArtists();
+      setTimeout(() => {
+        settingFollowedArtists();
+      }, 1000);
     } else {
       spotifyApi.followArtists([artistToShow.id]);
       setIsFollowing(true);
-      settingFollowedArtists();
+      setTimeout(() => {
+        settingFollowedArtists();
+      }, 1000);
     }
   };
 
