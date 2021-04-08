@@ -28,14 +28,6 @@ const SidebarLeft = () => {
         alwaysShowTracks={false}
         className="scroll__content">
         <div className="sidebarLeft__userInfo">
-          {props.user.images[0] && (
-            <div
-              className="userAvatar"
-              style={{
-                backgroundImage:
-                  props.user && "url(" + props.user.images[0]?.url + ")",
-              }}></div>
-          )}
           <h1 className="userName">{props.user && props.user.email}</h1>
         </div>
         <SearchBar />
