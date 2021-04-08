@@ -7,23 +7,18 @@
   background-color: $color-mediumLight;
 
   &__userInfo {
-    height: fit-content;
+    min-height: 41px;
     @include flex-sp-b-ai-c;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     padding: 0 0 1rem 0;
 
-    .userAvatar {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      background-size: contain;
-    }
 
     .userName {
-      font-size: 0.8rem;
+      font-size: 19px;
       opacity: 0.9;
       transition: opacity 0.3s ease;
       margin-left: 1rem;
+      color: white;
 
       &:hover {
         opacity: 1;

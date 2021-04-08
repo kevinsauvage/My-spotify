@@ -18,6 +18,7 @@ const SidebarLeft = () => {
     getRecentlyPlayed,
     setMyToptracks,
   } = SidebarLeftLogic();
+  console.log(props.user);
 
   return (
     <div className="sidebarLeft">
@@ -27,13 +28,15 @@ const SidebarLeft = () => {
         alwaysShowTracks={false}
         className="scroll__content">
         <div className="sidebarLeft__userInfo">
-          <div
-            className="userAvatar"
-            style={{
-              backgroundImage:
-                props.user && "url(" + props.user.images[0].url + ")",
-            }}></div>
-          <h1 className="userName">{props.user && props.user.display_name}</h1>
+          {props.user.images[0] && (
+            <div
+              className="userAvatar"
+              style={{
+                backgroundImage:
+                  props.user && "url(" + props.user.images[0]?.url + ")",
+              }}></div>
+          )}
+          <h1 className="userName">{props.user && props.user.email}</h1>
         </div>
         <SearchBar />
         <div className="sidebarLeft__userLibrary">
