@@ -11,7 +11,7 @@
   @include respond(tablet) {
     transform: scale(0);
     transform-origin: bottom left;
-
+    height: calc(100vh - 115px);
   }
 
   &__userInfo {
