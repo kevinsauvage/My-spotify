@@ -162,6 +162,10 @@ a {
     height: calc(100vh - 65px);
     overflow: auto;
 
+    @include respond(tablet) {
+        height: calc(100vh - 115px);
+    }
+
     .scroll-content {
         height: auto;
         width: 100%;
@@ -234,4 +238,8 @@ a {
 .scroll__content,
 .scroll-main {
     height: calc(100vh - 65px);
+
+    @include respond(tablet) {
+        height: calc(100vh - 115px);
+    }
 }

@@ -5,6 +5,14 @@
 .sidebarLeft {
   width: 270px;
   background-color: $color-mediumLight;
+  transition: 1s ease;
+  z-index: 500;
+
+  @include respond(tablet) {
+    transform: scale(0);
+    transform-origin: bottom left;
+
+  }
 
   &__userInfo {
     min-height: 41px;

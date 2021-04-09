@@ -43,6 +43,8 @@ export const AppProvider = (props) => {
   const [artistAlbums, setArtistAlbums] = useState();
   const [newReleases, setNewReleases] = useState();
   const [trackCurrentlyPlayed, setTrackCurrentlyPlayed] = useState("");
+  const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false);
+  const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false);
 
   useEffect(() => {
     setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
@@ -449,9 +451,24 @@ export const AppProvider = (props) => {
     spotifyApi.addTracksToPlaylist(playlistId, [uri]);
   };
 
+  const OpenSidebarLeft = () => {
+    setSidebarRightIsOpen(false);
+
+    setSidebarLeftIsOpen(!sidebarLeftIsOpen);
+  };
+  const OpenSidebarRight = () => {
+    setSidebarLeftIsOpen(false);
+
+    setSidebarRightIsOpen(!sidebarRightIsOpen);
+  };
+
   return (
     <Provider
       value={{
+        OpenSidebarRight,
+        sidebarRightIsOpen,
+        OpenSidebarLeft,
+        sidebarLeftIsOpen,
         trackCurrentlyPlayed,
         scrollbar,
         addTrackToPlaylist,

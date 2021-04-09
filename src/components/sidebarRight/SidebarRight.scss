@@ -6,6 +6,15 @@
   width: 270px;
   height: 100vh;
   background-color: $color-mediumLight;
+  transition: 1s ease;
+
+  @include respond(tablet) {
+    z-index: 500;
+    position: absolute;
+    right: 0;
+    transform-origin: bottom right;
+    transform: scale(0)
+  }
 
   &__categories {
     @include flex-sp-b-ai-c;

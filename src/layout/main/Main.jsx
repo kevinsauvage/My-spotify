@@ -2,10 +2,10 @@ import { useContext } from "react";
 import "./Main.scss";
 import Content from "../../route/content/Content";
 import ControlBar from "../../components/controlBar/ControlBar";
-import SearchBar from "../../components/searchBar/SearchBar";
 import { AppContext } from "../../context/AppContext";
 import Loader from "react-loader-spinner";
 import { AnimatePresence, motion } from "framer-motion";
+import NavbarMobile from "../../components/navbarMobile/NavbarMobile";
 
 const Main = () => {
   const props = useContext(AppContext);
@@ -38,6 +38,7 @@ const Main = () => {
           </>
         )}
       </AnimatePresence>
+      <NavbarMobile />
     </div>
   );
 };

@@ -21,7 +21,9 @@ const SidebarLeft = () => {
   console.log(props.user);
 
   return (
-    <div className="sidebarLeft">
+    <div
+      className="sidebarLeft"
+      style={{ transform: props.sidebarLeftIsOpen ? "scale(1)" : null }}>
       <Scrollbar
         damping={0.1}
         continuousScrolling={false}

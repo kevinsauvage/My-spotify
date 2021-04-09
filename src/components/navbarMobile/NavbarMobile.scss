@@ -1,0 +1,29 @@
+@import '../../assets/stylesheets/variable';
+@import '../../assets/stylesheets/mixin';
+
+.navbarMovil {
+  display: none;
+
+  @include respond(tablet) {
+    display: flex;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+
+  button {
+    flex: 1;
+    background-color: $color-mediumLight;
+    color: white;
+    border: none;
+    border-top: 1px solid white;
+  }
+
+  button:first-child {
+    border-right: 1px solid white;
+  }
+}

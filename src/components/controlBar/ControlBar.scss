@@ -11,6 +11,11 @@
   left: 0;
   z-index: 500;
   @include flex-sp-b-ai-c;
+
+  @include respond(tablet) {
+    bottom: 50px;
+    z-index: 1500;
+  }
 }
 
 .PlayerRSWP {

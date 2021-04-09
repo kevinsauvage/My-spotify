@@ -18,7 +18,9 @@ const SidebarRight = () => {
   const { handleClick, categories, getRecomended } = SidebarRightLogic();
 
   return (
-    <div className="sidebarRight">
+    <div
+      className="sidebarRight"
+      style={{ transform: props.sidebarRightIsOpen ? "scale(1)" : null }}>
       <Scrollbar
         damping={0.1}
         continuousScrolling={false}
