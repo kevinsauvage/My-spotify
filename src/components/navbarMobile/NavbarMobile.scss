@@ -7,7 +7,7 @@
   @include respond(tablet) {
     display: flex;
     width: 100%;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     height: 50px;
     left: 0;
