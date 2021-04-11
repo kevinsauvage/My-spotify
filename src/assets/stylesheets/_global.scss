@@ -219,11 +219,12 @@ a {
 .scrollbar-thumb {
     background-color: #21d5fda1 !important;
     width: 4px !important;
-
 }
 
 .section-header {
-    border-bottom: 1px solid whitesmoke;
+    background-color: $color-dark;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(245, 245, 245, 0.288);
     margin-bottom: 1rem;
 
     * {

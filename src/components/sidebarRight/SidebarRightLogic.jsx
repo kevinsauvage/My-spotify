@@ -5,6 +5,7 @@ const SidebarRightLogic = () => {
   const props = useContext(AppContext);
 
   const getRecomended = async (e) => {
+    props.setSidebarRightIsOpen(false);
     props.handleLoader();
     props.scrollTop();
     const id = e.currentTarget.dataset.id;
@@ -37,8 +38,13 @@ const SidebarRightLogic = () => {
       "sidebarRight__categoryItems__open"
     );
   };
+  const closeSidebar = () => {
+    if (props.sidebarRightIsOpen) {
+      props.setSidebarRightIsOpen(false);
+    }
+  };
 
-  return { handleClick, categories, getRecomended };
+  return { handleClick, categories, getRecomended, closeSidebar };
 };
 
 export default SidebarRightLogic;

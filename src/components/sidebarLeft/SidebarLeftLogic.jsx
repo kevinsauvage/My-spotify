@@ -38,7 +38,18 @@ const SidebarLeftLogic = () => {
     props.setNameB("Liked Tracks");
   };
 
-  return { settingSavedTracks, getRecentlyPlayed, setMyToptracks };
+  const closeSidebar = () => {
+    if (props.sidebarLeftIsOpen) {
+      props.setSidebarLeftIsOpen(false);
+    }
+  };
+
+  return {
+    settingSavedTracks,
+    getRecentlyPlayed,
+    setMyToptracks,
+    closeSidebar,
+  };
 };
 
 export default SidebarLeftLogic;

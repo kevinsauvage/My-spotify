@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import "./SidebarLeft.scss";
 import SectionTitle from "../sectionTtitle/SectionTitle";
 import Subtitle from "../subtitle/Subtitle";
@@ -9,21 +9,28 @@ import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
 import SidebarLeftLogic from "./SidebarLeftLogic";
+import useClickOutside from "../../hooks/useClickOutside";
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarLeft = () => {
   const props = useContext(AppContext);
+  const sidebar = useRef(null);
   const {
     settingSavedTracks,
     getRecentlyPlayed,
     setMyToptracks,
+    closeSidebar,
   } = SidebarLeftLogic();
-  console.log(props.user);
+
+  useClickOutside(sidebar, closeSidebar);
 
   return (
     <div
+      ref={sidebar}
       className="sidebarLeft"
-      style={{ transform: props.sidebarLeftIsOpen ? "scale(1)" : null }}>
+      style={{
+        transform: props.sidebarLeftIsOpen ? "translateX(0px)" : null,
+      }}>
       <Scrollbar
         damping={0.1}
         continuousScrolling={false}

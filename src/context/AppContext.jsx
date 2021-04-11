@@ -388,6 +388,8 @@ export const AppProvider = (props) => {
 
   // Setting the loader when fetching and then disable it
   const handleLoader = () => {
+    setSidebarLeftIsOpen(false);
+    setSidebarRightIsOpen(false);
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
@@ -453,12 +455,10 @@ export const AppProvider = (props) => {
 
   const OpenSidebarLeft = () => {
     setSidebarRightIsOpen(false);
-
     setSidebarLeftIsOpen(!sidebarLeftIsOpen);
   };
   const OpenSidebarRight = () => {
     setSidebarLeftIsOpen(false);
-
     setSidebarRightIsOpen(!sidebarRightIsOpen);
   };
 
@@ -466,6 +466,8 @@ export const AppProvider = (props) => {
     <Provider
       value={{
         OpenSidebarRight,
+        setSidebarRightIsOpen,
+        setSidebarLeftIsOpen,
         sidebarRightIsOpen,
         OpenSidebarLeft,
         sidebarLeftIsOpen,

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import "./SidebarRight.scss";
 import SmoothScrollbar from "smooth-scrollbar";
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
@@ -10,17 +10,31 @@ import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import SidebarRightLogic from "./SidebarRightLogic";
+import useClickOutside from "../../hooks/useClickOutside";
 
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarRight = () => {
   const props = useContext(AppContext);
-  const { handleClick, categories, getRecomended } = SidebarRightLogic();
+
+  const {
+    handleClick,
+    categories,
+    getRecomended,
+    closeSidebar,
+  } = SidebarRightLogic();
+
+  const sidebar = useRef(null);
+
+  useClickOutside(sidebar, closeSidebar);
 
   return (
     <div
+      ref={sidebar}
       className="sidebarRight"
-      style={{ transform: props.sidebarRightIsOpen ? "scale(1)" : null }}>
+      style={{
+        transform: props.sidebarRightIsOpen ? "translate(-270px)" : null,
+      }}>
       <Scrollbar
         damping={0.1}
         continuousScrolling={false}

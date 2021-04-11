@@ -13,8 +13,9 @@
   @include flex-sp-b-ai-c;
 
   @include respond(tablet) {
-    bottom: 50px;
+    position: relative;
     z-index: 1500;
+
   }
 }
 
@@ -30,4 +31,92 @@
 ._ContentRSWP {
   height: 57px;
   margin: 0 1rem;
+
+  @include respond(mobileS) {
+    margin: 0 5px;
+  }
+}
+
+.__1g1kf0v>div {
+  @include respond(mobileS) {
+    min-width: 30px !important;
+  }
+}
+
+._InfoRSWP.rswp__active {
+  @include respond(mobileS) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 60px !important;
+  }
+}
+
+.__mvqn38 {
+  @include respond(mobileS) {
+    height: 55px;
+  }
+}
+
+.__3hi4aq {
+  @include respond(mobileS) {
+    width: calc(100% - 242px);
+  }
+}
+
+.__mvqn38 img {
+  @include respond(mobileS) {
+    height: 30px !important;
+    width: 30px !important;
+  }
+}
+
+.__nnvdcq p {
+  @include respond(mobileS) {
+    font-size: 12px !important;
+
+  }
+}
+
+.__1g1kf0v {
+  @include respond(tablet) {
+    padding: 10px;
+    width: fit-content !important;
+  }
+}
+
+.__1g1kf0v button.rswp__toggle,
+.__1g1kf0v button {
+
+  @include respond(mobileS) {
+    font-size: 15px !important;
+  }
+}
+
+
+._InfoRSWP {
+  @include respond(tablet) {
+    border-bottom: none !important;
+  }
+}
+
+.__1g1kf0v {
+  @include respond(tablet) {
+    padding: 0;
+    position: absolute !important;
+    right: 30% !important;
+  }
+}
+
+.__nnvdcq {
+  @include respond(mobileS) {
+    padding-left: 3px;
+    white-space: unset;
+  }
+}
+
+.__hrnxs2 {
+  @include respond(mobileS) {
+    height: 51px;
+  }
 }

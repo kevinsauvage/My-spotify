@@ -11,9 +11,8 @@
   @include respond(tablet) {
     z-index: 500;
     position: absolute;
-    right: 0;
+    right: -270px;
     transform-origin: bottom right;
-    transform: scale(0);
     height: calc(100vh - 115px);
   }
 

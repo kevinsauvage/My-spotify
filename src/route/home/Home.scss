@@ -5,10 +5,18 @@
 .home {
   padding: 2rem;
 
+  @include respond(tablet) {
+    padding: 0.5rem;
+  }
+
   &__cards {
     flex-wrap: wrap;
     gap: 1rem;
     @include flex-space-b;
+
+    @include respond(tablet) {
+      justify-content: space-evenly;
+    }
   }
 
   .sectionTitle {

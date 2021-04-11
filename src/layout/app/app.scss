@@ -9,6 +9,8 @@
   height: 100vh;
   width: 100%;
   color: white;
+  position: relative;
+  overflow: hidden;
 }
 
 .loggin {
@@ -25,6 +27,7 @@
     border-radius: 25px;
   }
 }
+
 .auth {
   width: 100%;
   height: 100vh;
