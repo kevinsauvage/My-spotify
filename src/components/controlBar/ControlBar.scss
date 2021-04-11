@@ -79,7 +79,7 @@
 }
 
 .__1g1kf0v {
-  @include respond(tablet) {
+  @include respond(mobileS) {
     padding: 10px;
     width: fit-content !important;
   }
