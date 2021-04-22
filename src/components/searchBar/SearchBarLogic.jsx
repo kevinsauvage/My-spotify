@@ -8,6 +8,10 @@ const SearchBarLogic = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // check if input is not empty
+    if (!props.input) {
+      return;
+    }
     props.getSearch(e);
     history.push("/Search");
     props.setInput("");
