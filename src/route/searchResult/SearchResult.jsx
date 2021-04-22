@@ -31,7 +31,7 @@ const SearchResult = () => {
         ) : (
           <>
             <div className="search-result__tracks">
-              <h1 className="search-result__tracks__title">Tracks</h1>
+              <h1 className="search-result__tracks__title">Search result</h1>
               {props.playlistToPlay && (
                 <PlayBtn onClick={props.setPlaylistUri} />
               )}
@@ -69,6 +69,7 @@ const SearchResult = () => {
                   props.playlistSearchResult.map((playlist) => {
                     return (
                       <BibliothequeItem
+                        key={playlist.id}
                         name={playlist.name && playlist.name}
                         owner={playlist.owner && playlist.owner.display_name}
                         playlistId={playlist.id}
@@ -87,6 +88,7 @@ const SearchResult = () => {
                   props.searchResultArtist.map((artist) => {
                     return (
                       <BibliothequeItem
+                        key={artist.id && artist.id}
                         artist={artist.name && artist.name}
                         popularity={artist.popularity && artist.popularity}
                         onClickArtist={props.setArtistShow}

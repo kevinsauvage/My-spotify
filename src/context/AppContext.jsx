@@ -365,8 +365,6 @@ export const AppProvider = (props) => {
       "track",
     ]);
     setTracks(searchResults.tracks.items);
-    console.log(searchResults.tracks.items[0].album.artists[0].name);
-    console.log(searchResults.tracks.items);
     setSearchResultArtist(searchResults.artists.items);
     setPlaylistSearchResult(searchResults.playlists.items);
     setPlaylistToPlay(searchResults.tracks.items);
