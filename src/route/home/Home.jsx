@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const props = useContext(AppContext);
+  console.log(props.featuredPlaylists[0]);
   return (
     <div className="home">
       <div className="home__new-release space">
@@ -22,6 +23,7 @@ const Home = () => {
                     name={newrelease.name}
                     id={newrelease.id}
                     onClick={props.getAlbumTracks}
+                    artist={newrelease.artists[0].name}
                   />
                 </Link>
               );
@@ -60,6 +62,7 @@ const Home = () => {
                     url={bg}
                     onClick={props.fetchPlaylistContent}
                     id={playlist.id}
+                    name={playlist.name}
                   />
                 </Link>
               );

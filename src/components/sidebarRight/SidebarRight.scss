@@ -19,11 +19,9 @@
   &__categories {
     @include flex-sp-b-ai-c;
     cursor: pointer;
-    overflow: hidden;
   }
 
   &__categoriesWrapper {
-    overflow: hidden;
     z-index: 1000;
   }
 
@@ -31,18 +29,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transform-origin: top;
-    transform: scaleY(0);
-    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
 
-    &__open {
-      opacity: 1;
-      transform: scaleY(1);
-      transition: all 0.5s cubic-bezier(0, 1, 0, 1);
-      max-height: 2000px;
+    a {
+      display: none;
+    }
+
+    a.open {
+      display: block;
+      animation: translateX 300ms ease-in-out forwards
     }
   }
 
@@ -68,5 +62,21 @@
       -webkit-box-shadow: 0px 1px 5px -1px #21d4fd;
       -moz-box-shadow: 0px 1px 5px -1px #21d4fd;
     }
+  }
+}
+
+@keyframes translateX {
+  0% {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+
+  80% {
+    transform: translateX(-5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
   }
 }

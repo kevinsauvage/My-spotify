@@ -2,10 +2,11 @@
 
 .subtitle {
   padding: 0.3rem 0;
+  transform-origin: top center;
   cursor: pointer;
 
   &__title {
     text-transform: capitalize;
-    @include openSans(500, 11px);
+    @include openSans(500, 12px);
   }
 }
