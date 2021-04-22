@@ -35,11 +35,10 @@ const SidebarRightLogic = () => {
 
   const handleClick = (e) => {
     const list = Array.from(e.currentTarget.nextElementSibling.children);
-    list[0].classList.toggle("open");
     for (let i = 0; i <= list.length - 1; i++) {
       setTimeout(() => {
         list[i].classList.toggle("open");
-      }, i * 40);
+      }, i * 25);
     }
   };
 
