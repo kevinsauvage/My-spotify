@@ -1,19 +1,37 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const SidebarRightLogic = () => {
   const props = useContext(AppContext);
+  const [featuredPlaylists, setFeaturedPlaylists] = useState([]); // user featured playlist
+
+  useEffect(() => {
+    const getFeaturedPlaylist = () => {
+      props.spotifyApi.getFeaturedPlaylists({ limit: 10 }).then((data) => {
+        setFeaturedPlaylists(data.playlists.items);
+      });
+    }; // Fetching featured playlist
+    getFeaturedPlaylist();
+  }, []);
 
   const getRecomended = async (e) => {
     props.setSidebarRightIsOpen(false);
     props.handleLoader();
     props.scrollTop();
     const id = e.currentTarget.dataset.id;
-    const recommendations = await props.fetchRecomendedGenres(id);
+    const recommendations = await fetchRecomendedGenres(id);
     props.setBannerInfoGenre(id);
     props.setTracks(recommendations.tracks);
     props.setPlaylistToPlay(recommendations.tracks);
   };
+
+  const fetchRecomendedGenres = async (id) => {
+    const recommendations = await props.spotifyApi.getRecommendations({
+      seed_genres: id,
+      limit: 50,
+    });
+    return recommendations;
+  }; // Get recommended track for a genre ID
 
   const categories = [
     "chill",
@@ -48,7 +66,13 @@ const SidebarRightLogic = () => {
     }
   };
 
-  return { handleClick, categories, getRecomended, closeSidebar };
+  return {
+    handleClick,
+    categories,
+    getRecomended,
+    closeSidebar,
+    featuredPlaylists,
+  };
 };
 
 export default SidebarRightLogic;

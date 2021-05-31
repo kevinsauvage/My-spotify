@@ -1,8 +1,20 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const SidebarLeftLogic = () => {
   const props = useContext(AppContext);
+  const [savedTracks, setSavedTracks] = useState();
+
+  useEffect(() => {
+    const getLikedTracks = async () => {
+      const savedTracks = await props.spotifyApi.getMySavedTracks({
+        limit: 50,
+      });
+      const itemReduce = savedTracks.items.map((item) => item.track);
+      setSavedTracks(itemReduce);
+    };
+    getLikedTracks();
+  }, []);
 
   const setMyToptracks = () => {
     props.scrollTop();
@@ -35,8 +47,8 @@ const SidebarLeftLogic = () => {
     props.setFollowers("");
     props.handleLoader();
     props.scrollTop();
-    props.setTracks(props.savedTracks);
-    props.setPlaylistToPlay(props.savedTracks);
+    props.setTracks(savedTracks);
+    props.setPlaylistToPlay(savedTracks);
     props.setNameB("Liked Tracks");
   };
 

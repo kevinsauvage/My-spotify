@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { CgPlayListAdd } from "react-icons/cg";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { MdAddCircleOutline, MdPlayCircleFilled } from "react-icons/md";
@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import "./BibliothequeItem.scss";
 import PlaylistModal from "../playlistModal/PlaylistModal";
 import BibliothequeItemLogic from "./BibliothequeItemLogic";
-import { AppContext } from "../../context/AppContext";
 
 const BibliothequeItem = ({
   name,
@@ -26,7 +25,6 @@ const BibliothequeItem = ({
   play,
   addToQueu,
 }) => {
-  const props = useContext(AppContext);
   const menu = useRef();
   const iconMenu = useRef();
 
@@ -38,11 +36,12 @@ const BibliothequeItem = ({
     handleClickMenu,
     handleClickAddToQueu,
     showMenu,
+    trackCurrentlyPlayed,
   } = BibliothequeItemLogic(menu, iconMenu, addToQueu);
   return (
     <div
       className={
-        props.trackCurrentlyPlayed === name
+        trackCurrentlyPlayed === name
           ? "bibliotheque-item bibliotheque-item--played"
           : "bibliotheque-item"
       }>

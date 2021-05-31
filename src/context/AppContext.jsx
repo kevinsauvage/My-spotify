@@ -12,8 +12,6 @@ export const AppProvider = (props) => {
   spotifyApi.setAccessToken(token);
   const [user, setUser] = useState(); // user info
   const [playlists, setPlaylists] = useState([]); // user Playlist
-  const [categories, setCategories] = useState(); // all categories
-  const [featuredPlaylists, setFeaturedPlaylists] = useState([]); // user featured playlist
   const [topTracks, setTopTracks] = useState([]); // user top tracks
   const [topArtists, setTopArtists] = useState([]); // user top artists
   const [savedAlbums, setSavedAlbums] = useState([]); // user saved albums
@@ -37,12 +35,9 @@ export const AppProvider = (props) => {
   const [playlistToPlay, setPlaylistToPlay] = useState(); // array of the playlist to start if push play btn
   const [showSearch, setShowSearch] = useState(false); // show or not the search box
   const [playlistSearchResult, setPlaylistSearchResult] = useState();
-  const [savedTracks, setSavedTracks] = useState(); // ueser saved track
   const [isFollowing, setIsFollowing] = useState(false);
   const [followedArtists, setFollowedArtists] = useState(); // get user followed artist
   const [artistAlbums, setArtistAlbums] = useState(); // get artist albums
-  const [newReleases, setNewReleases] = useState();
-  const [trackCurrentlyPlayed, setTrackCurrentlyPlayed] = useState("");
   const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false);
   const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false);
 
@@ -50,26 +45,6 @@ export const AppProvider = (props) => {
     setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
     initialFetch();
   }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getMyCurrentPlayingTrack();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []); // call fetch current played track every 5 secong to change style bibliotheque item component
-
-  useEffect(() => {
-    const timeOut = setTimeout(() => {
-      getMyCurrentPlayingTrack();
-    }, 100);
-    return () => clearTimeout(timeOut);
-  }, [uri]); // call fetch current played track after 100ms  to change style bibliotheque item component when user change track
-
-  const getMyCurrentPlayingTrack = () => {
-    spotifyApi.getMyCurrentPlayingTrack().then((response) => {
-      response && setTrackCurrentlyPlayed(response.item.name);
-    });
-  }; // Fetch currently played track
 
   const disableFirstLoader = () => {
     setTimeout(() => {
@@ -81,15 +56,11 @@ export const AppProvider = (props) => {
     getTopTracks();
     getMe();
     getUserPlaylists();
-    getLikedTracks();
-    getCategories();
-    getFeaturedPlaylist();
     getTopArtist();
     getSavedAlbums();
     settingFollowedArtists();
-    getNewReleases();
-    disableFirstLoader();
     getNowPlaying();
+    disableFirstLoader();
   };
 
   // Fetching user info -----------------------------------------------------------------------------------------Fetching user info-----------
@@ -103,17 +74,6 @@ export const AppProvider = (props) => {
     const userPlaylist = await spotifyApi.getUserPlaylists({ limit: 50 });
     setPlaylists(userPlaylist.items);
   }; // Getting user playlist
-
-  const getCategories = async () => {
-    const categories = await spotifyApi.getCategories({ limit: 50 });
-    setCategories(categories.categories.items);
-  }; // Fetching Categorys
-
-  const getFeaturedPlaylist = () => {
-    spotifyApi.getFeaturedPlaylists({ limit: 10 }).then((data) => {
-      setFeaturedPlaylists(data.playlists.items);
-    });
-  }; // Fetching featured playlist
 
   const getNowPlaying = async () => {
     const response = await spotifyApi.getMyCurrentPlaybackState();
@@ -143,34 +103,10 @@ export const AppProvider = (props) => {
     setSavedAlbums(albums.items);
   }; // Fetching the Albums saved by the user
 
-  const getLikedTracks = async () => {
-    const savedTracks = await spotifyApi.getMySavedTracks({ limit: 50 });
-    const itemReduce = savedTracks.items.map((item) => item.track);
-    setSavedTracks(itemReduce);
-  };
-
-  const fetchArtistAlbums = async (id) => {
-    const artistAlbums = await spotifyApi.getArtistAlbums(id);
-    const unique = artistAlbums.items.filter(
-      (thing, index, self) =>
-        index ===
-        self.findIndex((t) => t.place === thing.place && t.name === thing.name)
-    );
-    const sorted = unique.sort((a, b) => {
-      return a.release_date > b.release_date;
-    });
-    setArtistAlbums(sorted);
-  };
-
   const getArtistTopTracks = async (id) => {
     const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", 100);
     setArtistTopTracks(topTracks.tracks);
   }; // get artist top tracks
-
-  const getNewReleases = async () => {
-    const response = await spotifyApi.getNewReleases({ limit: 50 });
-    setNewReleases(response.albums.items);
-  };
 
   const settingFollowedArtists = async () => {
     const response = await spotifyApi.getFollowedArtists({ limit: 50 });
@@ -178,18 +114,16 @@ export const AppProvider = (props) => {
   }; // Fetch followed artist from user
 
   const initialSetting = async (data) => {
+    const artistId = data.items[0].artists[0].id;
     setNameB("Top Tracks");
     setPlaylistToPlay(data.items); // Setting playlist to play with top track result
     setTrackToShow(data.items[0]); // setting the track to show with the best track of the top tracks - displayed in tracks show
     setTracks(data.items); // Setting the tracks to display in biblio with top tracks data to display in biblio
-    getArtistRelatedArtists(data.items[0].artists[0].id); // Setting the artists in relation with the best of top tracks track to display in artist show
-    getRecommendationsTrackFromArtist(data.items[0].artists[0].id); // Settind a list of recomendation tracks from the best track in top tracks, - displyed in artist show
-    const artistToShow = await spotifyApi.getArtist(
-      data.items[0].artists[0].id
-    );
-    fetchArtistAlbums(data.items[0].artists[0].id);
+    getArtistRelatedArtists(artistId); // Setting the artists in relation with the best of top tracks track to display in artist show
+    getRecommendationsTrackFromArtist(artistId); // Settind a list of recomendation tracks from the best track in top tracks, - displyed in artist show
+    const artistToShow = await spotifyApi.getArtist(artistId);
     setArtistToShow(artistToShow); // Fetching the artist corresponding to best track of top tracks
-    getArtistTopTracks(data.items[0].artists[0].id); // Calling function to set the current artist top track and display in artist show
+    getArtistTopTracks(artistId); // Calling function to set the current artist top track and display in artist show
   }; // Setting what to display in every page at first render
 
   // General function -----------------------------------------------------------------------------------------------General function
@@ -272,14 +206,6 @@ export const AppProvider = (props) => {
     setRelatedArtists(sortedArtists);
   }; // Get the artists related to artis in artist show page
 
-  const fetchRecomendedGenres = async (id) => {
-    const recommendations = await spotifyApi.getRecommendations({
-      seed_genres: id,
-      limit: 50,
-    });
-    return recommendations;
-  }; // Get recommended track for a genre ID
-
   const getRecommendationsTrack = async (id) => {
     const tracks = await spotifyApi.getRecommendations({
       seed_tracks: id,
@@ -306,7 +232,6 @@ export const AppProvider = (props) => {
     const id = e.currentTarget.dataset.id;
     const artist = await spotifyApi.getArtist(id);
     setArtistToShow(artist);
-    fetchArtistAlbums(id);
     getArtistTopTracks(id);
     getRecommendationsTrackFromArtist(id);
     getArtistRelatedArtists(id);
@@ -397,11 +322,9 @@ export const AppProvider = (props) => {
         setSidebarLeftIsOpen,
         sidebarRightIsOpen,
         sidebarLeftIsOpen,
-        trackCurrentlyPlayed,
         scrollbar,
         getUserPlaylists,
         setBannerInfoGenre,
-        fetchRecomendedGenres,
         setInput,
         scrollTop,
         handleLoader,
@@ -413,13 +336,11 @@ export const AppProvider = (props) => {
         setDescription,
         setFollowers,
         addToQueu,
-        newReleases,
         settingAlbumToPlay,
         artistAlbums,
         followedArtists,
         isFollowingArtist,
         isFollowing,
-        savedTracks,
         playlistSearchResult,
         showSearch,
         setShowSearch,
@@ -427,6 +348,7 @@ export const AppProvider = (props) => {
         playlistToPlay,
         deviceId,
         uri,
+        setArtistAlbums,
         setUri,
         setTrackToPlay,
         firstLoad,
@@ -447,8 +369,6 @@ export const AppProvider = (props) => {
         nameB,
         getAlbumTracks,
         fetchPlaylistContent,
-        categories,
-        featuredPlaylists,
         topArtists,
         savedAlbums,
         playlists,

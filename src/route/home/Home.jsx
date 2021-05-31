@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Home.scss";
 import Card from "../../components/card/Card";
 import SectionTitle from "../../components/sectionTtitle/SectionTitle";
@@ -7,13 +7,23 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const props = useContext(AppContext);
+  const [newReleases, setNewReleases] = useState();
+
+  useEffect(() => {
+    const getNewReleases = async () => {
+      const response = await props.spotifyApi.getNewReleases({ limit: 50 });
+      setNewReleases(response.albums.items);
+    };
+    getNewReleases();
+  }, []);
+
   return (
     <div className="home">
       <div className="home__new-release space">
         <SectionTitle title="NEW RELEASES" />
         <div className="home__cards">
-          {props.newReleases &&
-            props.newReleases.map((newrelease) => {
+          {newReleases &&
+            newReleases.map((newrelease) => {
               let bg = newrelease.images[1].url;
               return (
                 <Link to="/Biblio" key={newrelease.id}>

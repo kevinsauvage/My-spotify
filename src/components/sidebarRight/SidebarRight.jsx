@@ -22,6 +22,7 @@ const SidebarRight = () => {
     categories,
     getRecomended,
     closeSidebar,
+    featuredPlaylists,
   } = SidebarRightLogic();
 
   const sidebar = useRef(null);
@@ -76,8 +77,8 @@ const SidebarRight = () => {
             <IoIosArrowDown />
           </div>
           <div className="sidebarRight__categoryItems">
-            {props.featuredPlaylists &&
-              props.featuredPlaylists.map((playlist) => {
+            {featuredPlaylists &&
+              featuredPlaylists.map((playlist) => {
                 return (
                   <Link to="/Biblio" key={playlist.id}>
                     <Subtitle

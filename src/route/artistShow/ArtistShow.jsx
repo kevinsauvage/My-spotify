@@ -12,7 +12,23 @@ const ArtistShow = () => {
 
   useEffect(() => {
     if (props.artistToShow) {
-      props.isFollowingArtist(props.artistToShow.id);
+      const artistId = props.artistToShow.id;
+      props.isFollowingArtist(artistId);
+      const fetchArtistAlbums = async (id) => {
+        const artistAlbums = await props.spotifyApi.getArtistAlbums(id);
+        const unique = artistAlbums.items.filter(
+          (thing, index, self) =>
+            index ===
+            self.findIndex(
+              (t) => t.place === thing.place && t.name === thing.name
+            )
+        );
+        const sorted = unique.sort((a, b) => {
+          return a.release_date > b.release_date;
+        });
+        props.setArtistAlbums(sorted);
+      };
+      fetchArtistAlbums(artistId);
     }
   }, []);
 
@@ -38,6 +54,7 @@ const ArtistShow = () => {
     });
     props.setUri(tracksq);
   }; // fetch uris and set uris to play when user click on artist top track play button
+
   return (
     <div className="artist-show">
       {props.isLoading ? (
