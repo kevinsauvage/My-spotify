@@ -53,21 +53,23 @@ export const AppProvider = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      spotifyApi.getMyCurrentPlayingTrack().then((response) => {
-        response && setTrackCurrentlyPlayed(response.item.name);
-      });
+      getMyCurrentPlayingTrack();
     }, 5000);
     return () => clearInterval(interval);
-  });
+  }, []); // call fetch current played track every 5 secong to change style bibliotheque item component
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      spotifyApi.getMyCurrentPlayingTrack().then((response) => {
-        response && setTrackCurrentlyPlayed(response.item.name);
-      });
+      getMyCurrentPlayingTrack();
     }, 100);
     return () => clearTimeout(timeOut);
-  }, [uri]);
+  }, [uri]); // call fetch current played track after 100ms  to change style bibliotheque item component when user change track
+
+  const getMyCurrentPlayingTrack = () => {
+    spotifyApi.getMyCurrentPlayingTrack().then((response) => {
+      response && setTrackCurrentlyPlayed(response.item.name);
+    });
+  }; // Fetch currently played track
 
   const disableFirstLoader = () => {
     setTimeout(() => {
@@ -76,7 +78,6 @@ export const AppProvider = (props) => {
   };
 
   const initialFetch = () => {
-    getNowPlaying();
     getTopTracks();
     getMe();
     getUserPlaylists();
@@ -88,34 +89,31 @@ export const AppProvider = (props) => {
     settingFollowedArtists();
     getNewReleases();
     disableFirstLoader();
+    getNowPlaying();
   };
 
   // Fetching user info -----------------------------------------------------------------------------------------Fetching user info-----------
 
-  // Getting user profil
   const getMe = async () => {
     const user = await spotifyApi.getMe();
     setUser(user);
-  };
+  }; // Getting user profil
 
-  // Getting user playlist
   const getUserPlaylists = async () => {
     const userPlaylist = await spotifyApi.getUserPlaylists({ limit: 50 });
     setPlaylists(userPlaylist.items);
-  };
+  }; // Getting user playlist
 
-  // Fetching Categorys
   const getCategories = async () => {
     const categories = await spotifyApi.getCategories({ limit: 50 });
     setCategories(categories.categories.items);
-  };
+  }; // Fetching Categorys
 
-  // Fetching featured playlist
   const getFeaturedPlaylist = () => {
     spotifyApi.getFeaturedPlaylists({ limit: 10 }).then((data) => {
       setFeaturedPlaylists(data.playlists.items);
     });
-  };
+  }; // Fetching featured playlist
 
   // Fetching now playing,
   const getNowPlaying = async () => {
@@ -135,7 +133,7 @@ export const AppProvider = (props) => {
     setNameB("Top Tracks"); // Setting the name to display
     initialSetting(topTracks); // Calling initial setting with the data receive
     const uris = topTracks.items.map((track) => track.uri);
-    setUri(uris); // Setting the uris to play every tracks
+    if (!uri) setUri(uris); // Setting the uris to play every tracks
   };
 
   // Fetching the top artist of the user

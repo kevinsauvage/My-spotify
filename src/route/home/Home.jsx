@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const props = useContext(AppContext);
-  console.log(props.featuredPlaylists[0]);
   return (
     <div className="home">
       <div className="home__new-release space">
