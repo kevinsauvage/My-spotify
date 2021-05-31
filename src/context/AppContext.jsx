@@ -37,7 +37,6 @@ export const AppProvider = (props) => {
   const [playlistSearchResult, setPlaylistSearchResult] = useState();
   const [isFollowing, setIsFollowing] = useState(false);
   const [followedArtists, setFollowedArtists] = useState(); // get user followed artist
-  const [artistAlbums, setArtistAlbums] = useState(); // get artist albums
   const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false);
   const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false);
 
@@ -337,7 +336,6 @@ export const AppProvider = (props) => {
         setFollowers,
         addToQueu,
         settingAlbumToPlay,
-        artistAlbums,
         followedArtists,
         isFollowingArtist,
         isFollowing,
@@ -348,7 +346,6 @@ export const AppProvider = (props) => {
         playlistToPlay,
         deviceId,
         uri,
-        setArtistAlbums,
         setUri,
         setTrackToPlay,
         firstLoad,

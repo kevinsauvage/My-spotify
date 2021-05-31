@@ -6,9 +6,11 @@ import Loader from "react-loader-spinner";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
+import { useState } from "react/cjs/react.development";
 
 const ArtistShow = () => {
   const props = useContext(AppContext);
+  const [artistAlbums, setArtistAlbums] = useState();
 
   useEffect(() => {
     if (props.artistToShow) {
@@ -26,7 +28,8 @@ const ArtistShow = () => {
         const sorted = unique.sort((a, b) => {
           return a.release_date > b.release_date;
         });
-        props.setArtistAlbums(sorted);
+        console.log(sorted);
+        setArtistAlbums(sorted);
       };
       fetchArtistAlbums(artistId);
     }
@@ -149,8 +152,8 @@ const ArtistShow = () => {
                 <div className="section-header">
                   <BibliothequeItemHeader album year />
                 </div>
-                {props.artistAlbums &&
-                  props.artistAlbums.map((album) => {
+                {artistAlbums &&
+                  artistAlbums.map((album) => {
                     return (
                       <BibliothequeItem
                         key={album.id}
