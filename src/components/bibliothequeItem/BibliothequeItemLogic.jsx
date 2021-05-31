@@ -35,7 +35,7 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
 
   const handleClickPlaylist = (e, uri) => {
     const playlistId = e.currentTarget.dataset.id;
-    props.addTrackToPlaylist(playlistId, uri);
+    props.spotifyApi.addTracksToPlaylist(playlistId, [uri]);
     e.target.insertAdjacentHTML(
       "afterEnd",
       "<p class='span-copied'>Correctly added !</p>"

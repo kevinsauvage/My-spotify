@@ -16,6 +16,28 @@ const ArtistShow = () => {
     }
   }, []);
 
+  const handleFollow = async () => {
+    if (props.isFollowing) {
+      props.spotifyApi.unfollowArtists([props.artistToShow.id]);
+      props.setIsFollowing(false);
+      setTimeout(() => {
+        props.settingFollowedArtists();
+      }, 1000);
+    } else {
+      props.spotifyApi.followArtists([props.artistToShow.id]);
+      props.setIsFollowing(true);
+      setTimeout(() => {
+        props.settingFollowedArtists();
+      }, 1000);
+    }
+  }; // Following || unfollowing artist
+
+  const setUriFromArtistTopTracks = () => {
+    const tracksq = props.artistTopTracks.map((res) => {
+      return res.uri;
+    });
+    props.setUri(tracksq);
+  }; // fetch uris and set uris to play when user click on artist top track play button
   return (
     <div className="artist-show">
       {props.isLoading ? (
@@ -48,11 +70,11 @@ const ArtistShow = () => {
                       {props.artistToShow?.name}
                     </h1>
                     {props.isFollowing ? (
-                      <p onClick={props.handleFollow} className="follow-btn">
+                      <p onClick={handleFollow} className="follow-btn">
                         <RiUserUnfollowFill size={21} />
                       </p>
                     ) : (
-                      <p onClick={props.handleFollow} className="follow-btn">
+                      <p onClick={handleFollow} className="follow-btn">
                         <RiUserFollowFill size={21} />
                       </p>
                     )}
@@ -65,7 +87,7 @@ const ArtistShow = () => {
                   <p>Followers</p>
                 </div>
                 <div className="artist-show__playBtn">
-                  <PlayBtn onClick={props.setUriFromArtistTopTracks} />
+                  <PlayBtn onClick={setUriFromArtistTopTracks} />
                 </div>
               </div>
             </div>

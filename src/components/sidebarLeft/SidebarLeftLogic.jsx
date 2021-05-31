@@ -16,17 +16,19 @@ const SidebarLeftLogic = () => {
     props.setFollowers("");
   };
 
-  // Fetching recently played tracks by user
   const getRecentlyPlayed = async () => {
     props.setDescription("");
     props.setFollowers("");
     props.handleLoader();
     props.scrollTop();
-    const recentlyPlayed = await props.fetchRecentlyPlayed();
+    const recentlyPlayed = await props.spotifyApi.getMyRecentlyPlayedTracks({
+      type: "track",
+      limit: 50,
+    });
     props.setTracks(recentlyPlayed.items);
     props.setPlaylistToPlay("");
     props.setNameB("Recently Played");
-  };
+  }; // Fetching recently played tracks by user
 
   const settingSavedTracks = async () => {
     props.setDescription("");

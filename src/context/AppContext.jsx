@@ -37,10 +37,10 @@ export const AppProvider = (props) => {
   const [playlistToPlay, setPlaylistToPlay] = useState(); // array of the playlist to start if push play btn
   const [showSearch, setShowSearch] = useState(false); // show or not the search box
   const [playlistSearchResult, setPlaylistSearchResult] = useState();
-  const [savedTracks, setSavedTracks] = useState();
+  const [savedTracks, setSavedTracks] = useState(); // ueser saved track
   const [isFollowing, setIsFollowing] = useState(false);
-  const [followedArtists, setFollowedArtists] = useState();
-  const [artistAlbums, setArtistAlbums] = useState();
+  const [followedArtists, setFollowedArtists] = useState(); // get user followed artist
+  const [artistAlbums, setArtistAlbums] = useState(); // get artist albums
   const [newReleases, setNewReleases] = useState();
   const [trackCurrentlyPlayed, setTrackCurrentlyPlayed] = useState("");
   const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false);
@@ -75,7 +75,7 @@ export const AppProvider = (props) => {
     setTimeout(() => {
       setFirstLoad(false);
     }, 4000);
-  };
+  }; // Disable first loader after 4 secondes
 
   const initialFetch = () => {
     getTopTracks();
@@ -115,46 +115,33 @@ export const AppProvider = (props) => {
     });
   }; // Fetching featured playlist
 
-  // Fetching now playing,
   const getNowPlaying = async () => {
     const response = await spotifyApi.getMyCurrentPlaybackState();
-    // Only if response is true we set the track to play
     if (response) {
       setCurrentPlayback(response);
       setUri(response.item.uri); // If something is playing in one of the user device, it will fetch the track and play it
       setDeviceId(response.device.id); // Set the device for the control bar player
     }
-  };
+  }; // Fetching now playing,
 
-  // Getting top tracks, only run once
   const getTopTracks = async () => {
     const topTracks = await spotifyApi.getMyTopTracks({ limit: 50 });
     setTopTracks(topTracks.items); // Seting top tracks of user
     setNameB("Top Tracks"); // Setting the name to display
     initialSetting(topTracks); // Calling initial setting with the data receive
     const uris = topTracks.items.map((track) => track.uri);
-    if (!uri) setUri(uris); // Setting the uris to play every tracks
-  };
+    if (!uri) setUri(uris); // Setting the uris to play after first render only if no track is actually playing in any of user device
+  }; // Getting top tracks, only run once
 
-  // Fetching the top artist of the user
   const getTopArtist = async () => {
     const topArtist = await spotifyApi.getMyTopArtists();
     setTopArtists(topArtist.items);
-  };
+  }; // Fetching the top artist of the user
 
-  // Fetching the Albums saved by the user
   const getSavedAlbums = async () => {
     const albums = await spotifyApi.getMySavedAlbums({ limit: 50 });
     setSavedAlbums(albums.items);
-  };
-
-  const fetchRecentlyPlayed = async () => {
-    const recentlyPlayed = await spotifyApi.getMyRecentlyPlayedTracks({
-      type: "track",
-      limit: 50,
-    });
-    return recentlyPlayed;
-  };
+  }; // Fetching the Albums saved by the user
 
   const getLikedTracks = async () => {
     const savedTracks = await spotifyApi.getMySavedTracks({ limit: 50 });
@@ -175,24 +162,21 @@ export const AppProvider = (props) => {
     setArtistAlbums(sorted);
   };
 
-  // get artist top tracks
   const getArtistTopTracks = async (id) => {
     const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", 100);
     setArtistTopTracks(topTracks.tracks);
-  };
+  }; // get artist top tracks
 
   const getNewReleases = async () => {
     const response = await spotifyApi.getNewReleases({ limit: 50 });
     setNewReleases(response.albums.items);
   };
 
-  // Fetch followed artist from user
   const settingFollowedArtists = async () => {
     const response = await spotifyApi.getFollowedArtists({ limit: 50 });
     setFollowedArtists(response.artists.items);
-  };
+  }; // Fetch followed artist from user
 
-  // Setting what to display in every page at first render
   const initialSetting = async (data) => {
     setNameB("Top Tracks");
     setPlaylistToPlay(data.items); // Setting playlist to play with top track result
@@ -206,10 +190,10 @@ export const AppProvider = (props) => {
     fetchArtistAlbums(data.items[0].artists[0].id);
     setArtistToShow(artistToShow); // Fetching the artist corresponding to best track of top tracks
     getArtistTopTracks(data.items[0].artists[0].id); // Calling function to set the current artist top track and display in artist show
-  };
+  }; // Setting what to display in every page at first render
+
   // General function -----------------------------------------------------------------------------------------------General function
 
-  // Seting playlist Uri when user click on play btn playlist
   const setPlaylistUri = () => {
     if (playlistToPlay.lenght === 1) {
       setUri(playlistToPlay);
@@ -217,9 +201,8 @@ export const AppProvider = (props) => {
       const uris = playlistToPlay.map((track) => track.uri);
       setUri(uris);
     }
-  };
+  }; // Seting playlist Uri when user click on play btn playlist
 
-  // Fetch the plyalist content when clickinng on playlist link
   const fetchPlaylistContent = async (e) => {
     if (scrollbar) {
       scrollbar.scrollTop = 0;
@@ -233,18 +216,16 @@ export const AppProvider = (props) => {
     setBannerInfoPlaylist(playlistContent);
     const tracksq = playlistContent.tracks.items.map((res) => res.track);
     setPlaylistToPlay(tracksq);
-  };
+  }; // Fetch the plyalist content when clickinng on playlist link
 
-  // Setting the banner info in relation with the playlist displayed
   const setBannerInfoPlaylist = (response) => {
     setNameB(response.name);
     setDescription(response.description);
     if (response.followers.total !== 0) {
       setFollowers(response.followers.total + "  Followers");
     } else setFollowers("");
-  };
+  }; // Setting the banner info in relation with the playlist displayed
 
-  // Getting the track of album when clicking on album link
   const getAlbumTracks = async (e) => {
     handleLoader();
     if (scrollbar) {
@@ -256,24 +237,21 @@ export const AppProvider = (props) => {
     setTracks(albumsTracks.items);
     setPlaylistToPlay(albumsTracks.items);
     setBannerInfoAlbum(name);
-  };
+  }; // Getting the track of album when clicking on album link
 
-  // Set the banner  name of the album displayed
   const setBannerInfoAlbum = (name) => {
     let savedAlbum = savedAlbums.find(
       (album) => album.album.name === name || album
     );
     setNameB(savedAlbum.album.name);
-  };
+  }; // Set the banner  name of the album displayed
 
-  // Set the banner info fo genre  recomendation
   const setBannerInfoGenre = (id) => {
     setNameB(id);
     setDescription(undefined);
     setFollowers(undefined);
-  };
+  }; // Set the banner info fo genre  recomendation
 
-  // Function to set the track of the show page
   const setTrackShow = async (e) => {
     handleLoader();
     if (scrollbar) {
@@ -284,27 +262,24 @@ export const AppProvider = (props) => {
     setTrackToShow(track);
     getArtistRelatedArtists(track.artists[0].id);
     getRecommendationsTrack(track.id);
-  };
+  }; // Function to set the track of the show page
 
-  // Get the artists related to artis in artist show page
   const getArtistRelatedArtists = async (id) => {
     const relatedArtists = await spotifyApi.getArtistRelatedArtists(id);
     const sortedArtists = relatedArtists.artists.sort((a, b) => {
       return b.popularity - a.popularity;
     });
     setRelatedArtists(sortedArtists);
-  };
+  }; // Get the artists related to artis in artist show page
 
-  // Get recommended track for a genre ID
   const fetchRecomendedGenres = async (id) => {
     const recommendations = await spotifyApi.getRecommendations({
       seed_genres: id,
       limit: 50,
     });
     return recommendations;
-  };
+  }; // Get recommended track for a genre ID
 
-  // Get recommendation tracks for a track
   const getRecommendationsTrack = async (id) => {
     const tracks = await spotifyApi.getRecommendations({
       seed_tracks: id,
@@ -312,9 +287,8 @@ export const AppProvider = (props) => {
     });
     setRecomendedTracks(tracks.tracks);
     setPlaylistToPlay(tracks.tracks);
-  };
+  }; // Get recommendation tracks for a track
 
-  // get Recommendation tracks for a artist
   const getRecommendationsTrackFromArtist = async (id) => {
     const tracks = await spotifyApi.getRecommendations({
       seed_artists: id,
@@ -322,9 +296,8 @@ export const AppProvider = (props) => {
     });
     setRecomendedTracks(tracks.tracks);
     setPlaylistToPlay(tracks.tracks);
-  };
+  }; // get Recommendation tracks for a artist
 
-  // Set artist to show on artist show page
   const setArtistShow = async (e) => {
     handleLoader();
     if (scrollbar) {
@@ -338,7 +311,7 @@ export const AppProvider = (props) => {
     getRecommendationsTrackFromArtist(id);
     getArtistRelatedArtists(id);
     isFollowingArtist(id);
-  };
+  }; // Set artist to show on artist show page
 
   const settingAlbumToPlay = async (e) => {
     if (scrollbar) {
@@ -353,7 +326,6 @@ export const AppProvider = (props) => {
     setFollowers(album.label);
   };
 
-  // Fetch from search input
   const getSearch = async (e) => {
     e.preventDefault();
     handleLoader();
@@ -367,9 +339,8 @@ export const AppProvider = (props) => {
     setPlaylistSearchResult(searchResults.playlists.items);
     setPlaylistToPlay(searchResults.tracks.items);
     setInput("");
-  };
+  }; // Fetch from search input
 
-  // Seting track to play when clicking on play
   const setTrackToPlay = async (e) => {
     let uri = e.currentTarget.dataset.uri;
     let id = e.currentTarget.dataset.id;
@@ -380,9 +351,8 @@ export const AppProvider = (props) => {
     const uris = tracks.tracks.map((track) => track.uri);
     const urisToPlay = [uri, ...uris];
     setUri(urisToPlay);
-  };
+  }; // Seting track to play when clicking on play
 
-  // Setting the loader when fetching and then disable it
   const handleLoader = () => {
     setSidebarLeftIsOpen(false);
     setSidebarRightIsOpen(false);
@@ -390,40 +360,14 @@ export const AppProvider = (props) => {
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-  };
+  }; // Setting the loader when fetching and then disable it
 
-  const setUriFromArtistTopTracks = () => {
-    const tracksq = artistTopTracks.map((res) => {
-      return res.uri;
-    });
-    setUri(tracksq);
-  };
-
-  // change milliseconde to second
   const millisToMinutesAndSeconds = (millis) => {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-  };
+  }; // change milliseconde to second
 
-  // Following || unfollowing artist
-  const handleFollow = async () => {
-    if (isFollowing) {
-      spotifyApi.unfollowArtists([artistToShow.id]);
-      setIsFollowing(false);
-      setTimeout(() => {
-        settingFollowedArtists();
-      }, 1000);
-    } else {
-      spotifyApi.followArtists([artistToShow.id]);
-      setIsFollowing(true);
-      setTimeout(() => {
-        settingFollowedArtists();
-      }, 1000);
-    }
-  };
-
-  // Check if the artist display in artist show page is followed by user
   const isFollowingArtist = async (id) => {
     const isFollow = await spotifyApi.isFollowingArtists([id]);
     if (isFollow[0] === true) {
@@ -431,53 +375,38 @@ export const AppProvider = (props) => {
     } else {
       setIsFollowing(false);
     }
-  };
+  }; // Check if the artist display in artist show page is followed by user
 
-  // Adding track to queue
   const addToQueu = (e) => {
     const uri = e.currentTarget.dataset.uri;
     spotifyApi.queue(uri);
-  };
+  }; // Adding track to queue
 
   const scrollTop = () => {
-    if (props.scrollbar) {
+    if (scrollbar) {
       scrollbar.scrollTop = 0;
     }
-  };
-
-  const addTrackToPlaylist = (playlistId, uri) => {
-    spotifyApi.addTracksToPlaylist(playlistId, [uri]);
-  };
-
-  const OpenSidebarLeft = () => {
-    setSidebarRightIsOpen(false);
-    setSidebarLeftIsOpen(!sidebarLeftIsOpen);
-  };
-  const OpenSidebarRight = () => {
-    setSidebarLeftIsOpen(false);
-    setSidebarRightIsOpen(!sidebarRightIsOpen);
   };
 
   return (
     <Provider
       value={{
-        OpenSidebarRight,
+        spotifyApi,
+        settingFollowedArtists,
         setSidebarRightIsOpen,
         setSidebarLeftIsOpen,
         sidebarRightIsOpen,
-        OpenSidebarLeft,
         sidebarLeftIsOpen,
         trackCurrentlyPlayed,
         scrollbar,
-        addTrackToPlaylist,
         getUserPlaylists,
         setBannerInfoGenre,
         fetchRecomendedGenres,
-        fetchRecentlyPlayed,
         setInput,
         scrollTop,
         handleLoader,
         topTracks,
+        setIsFollowing,
         setTracks,
         setPlaylistToPlay,
         setNameB,
@@ -489,17 +418,16 @@ export const AppProvider = (props) => {
         artistAlbums,
         followedArtists,
         isFollowingArtist,
-        handleFollow,
         isFollowing,
         savedTracks,
         playlistSearchResult,
         showSearch,
         setShowSearch,
-        setUriFromArtistTopTracks,
         setPlaylistUri,
         playlistToPlay,
         deviceId,
         uri,
+        setUri,
         setTrackToPlay,
         firstLoad,
         isLoading,
