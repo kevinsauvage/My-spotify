@@ -12,7 +12,8 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  });
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       fetchMyCurrentPlayingTrack();

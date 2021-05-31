@@ -28,7 +28,6 @@ const ArtistShow = () => {
         const sorted = unique.sort((a, b) => {
           return a.release_date > b.release_date;
         });
-        console.log(sorted);
         setArtistAlbums(sorted);
       };
       fetchArtistAlbums(artistId);
