@@ -42,7 +42,7 @@ export const AppProvider = (props) => {
     initialSetting(topTracks); // Calling initial setting with the data receive
     const uris = topTracks.items.map((track) => track.uri);
     if (!uri) setUri(uris); // Setting the uris to play after first render only if no track is actually playing in any of user device
-  }, [uri]); // Getting top tracks, only run once
+  }, []); // Getting top tracks, only run once
 
   useEffect(() => {
     setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
