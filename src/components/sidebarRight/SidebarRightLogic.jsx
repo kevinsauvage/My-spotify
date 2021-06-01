@@ -2,37 +2,49 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const SidebarRightLogic = () => {
-  const props = useContext(AppContext);
+  const {
+    spotifyApi,
+    setSidebarRightIsOpen,
+    handleLoader,
+    scrollTop,
+    setTracks,
+    setPlaylistToPlay,
+    setNameB,
+    setDescription,
+    sidebarRightIsOpen,
+    setFollowers,
+  } = useContext(AppContext);
+
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]); // user featured playlist
 
   useEffect(() => {
     const getFeaturedPlaylist = () => {
-      props.spotifyApi.getFeaturedPlaylists({ limit: 10 }).then((data) => {
+      spotifyApi.getFeaturedPlaylists({ limit: 10 }).then((data) => {
         setFeaturedPlaylists(data.playlists.items);
       });
     }; // Fetching featured playlist
     getFeaturedPlaylist();
-  }, []);
+  }, [spotifyApi]);
 
   const getRecomended = async (e) => {
-    props.setSidebarRightIsOpen(false);
-    props.handleLoader();
-    props.scrollTop();
+    setSidebarRightIsOpen(false);
+    handleLoader();
+    scrollTop();
     const id = e.currentTarget.dataset.id;
     const recommendations = await fetchRecomendedGenres(id);
     setBannerInfoGenre(id);
-    props.setTracks(recommendations.tracks);
-    props.setPlaylistToPlay(recommendations.tracks);
+    setTracks(recommendations.tracks);
+    setPlaylistToPlay(recommendations.tracks);
   };
 
   const setBannerInfoGenre = (id) => {
-    props.setNameB(id);
-    props.setDescription(undefined);
-    props.setFollowers(undefined);
+    setNameB(id);
+    setDescription(undefined);
+    setFollowers(undefined);
   }; // Set the banner info fo genre  recomendation
 
   const fetchRecomendedGenres = async (id) => {
-    const recommendations = await props.spotifyApi.getRecommendations({
+    const recommendations = await spotifyApi.getRecommendations({
       seed_genres: id,
       limit: 50,
     });
@@ -67,8 +79,8 @@ const SidebarRightLogic = () => {
   };
 
   const closeSidebar = () => {
-    if (props.sidebarRightIsOpen) {
-      props.setSidebarRightIsOpen(false);
+    if (sidebarRightIsOpen) {
+      setSidebarRightIsOpen(false);
     }
   };
 

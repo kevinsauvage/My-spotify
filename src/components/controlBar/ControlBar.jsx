@@ -3,19 +3,17 @@ import { AppContext } from "../../context/AppContext";
 import "rc-slider/assets/index.css";
 import "./ControlBar.scss";
 import SpotifyPlayer from "react-spotify-web-playback";
-import Cookies from "js-cookie";
 
 const ControlBar = () => {
   const props = useContext(AppContext);
-  let tokenSaved = Cookies.get("spotifyAuthToken");
   return (
     <div className="controlBar">
-      {tokenSaved && props.uri !== "" && (
+      {props.token && props.uri !== "" && (
         <SpotifyPlayer
           showSaveIcon={true}
           deviceId={props.deviceId !== "" ? props.deviceId : null}
           uris={props.uri}
-          token={tokenSaved}
+          token={props.token}
           syncExternalDevice={true}
           play={props.play}
           styles={{

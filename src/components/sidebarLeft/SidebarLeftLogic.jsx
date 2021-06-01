@@ -2,59 +2,72 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const SidebarLeftLogic = () => {
-  const props = useContext(AppContext);
+  const {
+    spotifyApi,
+    scrollTop,
+    handleLoader,
+    sidebarLeftIsOpen,
+    setSidebarLeftIsOpen,
+    setTracks,
+    topTracks,
+    setNameB,
+    setPlaylistToPlay,
+    setDescription,
+    setFollowers,
+  } = useContext(AppContext);
+
   const [savedTracks, setSavedTracks] = useState();
 
   useEffect(() => {
     const getLikedTracks = async () => {
-      const savedTracks = await props.spotifyApi.getMySavedTracks({
+      const savedTracks = await spotifyApi.getMySavedTracks({
         limit: 50,
       });
       const itemReduce = savedTracks.items.map((item) => item.track);
       setSavedTracks(itemReduce);
     };
     getLikedTracks();
-  }, []);
+  }, [spotifyApi]);
 
   const setMyToptracks = () => {
-    props.scrollTop();
-    props.handleLoader();
-    if (props.topTracks.lenght !== 0) {
-      props.setTracks(props.topTracks);
-      props.setNameB("Top Tracks");
+    scrollTop();
+    handleLoader();
+    if (topTracks.lenght !== 0) {
+      setTracks(topTracks);
+      setNameB("Top Tracks");
     }
-    props.setPlaylistToPlay(props.topTracks);
-    props.setDescription("");
-    props.setFollowers("");
+    setPlaylistToPlay(topTracks);
+    setDescription("");
+    setFollowers("");
   };
 
   const getRecentlyPlayed = async () => {
-    props.setDescription("");
-    props.setFollowers("");
-    props.handleLoader();
-    props.scrollTop();
-    const recentlyPlayed = await props.spotifyApi.getMyRecentlyPlayedTracks({
+    setDescription("");
+    setFollowers("");
+    handleLoader();
+    scrollTop();
+    const recentlyPlayed = await spotifyApi.getMyRecentlyPlayedTracks({
       type: "track",
       limit: 50,
     });
-    props.setTracks(recentlyPlayed.items);
-    props.setPlaylistToPlay("");
-    props.setNameB("Recently Played");
+    setTracks(recentlyPlayed.items);
+    setPlaylistToPlay("");
+    setNameB("Recently Played");
   }; // Fetching recently played tracks by user
 
   const settingSavedTracks = async () => {
-    props.setDescription("");
-    props.setFollowers("");
-    props.handleLoader();
-    props.scrollTop();
-    props.setTracks(savedTracks);
-    props.setPlaylistToPlay(savedTracks);
-    props.setNameB("Liked Tracks");
+    setDescription("");
+    setFollowers("");
+    handleLoader();
+    scrollTop();
+    setTracks(savedTracks);
+    setPlaylistToPlay(savedTracks);
+    setNameB("Liked Tracks");
   };
 
   const closeSidebar = () => {
-    if (props.sidebarLeftIsOpen) {
-      props.setSidebarLeftIsOpen(false);
+    if (sidebarLeftIsOpen) {
+      setSidebarLeftIsOpen(false);
     }
   };
 

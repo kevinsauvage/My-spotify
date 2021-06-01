@@ -2,15 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const PlaylistModalLogic = () => {
-  const props = useContext(AppContext);
+  const { playlists, user } = useContext(AppContext);
   const [userPlaylists, setUserPlaylists] = useState();
 
   useEffect(() => {
-    const playlistuser = props.playlists.filter((playlist) => {
-      return playlist.owner.id === props.user.id;
+    const playlistuser = playlists.filter((playlist) => {
+      return playlist.owner.id === user.id;
     });
     setUserPlaylists(playlistuser);
-  }, []);
+  }, [playlists, user]);
 
   return { userPlaylists };
 };

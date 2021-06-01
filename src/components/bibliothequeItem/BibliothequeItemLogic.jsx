@@ -20,9 +20,10 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
       }
     }
   };
+
   const handleClickMenu = (e) => {
     setShowMenu(!showMenu);
-  };
+  }; // display playlist modal on user click
 
   const handleClickAddToQueu = (e) => {
     addToQueu(e);
@@ -40,7 +41,6 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
       "afterEnd",
       "<p class='span-copied'>Correctly added !</p>"
     ); // Add new track to a user playlist playlist
-
     props.getUserPlaylists(); // Fetch the user playlist after adding new track to a playlist
   };
 

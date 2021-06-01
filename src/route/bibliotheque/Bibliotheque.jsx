@@ -8,11 +8,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 
 const Bibliotheque = () => {
-  const props = useContext(AppContext);
+  const {
+    isLoading,
+    description,
+    nameB,
+    followers,
+    playlistToPlay,
+    setPlaylistUri,
+    tracks,
+    setTrackShow,
+    setArtistShow,
+    millisToMinutesAndSeconds,
+    setTrackToPlay,
+    addToQueu,
+  } = useContext(AppContext);
+
   return (
     <div className="bibliotheque">
       <AnimatePresence>
-        {props.isLoading ? (
+        {isLoading ? (
           <motion.div
             className="loader"
             key="child"
@@ -32,26 +46,24 @@ const Bibliotheque = () => {
           <>
             <div className="bibliotheque__banner">
               <div className="bibliotheque__description">
-                <h1 className="bibliotheque__name">{props.nameB}</h1>
-                {props.description && (
+                <h1 className="bibliotheque__name">{nameB}</h1>
+                {description && (
                   <h2 className="bibliotheque__playlist-detail">
-                    {props.description}
+                    {description}
                   </h2>
                 )}
-                {props.followers && (
-                  <p className="bibliotheque__followers">{props.followers}</p>
+                {followers && (
+                  <p className="bibliotheque__followers">{followers}</p>
                 )}
-                {props.playlistToPlay && (
-                  <PlayBtn onClick={props.setPlaylistUri} />
-                )}
+                {playlistToPlay && <PlayBtn onClick={setPlaylistUri} />}
               </div>
             </div>
             <div className="bibliotheque__tracks">
               <div className="section-header">
                 <BibliothequeItemHeader name artist duration play queu />
               </div>
-              {props.tracks &&
-                props.tracks.map((track) => {
+              {tracks &&
+                tracks.map((track) => {
                   return (
                     <BibliothequeItem
                       key={
@@ -68,7 +80,7 @@ const Bibliotheque = () => {
                           ? track.artists[0].name
                           : null
                       }
-                      duration={props.millisToMinutesAndSeconds(
+                      duration={millisToMinutesAndSeconds(
                         track.duration_ms || track.track.duration_ms
                       )}
                       artistId={
@@ -80,12 +92,12 @@ const Bibliotheque = () => {
                           ? track.artists[0].id
                           : null
                       }
-                      addToQueu={props.addToQueu}
+                      addToQueu={addToQueu}
                       uri={track.track ? track.track.uri : track.uri}
-                      setTrackToPlay={props.setTrackToPlay}
-                      onClickArtist={props.setArtistShow}
+                      setTrackToPlay={setTrackToPlay}
+                      onClickArtist={setArtistShow}
                       id={track.id || track.track.id}
-                      onClick={props.setTrackShow}
+                      onClick={setTrackShow}
                       play
                     />
                   );

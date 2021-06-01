@@ -15,7 +15,17 @@ import useClickOutside from "../../hooks/useClickOutside";
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarRight = () => {
-  const props = useContext(AppContext);
+  const {
+    sidebarRightIsOpen,
+    fetchPlaylistContent,
+    topTracks,
+    setTrackShow,
+    topArtists,
+    setArtistShow,
+    savedAlbums,
+    getAlbumTracks,
+    followedArtists,
+  } = useContext(AppContext);
 
   const {
     handleClick,
@@ -34,7 +44,7 @@ const SidebarRight = () => {
       ref={sidebar}
       className="sidebarRight"
       style={{
-        transform: props.sidebarRightIsOpen ? "translate(-270px)" : null,
+        transform: sidebarRightIsOpen ? "translate(-270px)" : null,
       }}>
       <Scrollbar
         damping={0.1}
@@ -84,7 +94,7 @@ const SidebarRight = () => {
                     <Subtitle
                       text={playlist.name}
                       id={playlist.id}
-                      onClick={props.fetchPlaylistContent}
+                      onClick={fetchPlaylistContent}
                       name={playlist.name}
                     />
                   </Link>
@@ -101,12 +111,12 @@ const SidebarRight = () => {
             <IoIosArrowDown />
           </div>
           <div className="sidebarRight__categoryItems">
-            {props.topTracks &&
-              props.topTracks.map((track) => {
+            {topTracks &&
+              topTracks.map((track) => {
                 return (
                   <Link key={track.id} to="/Track">
                     <Subtitle
-                      onClick={props.setTrackShow}
+                      onClick={setTrackShow}
                       text={track.name}
                       id={track.id}
                     />
@@ -124,13 +134,13 @@ const SidebarRight = () => {
             <IoIosArrowDown />
           </div>
           <div className="sidebarRight__categoryItems">
-            {props.topArtists &&
-              props.topArtists.map((artist) => {
+            {topArtists &&
+              topArtists.map((artist) => {
                 return (
                   <Link key={artist.id} to="/Artist">
                     <Subtitle
                       text={artist.name}
-                      onClick={props.setArtistShow}
+                      onClick={setArtistShow}
                       id={artist.id}
                     />
                   </Link>
@@ -147,15 +157,15 @@ const SidebarRight = () => {
             <IoIosArrowDown />
           </div>
           <div className="sidebarRight__categoryItems">
-            {props.savedAlbums &&
-              props.savedAlbums.map((album) => {
+            {savedAlbums &&
+              savedAlbums.map((album) => {
                 return (
                   <Link to="/Biblio" key={album.album.id}>
                     <Subtitle
                       text={album.album.name}
                       id={album.album.id}
                       name={album.album.name}
-                      onClick={props.getAlbumTracks}
+                      onClick={getAlbumTracks}
                     />
                   </Link>
                 );
@@ -171,13 +181,13 @@ const SidebarRight = () => {
             <IoIosArrowDown />
           </div>
           <div className="sidebarRight__categoryItems">
-            {props.followedArtists &&
-              props.followedArtists.map((artist) => {
+            {followedArtists &&
+              followedArtists.map((artist) => {
                 return (
                   <Link key={artist.id} to="/Artist">
                     <Subtitle
                       text={artist.name}
-                      onClick={props.setArtistShow}
+                      onClick={setArtistShow}
                       id={artist.id}
                     />
                   </Link>

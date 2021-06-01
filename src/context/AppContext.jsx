@@ -236,6 +236,7 @@ export const AppProvider = (props) => {
   return (
     <Provider
       value={{
+        token,
         spotifyApi,
         settingFollowedArtists,
         setSidebarRightIsOpen,

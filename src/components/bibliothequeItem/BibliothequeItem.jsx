@@ -72,7 +72,6 @@ const BibliothequeItem = ({
         <p className="bibliotheque-item__popularity">{popularity}</p>
       )}
       {owner && <p className="bibliotheque-item__owner">{owner}</p>}
-
       {play && (
         <div
           onClick={setTrackToPlay}
@@ -82,7 +81,6 @@ const BibliothequeItem = ({
           <MdPlayCircleFilled size={20} />
         </div>
       )}
-
       {showMenu && (
         <div className="bibliotheque-item__menu" ref={menu}>
           <BsFillTriangleFill
@@ -110,7 +108,6 @@ const BibliothequeItem = ({
           <CgPlayListAdd size={20} />
         </p>
       )}
-
       {displayPlaylistModal && (
         <PlaylistModal
           setDisplayPlaylistModal={setDisplayPlaylistModal}
