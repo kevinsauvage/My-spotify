@@ -1,9 +1,4 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react/cjs/react.development";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const ArtistShowLogic = () => {

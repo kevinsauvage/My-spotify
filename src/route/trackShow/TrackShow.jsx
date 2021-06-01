@@ -7,8 +7,7 @@ import { MdPlayCircleFilled } from "react-icons/md";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react/cjs/react.development";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const TrackShow = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks

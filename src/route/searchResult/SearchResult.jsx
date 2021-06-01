@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem";
 import { AppContext } from "../../context/AppContext";
 import Loader from "react-loader-spinner";
@@ -6,7 +6,6 @@ import "./SearchResult.scss";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { AnimatePresence, motion } from "framer-motion";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
-import { useEffect, useState } from "react/cjs/react.development";
 
 const SearchResult = () => {
   const {

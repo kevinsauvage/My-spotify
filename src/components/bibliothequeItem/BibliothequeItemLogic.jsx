@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { useCallback } from "react/cjs/react.development";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
