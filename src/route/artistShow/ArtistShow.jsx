@@ -11,28 +11,63 @@ import { useState } from "react/cjs/react.development";
 const ArtistShow = () => {
   const props = useContext(AppContext);
   const [artistAlbums, setArtistAlbums] = useState();
+  const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
+  const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
+  const [artistTopTracks, setArtistTopTracks] = useState(undefined); // array of artist top tracks
 
   useEffect(() => {
-    if (props.artistToShow) {
-      const artistId = props.artistToShow.id;
-      props.isFollowingArtist(artistId);
-      const fetchArtistAlbums = async (id) => {
-        const artistAlbums = await props.spotifyApi.getArtistAlbums(id);
-        const unique = artistAlbums.items.filter(
-          (thing, index, self) =>
-            index ===
-            self.findIndex(
-              (t) => t.place === thing.place && t.name === thing.name
-            )
-        );
-        const sorted = unique.sort((a, b) => {
-          return a.release_date > b.release_date;
-        });
-        setArtistAlbums(sorted);
-      };
-      fetchArtistAlbums(artistId);
+    const artistId = props.artistToShow?.id;
+    isFollowingArtist(artistId);
+    const fetchArtistAlbums = async (id) => {
+      const artistAlbums = await props.spotifyApi.getArtistAlbums(id);
+      const unique = artistAlbums.items.filter(
+        (thing, index, self) =>
+          index ===
+          self.findIndex(
+            (t) => t.place === thing.place && t.name === thing.name
+          )
+      );
+      const sorted = unique.sort((a, b) => {
+        return a.release_date > b.release_date;
+      });
+      setArtistAlbums(sorted);
+    };
+    fetchArtistAlbums(artistId);
+    getRecommendationsTrackFromArtist(artistId);
+    getArtistRelatedArtists(artistId);
+    getArtistTopTracks(artistId);
+  }, [props.artistToShow]);
+
+  const getRecommendationsTrackFromArtist = async (id) => {
+    const tracks = await props.spotifyApi.getRecommendations({
+      seed_artists: props.artistToShow.id,
+      limit: 50,
+    });
+    setRecomendedTracks(tracks.tracks);
+    props.setPlaylistToPlay(tracks.tracks);
+  }; // get Recommendation tracks for a artist
+
+  const getArtistRelatedArtists = async (id) => {
+    const relatedArtists = await props.spotifyApi.getArtistRelatedArtists(id);
+    const sortedArtists = relatedArtists.artists.sort((a, b) => {
+      return b.popularity - a.popularity;
+    });
+    setRelatedArtists(sortedArtists);
+  }; // Get the artists related to artis in artist show page
+
+  const getArtistTopTracks = async (id) => {
+    const topTracks = await props.spotifyApi.getArtistTopTracks(id, "FR", 100);
+    setArtistTopTracks(topTracks.tracks);
+  }; // get artist top tracks
+
+  const isFollowingArtist = async (id) => {
+    const isFollow = await props.spotifyApi.isFollowingArtists([id]);
+    if (isFollow[0] === true) {
+      props.setIsFollowing(true);
+    } else {
+      props.setIsFollowing(false);
     }
-  }, []);
+  }; // Check if the artist display in artist show page is followed by user
 
   const handleFollow = async () => {
     if (props.isFollowing) {
@@ -56,6 +91,17 @@ const ArtistShow = () => {
     });
     props.setUri(tracksq);
   }; // fetch uris and set uris to play when user click on artist top track play button
+
+  const settingAlbumToPlay = async (e) => {
+    const id = e.currentTarget.dataset.id;
+    const album = await props.spotifyApi.getAlbum(id);
+    props.setPlaylistToPlay(album.tracks.items);
+    props.setTracks(album.tracks.items);
+    props.setNameB(album.name);
+    props.setDescription(album.artists[0].name);
+    props.setFollowers(album.label);
+    props.scrollTop();
+  };
 
   return (
     <div className="artist-show">
@@ -118,8 +164,8 @@ const ArtistShow = () => {
                 <BibliothequeItemHeader name artist duration queu play />
               </div>
               <div className="artist-show____artist-top">
-                {props.artistTopTracks &&
-                  props.artistTopTracks.map((track) => {
+                {artistTopTracks &&
+                  artistTopTracks.map((track) => {
                     return (
                       <BibliothequeItem
                         key={track.id + Math.random(1000)}
@@ -158,7 +204,7 @@ const ArtistShow = () => {
                         key={album.id}
                         albumName={album.name}
                         year={album.release_date.split("-")[0]}
-                        onClick={props.settingAlbumToPlay}
+                        onClick={settingAlbumToPlay}
                         albumId={album.id}
                       />
                     );
@@ -171,8 +217,8 @@ const ArtistShow = () => {
                 <div className="section-header">
                   <BibliothequeItemHeader artist popularity />
                 </div>
-                {props.relatedArtists &&
-                  props.relatedArtists.map((artist) => {
+                {relatedArtists &&
+                  relatedArtists.map((artist) => {
                     return (
                       <BibliothequeItem
                         key={artist.id}
@@ -194,8 +240,8 @@ const ArtistShow = () => {
                 <div className="section-header">
                   <BibliothequeItemHeader name artist duration play queu />
                 </div>
-                {props.recomendedTracks &&
-                  props.recomendedTracks.map((track) => {
+                {recomendedTracks &&
+                  recomendedTracks.map((track) => {
                     return (
                       <BibliothequeItem
                         key={track.id}

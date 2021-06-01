@@ -20,10 +20,16 @@ const SidebarRightLogic = () => {
     props.scrollTop();
     const id = e.currentTarget.dataset.id;
     const recommendations = await fetchRecomendedGenres(id);
-    props.setBannerInfoGenre(id);
+    setBannerInfoGenre(id);
     props.setTracks(recommendations.tracks);
     props.setPlaylistToPlay(recommendations.tracks);
   };
+
+  const setBannerInfoGenre = (id) => {
+    props.setNameB(id);
+    props.setDescription(undefined);
+    props.setFollowers(undefined);
+  }; // Set the banner info fo genre  recomendation
 
   const fetchRecomendedGenres = async (id) => {
     const recommendations = await props.spotifyApi.getRecommendations({

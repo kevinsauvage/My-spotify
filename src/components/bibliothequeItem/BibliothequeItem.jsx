@@ -36,15 +36,9 @@ const BibliothequeItem = ({
     handleClickMenu,
     handleClickAddToQueu,
     showMenu,
-    trackCurrentlyPlayed,
   } = BibliothequeItemLogic(menu, iconMenu, addToQueu);
   return (
-    <div
-      className={
-        trackCurrentlyPlayed === name
-          ? "bibliotheque-item bibliotheque-item--played"
-          : "bibliotheque-item"
-      }>
+    <div className={"bibliotheque-item"}>
       {name && (
         <Link
           className="bibliotheque-item__name"

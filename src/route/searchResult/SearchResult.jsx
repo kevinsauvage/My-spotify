@@ -6,9 +6,21 @@ import "./SearchResult.scss";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { AnimatePresence, motion } from "framer-motion";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
+import { useEffect, useState } from "react/cjs/react.development";
 
 const SearchResult = () => {
   const props = useContext(AppContext);
+  const [searchResultArtist, setSearchResultArtist] = useState(); // array of search result arstis
+  const [playlistSearchResult, setPlaylistSearchResult] = useState();
+  const [tracks, setTracks] = useState([]); // tracks to display in biblio
+
+  useEffect(() => {
+    setSearchResultArtist(props.searchResults?.artists.items);
+    setPlaylistSearchResult(props.searchResults?.playlists.items);
+    setTracks(props.searchResults?.tracks.items);
+    props.setPlaylistToPlay(props.searchResults?.tracks.items);
+  }, [props.searchResults]);
+
   return (
     <div className="search-result">
       <AnimatePresence>
@@ -38,26 +50,27 @@ const SearchResult = () => {
               <div className="section-header">
                 <BibliothequeItemHeader name artist duration play queu />
               </div>
-              {props.tracks.map((track) => {
-                return (
-                  <BibliothequeItem
-                    key={track.id}
-                    onClick={props.setTrackShow}
-                    id={track.id}
-                    name={track.name}
-                    artist={track.artists[0]?.name}
-                    duration={props.millisToMinutesAndSeconds(
-                      track.duration_ms
-                    )}
-                    onClickArtist={props.setArtistShow}
-                    artistId={track.artists[0]?.id}
-                    setTrackToPlay={props.setTrackToPlay}
-                    uri={track.track ? track.track.uri : track.uri}
-                    addToQueu={props.addToQueu}
-                    play
-                  />
-                );
-              })}
+              {tracks &&
+                tracks.map((track) => {
+                  return (
+                    <BibliothequeItem
+                      key={track.id}
+                      onClick={props.setTrackShow}
+                      id={track.id}
+                      name={track.name}
+                      artist={track.artists[0]?.name}
+                      duration={props.millisToMinutesAndSeconds(
+                        track.duration_ms
+                      )}
+                      onClickArtist={props.setArtistShow}
+                      artistId={track.artists[0]?.id}
+                      setTrackToPlay={props.setTrackToPlay}
+                      uri={track.track ? track.track.uri : track.uri}
+                      addToQueu={props.addToQueu}
+                      play
+                    />
+                  );
+                })}
             </div>
             <div className="search-result__wrapper">
               <div className="search-result__playlists">
@@ -65,8 +78,8 @@ const SearchResult = () => {
                 <div className="section-header">
                   <BibliothequeItemHeader name owner play />
                 </div>
-                {props.playlistSearchResult &&
-                  props.playlistSearchResult.map((playlist) => {
+                {playlistSearchResult &&
+                  playlistSearchResult.map((playlist) => {
                     return (
                       <BibliothequeItem
                         key={playlist.id}
@@ -84,8 +97,8 @@ const SearchResult = () => {
                 <div className="section-header">
                   <BibliothequeItemHeader artist popularity />
                 </div>
-                {props.searchResultArtist &&
-                  props.searchResultArtist.map((artist) => {
+                {searchResultArtist &&
+                  searchResultArtist.map((artist) => {
                     return (
                       <BibliothequeItem
                         key={artist.id && artist.id}

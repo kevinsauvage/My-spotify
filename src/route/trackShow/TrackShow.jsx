@@ -7,12 +7,40 @@ import { MdPlayCircleFilled } from "react-icons/md";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react/cjs/react.development";
+import { useCallback } from "react";
 
 const TrackShow = () => {
-  const props = useContext(AppContext);
+  const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
+  const {
+    spotifyApi,
+    trackToShow,
+    setPlaylistToPlay,
+    isLoading,
+    setTrackToPlay,
+    addToQueu,
+    setPlaylistUri,
+    setTrackShow,
+    setArtistShow,
+    millisToMinutesAndSeconds,
+  } = useContext(AppContext);
+
+  const getRecommendationsTrack = useCallback(async () => {
+    const tracks = await spotifyApi.getRecommendations({
+      seed_tracks: trackToShow?.id,
+      limit: 50,
+    });
+    setRecomendedTracks(tracks.tracks);
+    setPlaylistToPlay(tracks.tracks);
+  }, [setPlaylistToPlay, spotifyApi, trackToShow]); // Get recommendation tracks for a track
+
+  useEffect(() => {
+    getRecommendationsTrack();
+  }, [getRecommendationsTrack]);
+
   return (
     <div className="track-show">
-      {props.isLoading ? (
+      {isLoading ? (
         <div className="loader">
           <Loader
             color="#FFF"
@@ -27,22 +55,20 @@ const TrackShow = () => {
           <div className="track-show__content">
             <div className="content-left">
               <h2 className="title">Similar Tracks</h2>
-              <PlayBtn onClick={props.setPlaylistUri} />
+              <PlayBtn onClick={setPlaylistUri} />
               <div className="section-header">
                 <BibliothequeItemHeader name artist duration play queu />
               </div>
-              {props.recomendedTracks &&
-                props.recomendedTracks.map((track) => {
+              {recomendedTracks &&
+                recomendedTracks.map((track) => {
                   return (
                     <BibliothequeItem
-                      onClick={props.setTrackShow}
+                      onClick={setTrackShow}
                       id={track.id}
                       name={track.name}
                       artist={track.artists[0].name}
-                      duration={props.millisToMinutesAndSeconds(
-                        track.duration_ms
-                      )}
-                      onClickArtist={props.setArtistShow}
+                      duration={millisToMinutesAndSeconds(track.duration_ms)}
+                      onClickArtist={setArtistShow}
                       artistId={
                         track.track
                           ? track.track.artists[0].id
@@ -52,9 +78,9 @@ const TrackShow = () => {
                           ? track.artists[0].id
                           : null
                       }
-                      setTrackToPlay={props.setTrackToPlay}
+                      setTrackToPlay={setTrackToPlay}
                       uri={track.track ? track.track.uri : track.uri}
-                      addToQueu={props.addToQueu}
+                      addToQueu={addToQueu}
                       play
                     />
                   );
@@ -62,7 +88,7 @@ const TrackShow = () => {
             </div>
           </div>
           <div className="track-show__banner">
-            {props.trackToShow && (
+            {trackToShow && (
               <>
                 <div
                   className="track-show__album-cover"
@@ -71,35 +97,31 @@ const TrackShow = () => {
                       "linear-gradient(0deg, rgba(2,8,17,1) 35%, rgba(2,8,17,0.8155637254901961) 100%)" +
                       "," +
                       "url(" +
-                      props.trackToShow.album.images[1].url +
+                      trackToShow.album.images[1].url +
                       ")",
                   }}>
                   <div className="track-show__track-detail">
-                    <h1 className="track-show__title">
-                      {props.trackToShow.name}
-                    </h1>
+                    <h1 className="track-show__title">{trackToShow.name}</h1>
                     <Link
                       to="/Artist"
-                      onClick={props.setArtistShow}
-                      data-id={props.trackToShow.artists[0].id}>
+                      onClick={setArtistShow}
+                      data-id={trackToShow.artists[0].id}>
                       <h2 className="track-show__artist-name">
-                        {props.trackToShow.artists[0].name}
+                        {trackToShow.artists[0].name}
                       </h2>
                     </Link>
 
                     <h3 className="track-show__popularity">
-                      <span>Popularity</span> {props.trackToShow.popularity}
+                      <span>Popularity</span> {trackToShow.popularity}
                     </h3>
                     <span className="track-show__duration">
-                      {props.millisToMinutesAndSeconds(
-                        props.trackToShow.duration_ms
-                      )}
+                      {millisToMinutesAndSeconds(trackToShow.duration_ms)}
                     </span>
                     <div
                       className="track-show__play"
-                      onClick={props.setTrackToPlay}
-                      data-id={props.trackToShow.id}
-                      data-uri={props.trackToShow.uri}>
+                      onClick={setTrackToPlay}
+                      data-id={trackToShow.id}
+                      data-uri={trackToShow.uri}>
                       <p className="icon-play">
                         <MdPlayCircleFilled size={60} />
                       </p>

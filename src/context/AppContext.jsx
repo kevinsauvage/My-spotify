@@ -6,10 +6,10 @@ import Cookies from "js-cookie";
 export const AppContext = createContext();
 const { Provider } = AppContext;
 const spotifyApi = new SpotifyWebApi();
+const token = Cookies.get("spotifyAuthToken");
+spotifyApi.setAccessToken(token);
 
 export const AppProvider = (props) => {
-  const token = Cookies.get("spotifyAuthToken");
-  spotifyApi.setAccessToken(token);
   const [user, setUser] = useState(); // user info
   const [playlists, setPlaylists] = useState([]); // user Playlist
   const [topTracks, setTopTracks] = useState([]); // user top tracks
@@ -21,24 +21,19 @@ export const AppProvider = (props) => {
   const [description, setDescription] = useState(""); // description to display in header biblio
   const [followers, setFollowers] = useState(""); // follower to display in biblio
   const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
-  const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
-  const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
   const [artistToShow, setArtistToShow] = useState(undefined); // Set artist to display on the show page
-  const [artistTopTracks, setArtistTopTracks] = useState(undefined); // array of artist top tracks
   const [scrollbar, setScrollbar] = useState(); // storing scrollbar - scroll to top function
   const [input, setInput] = useState(""); // input search
-  const [searchResultArtist, setSearchResultArtist] = useState(); // array of search result arstis
   const [isLoading, setIsLoading] = useState(false); // spinner loader on each page
   const [firstLoad, setFirstLoad] = useState(true); // display spinner loader for first render
   const [uri, setUri] = useState(); // uri of track to play
   const [deviceId, setDeviceId] = useState(); // id of user device if the user is playing something
   const [playlistToPlay, setPlaylistToPlay] = useState(); // array of the playlist to start if push play btn
-  const [showSearch, setShowSearch] = useState(false); // show or not the search box
-  const [playlistSearchResult, setPlaylistSearchResult] = useState();
   const [isFollowing, setIsFollowing] = useState(false);
   const [followedArtists, setFollowedArtists] = useState(); // get user followed artist
-  const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false);
-  const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false);
+  const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false); // Mobile menu
+  const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false); // Mobile menu
+  const [searchResults, setSearchResults] = useState(null);
 
   useEffect(() => {
     setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
@@ -102,11 +97,6 @@ export const AppProvider = (props) => {
     setSavedAlbums(albums.items);
   }; // Fetching the Albums saved by the user
 
-  const getArtistTopTracks = async (id) => {
-    const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", 100);
-    setArtistTopTracks(topTracks.tracks);
-  }; // get artist top tracks
-
   const settingFollowedArtists = async () => {
     const response = await spotifyApi.getFollowedArtists({ limit: 50 });
     setFollowedArtists(response.artists.items);
@@ -118,11 +108,8 @@ export const AppProvider = (props) => {
     setPlaylistToPlay(data.items); // Setting playlist to play with top track result
     setTrackToShow(data.items[0]); // setting the track to show with the best track of the top tracks - displayed in tracks show
     setTracks(data.items); // Setting the tracks to display in biblio with top tracks data to display in biblio
-    getArtistRelatedArtists(artistId); // Setting the artists in relation with the best of top tracks track to display in artist show
-    getRecommendationsTrackFromArtist(artistId); // Settind a list of recomendation tracks from the best track in top tracks, - displyed in artist show
     const artistToShow = await spotifyApi.getArtist(artistId);
     setArtistToShow(artistToShow); // Fetching the artist corresponding to best track of top tracks
-    getArtistTopTracks(artistId); // Calling function to set the current artist top track and display in artist show
   }; // Setting what to display in every page at first render
 
   // General function -----------------------------------------------------------------------------------------------General function
@@ -179,12 +166,6 @@ export const AppProvider = (props) => {
     setNameB(savedAlbum.album.name);
   }; // Set the banner  name of the album displayed
 
-  const setBannerInfoGenre = (id) => {
-    setNameB(id);
-    setDescription(undefined);
-    setFollowers(undefined);
-  }; // Set the banner info fo genre  recomendation
-
   const setTrackShow = async (e) => {
     handleLoader();
     if (scrollbar) {
@@ -193,35 +174,7 @@ export const AppProvider = (props) => {
     let id = e.currentTarget.dataset.id;
     const track = await spotifyApi.getTrack(id);
     setTrackToShow(track);
-    getArtistRelatedArtists(track.artists[0].id);
-    getRecommendationsTrack(track.id);
   }; // Function to set the track of the show page
-
-  const getArtistRelatedArtists = async (id) => {
-    const relatedArtists = await spotifyApi.getArtistRelatedArtists(id);
-    const sortedArtists = relatedArtists.artists.sort((a, b) => {
-      return b.popularity - a.popularity;
-    });
-    setRelatedArtists(sortedArtists);
-  }; // Get the artists related to artis in artist show page
-
-  const getRecommendationsTrack = async (id) => {
-    const tracks = await spotifyApi.getRecommendations({
-      seed_tracks: id,
-      limit: 50,
-    });
-    setRecomendedTracks(tracks.tracks);
-    setPlaylistToPlay(tracks.tracks);
-  }; // Get recommendation tracks for a track
-
-  const getRecommendationsTrackFromArtist = async (id) => {
-    const tracks = await spotifyApi.getRecommendations({
-      seed_artists: id,
-      limit: 50,
-    });
-    setRecomendedTracks(tracks.tracks);
-    setPlaylistToPlay(tracks.tracks);
-  }; // get Recommendation tracks for a artist
 
   const setArtistShow = async (e) => {
     handleLoader();
@@ -231,24 +184,7 @@ export const AppProvider = (props) => {
     const id = e.currentTarget.dataset.id;
     const artist = await spotifyApi.getArtist(id);
     setArtistToShow(artist);
-    getArtistTopTracks(id);
-    getRecommendationsTrackFromArtist(id);
-    getArtistRelatedArtists(id);
-    isFollowingArtist(id);
   }; // Set artist to show on artist show page
-
-  const settingAlbumToPlay = async (e) => {
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
-    const id = e.currentTarget.dataset.id;
-    const album = await spotifyApi.getAlbum(id);
-    setPlaylistToPlay(album.tracks.items);
-    setTracks(album.tracks.items);
-    setNameB(album.name);
-    setDescription(album.artists[0].name);
-    setFollowers(album.label);
-  };
 
   const getSearch = async (e) => {
     e.preventDefault();
@@ -258,10 +194,7 @@ export const AppProvider = (props) => {
       "playlist",
       "track",
     ]);
-    setTracks(searchResults.tracks.items);
-    setSearchResultArtist(searchResults.artists.items);
-    setPlaylistSearchResult(searchResults.playlists.items);
-    setPlaylistToPlay(searchResults.tracks.items);
+    setSearchResults(searchResults);
     setInput("");
   }; // Fetch from search input
 
@@ -292,15 +225,6 @@ export const AppProvider = (props) => {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   }; // change milliseconde to second
 
-  const isFollowingArtist = async (id) => {
-    const isFollow = await spotifyApi.isFollowingArtists([id]);
-    if (isFollow[0] === true) {
-      setIsFollowing(true);
-    } else {
-      setIsFollowing(false);
-    }
-  }; // Check if the artist display in artist show page is followed by user
-
   const addToQueu = (e) => {
     const uri = e.currentTarget.dataset.uri;
     spotifyApi.queue(uri);
@@ -321,9 +245,7 @@ export const AppProvider = (props) => {
         setSidebarLeftIsOpen,
         sidebarRightIsOpen,
         sidebarLeftIsOpen,
-        scrollbar,
         getUserPlaylists,
-        setBannerInfoGenre,
         setInput,
         scrollTop,
         handleLoader,
@@ -335,14 +257,10 @@ export const AppProvider = (props) => {
         setDescription,
         setFollowers,
         addToQueu,
-        settingAlbumToPlay,
         followedArtists,
-        isFollowingArtist,
         isFollowing,
-        playlistSearchResult,
-        showSearch,
-        setShowSearch,
         setPlaylistUri,
+        searchResults,
         playlistToPlay,
         deviceId,
         uri,
@@ -350,14 +268,10 @@ export const AppProvider = (props) => {
         setTrackToPlay,
         firstLoad,
         isLoading,
-        searchResultArtist,
         getSearch,
         input,
-        artistTopTracks,
         artistToShow,
         setArtistShow,
-        recomendedTracks,
-        relatedArtists,
         millisToMinutesAndSeconds,
         trackToShow,
         setTrackShow,

@@ -46,9 +46,7 @@ const Bibliotheque = () => {
                 )}
               </div>
             </div>
-            <div
-              className="bibliotheque__tracks"
-              style={{ marginBottom: props.showSearch ? "4rem" : "3rem" }}>
+            <div className="bibliotheque__tracks">
               <div className="section-header">
                 <BibliothequeItemHeader name artist duration play queu />
               </div>

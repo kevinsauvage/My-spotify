@@ -5,7 +5,6 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
   const props = useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
-  const [trackCurrentlyPlayed, setTrackCurrentlyPlayed] = useState("");
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -13,26 +12,6 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchMyCurrentPlayingTrack();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []); // call fetch current played track every 5 secong to change style bibliotheque item component
-
-  useEffect(() => {
-    const timeOut = setTimeout(() => {
-      fetchMyCurrentPlayingTrack();
-    }, 100);
-    return () => clearTimeout(timeOut);
-  }, [props.uri]); // call fetch current played track after 100ms  to change style bibliotheque item component when user change track
-
-  const fetchMyCurrentPlayingTrack = () => {
-    props.spotifyApi.getMyCurrentPlayingTrack().then((response) => {
-      response && setTrackCurrentlyPlayed(response.item.name);
-    });
-  }; // Fetch currently played track
 
   const handleClickOutside = (event) => {
     if (ref1.current && !ref1.current.contains(event.target)) {
@@ -52,7 +31,7 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
 
   const handleClickAddToPlaylist = (e) => {
     setDisplayPlaylistModal(true);
-  };
+  }; // display user playlist modal
 
   const handleClickPlaylist = (e, uri) => {
     const playlistId = e.currentTarget.dataset.id;
@@ -60,9 +39,9 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
     e.target.insertAdjacentHTML(
       "afterEnd",
       "<p class='span-copied'>Correctly added !</p>"
-    );
+    ); // Add new track to a user playlist playlist
 
-    props.getUserPlaylists();
+    props.getUserPlaylists(); // Fetch the user playlist after adding new track to a playlist
   };
 
   return {
@@ -73,7 +52,6 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
     handleClickMenu,
     handleClickAddToQueu,
     showMenu,
-    trackCurrentlyPlayed,
   };
 };
 
