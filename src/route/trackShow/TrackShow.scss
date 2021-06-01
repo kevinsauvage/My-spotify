@@ -17,10 +17,10 @@
 
   &__album-cover {
     width: 100%;
-    height: 500px;
+    height: 1000px;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: top;
     z-index: 200;
     display: flex;
     flex-direction: column;
