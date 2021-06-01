@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useCallback } from "react/cjs/react.development";
 import { AppContext } from "../../context/AppContext";
 
 const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
@@ -6,20 +7,23 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
   const props = useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
 
+  const handleClickOutside = useCallback(
+    (event) => {
+      if (ref1.current && !ref1.current.contains(event.target)) {
+        if (ref2.current && !ref2.current.contains(event.target)) {
+          setShowMenu(false);
+        }
+      }
+    },
+    [ref1, ref2]
+  );
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, []);
-
-  const handleClickOutside = (event) => {
-    if (ref1.current && !ref1.current.contains(event.target)) {
-      if (ref2.current && !ref2.current.contains(event.target)) {
-        setShowMenu(false);
-      }
-    }
-  };
+  }, [handleClickOutside]);
 
   const handleClickMenu = (e) => {
     setShowMenu(!showMenu);
