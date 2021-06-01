@@ -1,8 +1,7 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import Scrollbar from "smooth-scrollbar";
 import Cookies from "js-cookie";
-import { useCallback } from "react/cjs/react.development";
 
 export const AppContext = createContext();
 const { Provider } = AppContext;
