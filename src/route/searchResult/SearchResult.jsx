@@ -9,22 +9,35 @@ import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/Bibl
 import { useEffect, useState } from "react/cjs/react.development";
 
 const SearchResult = () => {
-  const props = useContext(AppContext);
+  const {
+    searchResults,
+    setPlaylistToPlay,
+    isLoading,
+    setArtistShow,
+    addToQueu,
+    playlistToPlay,
+    setTrackToPlay,
+    setPlaylistUri,
+    fetchPlaylistContent,
+    millisToMinutesAndSeconds,
+    setTrackShow,
+  } = useContext(AppContext);
+
   const [searchResultArtist, setSearchResultArtist] = useState(); // array of search result arstis
   const [playlistSearchResult, setPlaylistSearchResult] = useState();
   const [tracks, setTracks] = useState([]); // tracks to display in biblio
 
   useEffect(() => {
-    setSearchResultArtist(props.searchResults?.artists.items);
-    setPlaylistSearchResult(props.searchResults?.playlists.items);
-    setTracks(props.searchResults?.tracks.items);
-    props.setPlaylistToPlay(props.searchResults?.tracks.items);
-  }, [props.searchResults]);
+    setSearchResultArtist(searchResults?.artists.items);
+    setPlaylistSearchResult(searchResults?.playlists.items);
+    setTracks(searchResults?.tracks.items);
+    setPlaylistToPlay(searchResults?.tracks.items);
+  }, [searchResults, setPlaylistToPlay]);
 
   return (
     <div className="search-result">
       <AnimatePresence>
-        {props.isLoading ? (
+        {isLoading ? (
           <motion.div
             className="loader"
             key="child"
@@ -44,9 +57,7 @@ const SearchResult = () => {
           <>
             <div className="search-result__tracks">
               <h1 className="search-result__tracks__title">Search result</h1>
-              {props.playlistToPlay && (
-                <PlayBtn onClick={props.setPlaylistUri} />
-              )}
+              {playlistToPlay && <PlayBtn onClick={setPlaylistUri} />}
               <div className="section-header">
                 <BibliothequeItemHeader name artist duration play queu />
               </div>
@@ -55,18 +66,16 @@ const SearchResult = () => {
                   return (
                     <BibliothequeItem
                       key={track.id}
-                      onClick={props.setTrackShow}
+                      onClick={setTrackShow}
                       id={track.id}
                       name={track.name}
                       artist={track.artists[0]?.name}
-                      duration={props.millisToMinutesAndSeconds(
-                        track.duration_ms
-                      )}
-                      onClickArtist={props.setArtistShow}
+                      duration={millisToMinutesAndSeconds(track.duration_ms)}
+                      onClickArtist={setArtistShow}
                       artistId={track.artists[0]?.id}
-                      setTrackToPlay={props.setTrackToPlay}
+                      setTrackToPlay={setTrackToPlay}
                       uri={track.track ? track.track.uri : track.uri}
-                      addToQueu={props.addToQueu}
+                      addToQueu={addToQueu}
                       play
                     />
                   );
@@ -87,7 +96,7 @@ const SearchResult = () => {
                         owner={playlist.owner && playlist.owner.display_name}
                         playlistId={playlist.id}
                         play
-                        setTrackToPlay={props.fetchPlaylistContent}
+                        setTrackToPlay={fetchPlaylistContent}
                       />
                     );
                   })}
@@ -104,7 +113,7 @@ const SearchResult = () => {
                         key={artist.id && artist.id}
                         artist={artist.name && artist.name}
                         popularity={artist.popularity && artist.popularity}
-                        onClickArtist={props.setArtistShow}
+                        onClickArtist={setArtistShow}
                         artistId={artist.id && artist.id}
                       />
                     );

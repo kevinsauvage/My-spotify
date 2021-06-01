@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import Scrollbar from "smooth-scrollbar";
 import Cookies from "js-cookie";
+import { useCallback } from "react/cjs/react.development";
 
 export const AppContext = createContext();
 const { Provider } = AppContext;
@@ -35,18 +36,17 @@ export const AppProvider = (props) => {
   const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false); // Mobile menu
   const [searchResults, setSearchResults] = useState(null);
 
+  const getTopTracks = useCallback(async () => {
+    const topTracks = await spotifyApi.getMyTopTracks({ limit: 50 });
+    setTopTracks(topTracks.items); // Seting top tracks of user
+    setNameB("Top Tracks"); // Setting the name to display
+    initialSetting(topTracks); // Calling initial setting with the data receive
+    const uris = topTracks.items.map((track) => track.uri);
+    if (!uri) setUri(uris); // Setting the uris to play after first render only if no track is actually playing in any of user device
+  }, [uri]); // Getting top tracks, only run once
+
   useEffect(() => {
     setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
-    initialFetch();
-  }, []);
-
-  const disableFirstLoader = () => {
-    setTimeout(() => {
-      setFirstLoad(false);
-    }, 4000);
-  }; // Disable first loader after 4 secondes
-
-  const initialFetch = () => {
     getTopTracks();
     getMe();
     getUserPlaylists();
@@ -55,7 +55,13 @@ export const AppProvider = (props) => {
     settingFollowedArtists();
     getNowPlaying();
     disableFirstLoader();
-  };
+  }, [getTopTracks]);
+
+  const disableFirstLoader = () => {
+    setTimeout(() => {
+      setFirstLoad(false);
+    }, 4000);
+  }; // Disable first loader after 4 secondes
 
   // Fetching user info -----------------------------------------------------------------------------------------Fetching user info-----------
 
@@ -77,15 +83,6 @@ export const AppProvider = (props) => {
       setDeviceId(response.device.id); // Set the device for the control bar player
     }
   }; // Fetching now playing,
-
-  const getTopTracks = async () => {
-    const topTracks = await spotifyApi.getMyTopTracks({ limit: 50 });
-    setTopTracks(topTracks.items); // Seting top tracks of user
-    setNameB("Top Tracks"); // Setting the name to display
-    initialSetting(topTracks); // Calling initial setting with the data receive
-    const uris = topTracks.items.map((track) => track.uri);
-    if (!uri) setUri(uris); // Setting the uris to play after first render only if no track is actually playing in any of user device
-  }; // Getting top tracks, only run once
 
   const getTopArtist = async () => {
     const topArtist = await spotifyApi.getMyTopArtists();

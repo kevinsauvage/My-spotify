@@ -6,16 +6,26 @@ import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const props = useContext(AppContext);
+  const {
+    spotifyApi,
+    topTracks,
+    getAlbumTracks,
+    setTrackShow,
+    featuredPlaylists,
+    savedAlbums,
+    fetchPlaylistContent,
+    topArtists,
+    setArtistShow,
+  } = useContext(AppContext);
   const [newReleases, setNewReleases] = useState();
 
   useEffect(() => {
     const getNewReleases = async () => {
-      const response = await props.spotifyApi.getNewReleases({ limit: 50 });
+      const response = await spotifyApi.getNewReleases({ limit: 50 });
       setNewReleases(response.albums.items);
     };
     getNewReleases();
-  }, []);
+  }, [spotifyApi]);
 
   return (
     <div className="home">
@@ -31,7 +41,7 @@ const Home = () => {
                     url={bg}
                     name={newrelease.name}
                     id={newrelease.id}
-                    onClick={props.getAlbumTracks}
+                    onClick={getAlbumTracks}
                     artist={newrelease.artists[0].name}
                   />
                 </Link>
@@ -42,13 +52,13 @@ const Home = () => {
       <div className="home__topTracks space">
         <SectionTitle title="YOUR TOP TRACKS" />
         <div className="home__cards">
-          {props.topTracks &&
-            props.topTracks.map((topTrack) => {
+          {topTracks &&
+            topTracks.map((topTrack) => {
               let bg = topTrack.album.images[0].url;
               return (
                 <Link to="/track" key={topTrack.id}>
                   <Card
-                    onClick={props.setTrackShow}
+                    onClick={setTrackShow}
                     url={bg}
                     id={topTrack.id}
                     name={topTrack.name}
@@ -62,14 +72,14 @@ const Home = () => {
       <div className="home__featuredPlaylist space">
         <SectionTitle title="FEATURED PLAYLIST" />
         <div className="home__cards">
-          {props.featuredPlaylists &&
-            props.featuredPlaylists.map((playlist) => {
+          {featuredPlaylists &&
+            featuredPlaylists.map((playlist) => {
               let bg = playlist.images[0].url;
               return (
                 <Link to="/Biblio" key={playlist.id}>
                   <Card
                     url={bg}
-                    onClick={props.fetchPlaylistContent}
+                    onClick={fetchPlaylistContent}
                     id={playlist.id}
                     name={playlist.name}
                   />
@@ -81,15 +91,15 @@ const Home = () => {
       <div className="home__topArtist space">
         <SectionTitle title="YOUR TOP ARTISTS" />
         <div className="home__cards">
-          {props.topArtists &&
-            props.topArtists.map((topArtist) => {
+          {topArtists &&
+            topArtists.map((topArtist) => {
               let bg = topArtist.images[2].url;
               return (
                 <Link to="/Artist" key={topArtist.id}>
                   <Card
                     url={bg}
                     name={topArtist.name}
-                    onClick={props.setArtistShow}
+                    onClick={setArtistShow}
                     id={topArtist.id}
                   />
                 </Link>
@@ -100,8 +110,8 @@ const Home = () => {
       <div className="home__savedAlbums">
         <SectionTitle title="YOUR ALBUMS" />
         <div className="home__cards">
-          {props.savedAlbums &&
-            props.savedAlbums.map((savedAlbum) => {
+          {savedAlbums &&
+            savedAlbums.map((savedAlbum) => {
               let bg = savedAlbum.album.images[1].url;
               return (
                 <Link key={savedAlbum.album.id} to="/Biblio">
@@ -109,7 +119,7 @@ const Home = () => {
                     url={bg}
                     name={savedAlbum.album.name}
                     id={savedAlbum.album.id}
-                    onClick={props.getAlbumTracks}
+                    onClick={getAlbumTracks}
                   />
                 </Link>
               );
