@@ -66,6 +66,7 @@
   &__artist-top {
     flex: 1;
     padding: 1rem;
+    margin-top: 50px;
   }
 
   &__wrapper-second {
@@ -188,5 +189,6 @@
     color: white;
     font-weight: 600;
     margin-bottom: 1rem;
+    position: relative;
   }
 }
