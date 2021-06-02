@@ -36,11 +36,12 @@ export const AppProvider = (props) => {
   const [searchResults, setSearchResults] = useState(null);
 
   const getTopTracks = useCallback(async () => {
-    const topTracks = await spotifyApi.getMyTopTracks({ limit: 50 });
-    setTopTracks(topTracks.items); // Seting top tracks of user
+    const response = await spotifyApi.getMyTopTracks({ limit: 50 });
+    const topTracks = response.items;
+    setTopTracks(topTracks); // Seting top tracks of user
     setNameB("Top Tracks"); // Setting the name to display
     initialSetting(topTracks); // Calling initial setting with the data receive
-    const uris = topTracks.items.map((track) => track.uri);
+    const uris = topTracks.map((track) => track.uri);
     if (!uri) setUri(uris); // Setting the uris to play after first render only if no track is actually playing in any of user device
   }, []); // Getting top tracks, only run once
 
@@ -99,11 +100,11 @@ export const AppProvider = (props) => {
   }; // Fetch followed artist from user
 
   const initialSetting = async (data) => {
-    const artistId = data.items[0].artists[0].id;
+    const artistId = data[0].artists[0].id;
     setNameB("Top Tracks");
-    setPlaylistToPlay(data.items); // Setting playlist to play with top track result
-    setTrackToShow(data.items[0]); // setting the track to show with the best track of the top tracks - displayed in tracks show
-    setTracks(data.items); // Setting the tracks to display in biblio with top tracks data to display in biblio
+    setPlaylistToPlay(data); // Setting playlist to play with top track result
+    setTrackToShow(data[0]); // setting the track to show with the best track of the top tracks - displayed in tracks show
+    setTracks(data); // Setting the tracks to display in biblio with top tracks data to display in biblio
     const artistToShow = await spotifyApi.getArtist(artistId);
     setArtistToShow(artistToShow); // Fetching the artist corresponding to best track of top tracks
   }; // Setting what to display in every page at first render

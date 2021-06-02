@@ -8,6 +8,7 @@ import { AppProvider } from "../../context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SpotifyApiContext } from "react-spotify-api";
 import { SpotifyAuth, Scopes } from "react-spotify-auth";
+import HeaderLogin from "../../components/headerLogin/HeaderLogin";
 
 const App = () => {
   let token = Cookies.get("spotifyAuthToken");
@@ -25,11 +26,13 @@ const App = () => {
         </AppProvider>
       ) : (
         <div className="auth">
+          <HeaderLogin />
           <SpotifyAuth
             redirectUri={process.env.REACT_APP_REDIRECT_URL}
             clientID={process.env.REACT_APP_CLIENT_ID}
             scopes={[Scopes.all]}
           />
+          <h3>( Only for spotify premium user )</h3>
         </div>
       )}
     </div>
