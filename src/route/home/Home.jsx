@@ -11,7 +11,6 @@ const Home = () => {
     topTracks,
     getAlbumTracks,
     setTrackShow,
-    featuredPlaylists,
     savedAlbums,
     fetchPlaylistContent,
     topArtists,
@@ -63,25 +62,6 @@ const Home = () => {
                     id={topTrack.id}
                     name={topTrack.name}
                     artist={topTrack.album.artists[0].name}
-                  />
-                </Link>
-              );
-            })}
-        </div>
-      </div>
-      <div className="home__featuredPlaylist space">
-        <SectionTitle title="FEATURED PLAYLIST" />
-        <div className="home__cards">
-          {featuredPlaylists &&
-            featuredPlaylists.map((playlist) => {
-              let bg = playlist.images[0].url;
-              return (
-                <Link to="/Biblio" key={playlist.id}>
-                  <Card
-                    url={bg}
-                    onClick={fetchPlaylistContent}
-                    id={playlist.id}
-                    name={playlist.name}
                   />
                 </Link>
               );
