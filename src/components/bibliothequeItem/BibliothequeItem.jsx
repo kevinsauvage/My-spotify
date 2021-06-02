@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import { CgPlayListAdd } from "react-icons/cg";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { MdAddCircleOutline, MdPlayCircleFilled } from "react-icons/md";
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./BibliothequeItem.scss";
 import PlaylistModal from "../playlistModal/PlaylistModal";
 import BibliothequeItemLogic from "./BibliothequeItemLogic";
+import { AppContext } from "../../context/AppContext";
 
 const BibliothequeItem = ({
   name,
@@ -13,20 +14,24 @@ const BibliothequeItem = ({
   duration,
   id,
   popularity,
-  onClick,
   uri,
   owner,
-  onClickArtist,
   artistId,
-  setTrackToPlay,
   albumId,
   albumName,
   year,
   play,
-  addToQueu,
 }) => {
   const menu = useRef();
   const iconMenu = useRef();
+
+  const {
+    setTrackToPlay,
+    addToQueu,
+    setArtistShow,
+    setTrackShow,
+    settingAlbumToPlay,
+  } = useContext(AppContext);
 
   const {
     handleClickAddToPlaylist,
@@ -37,13 +42,14 @@ const BibliothequeItem = ({
     handleClickAddToQueu,
     showMenu,
   } = BibliothequeItemLogic(menu, iconMenu, addToQueu);
+
   return (
     <div className={"bibliotheque-item"}>
       {name && (
         <Link
           className="bibliotheque-item__name"
           to="/Track"
-          onClick={onClick}
+          onClick={setTrackShow}
           data-id={id}>
           <p>{name}</p>
         </Link>
@@ -52,7 +58,7 @@ const BibliothequeItem = ({
         <Link
           className="bibliotheque-item__name"
           to="/Biblio"
-          onClick={onClick}
+          onClick={settingAlbumToPlay}
           data-id={albumId}>
           <p>{albumName}</p>
         </Link>
@@ -61,7 +67,7 @@ const BibliothequeItem = ({
         <Link
           className="bibliotheque-item__artist"
           to="/Artist"
-          onClick={onClickArtist}
+          onClick={setArtistShow}
           data-id={artistId}>
           <p>{artist}</p>
         </Link>

@@ -23,7 +23,6 @@ const ArtistShow = () => {
 
   const {
     artistAlbums,
-    settingAlbumToPlay,
     setUriFromArtistTopTracks,
     handleFollow,
     relatedArtists,
@@ -128,7 +127,6 @@ const ArtistShow = () => {
                         key={album.id}
                         albumName={album.name}
                         year={album.release_date.split("-")[0]}
-                        onClick={settingAlbumToPlay}
                         albumId={album.id}
                       />
                     );

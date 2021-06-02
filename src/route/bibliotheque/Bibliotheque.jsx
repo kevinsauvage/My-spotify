@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import "./Bibliotheque.scss";
 import Loader from "react-loader-spinner";
@@ -16,12 +16,12 @@ const Bibliotheque = () => {
     playlistToPlay,
     setPlaylistUri,
     tracks,
-    setTrackShow,
-    setArtistShow,
     millisToMinutesAndSeconds,
-    setTrackToPlay,
-    addToQueu,
   } = useContext(AppContext);
+
+  useEffect(() => {
+    console.log("biblio");
+  }, []);
 
   return (
     <div className="bibliotheque">
@@ -92,12 +92,8 @@ const Bibliotheque = () => {
                           ? track.artists[0].id
                           : null
                       }
-                      addToQueu={addToQueu}
                       uri={track.track ? track.track.uri : track.uri}
-                      setTrackToPlay={setTrackToPlay}
-                      onClickArtist={setArtistShow}
                       id={track.id || track.track.id}
-                      onClick={setTrackShow}
                       play
                     />
                   );

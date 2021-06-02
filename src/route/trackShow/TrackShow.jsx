@@ -109,7 +109,6 @@ const TrackShow = () => {
                         {trackToShow.artists[0].name}
                       </h2>
                     </Link>
-
                     <h3 className="track-show__popularity">
                       <span>Popularity</span> {trackToShow.popularity}
                     </h3>

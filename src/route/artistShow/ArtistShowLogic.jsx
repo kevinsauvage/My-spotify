@@ -5,12 +5,7 @@ const ArtistShowLogic = () => {
   const {
     artistToShow,
     spotifyApi,
-    setTracks,
-    setFollowers,
     setPlaylistToPlay,
-    scrollTop,
-    setNameB,
-    setDescription,
     isFollowing,
     setIsFollowing,
     setUri,
@@ -122,19 +117,8 @@ const ArtistShowLogic = () => {
     setUri(tracksq);
   }; // fetch uris and set uris to play when user click on artist top track play button
 
-  const settingAlbumToPlay = async (e) => {
-    const id = e.currentTarget.dataset.id;
-    const album = await spotifyApi.getAlbum(id);
-    setPlaylistToPlay(album.tracks.items);
-    setTracks(album.tracks.items);
-    setNameB(album.name);
-    setDescription(album.artists[0].name);
-    setFollowers(album.label);
-    scrollTop();
-  };
   return {
     artistAlbums,
-    settingAlbumToPlay,
     setUriFromArtistTopTracks,
     handleFollow,
     relatedArtists,

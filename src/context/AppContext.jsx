@@ -216,6 +216,17 @@ export const AppProvider = (props) => {
     }, 2000);
   }; // Setting the loader when fetching and then disable it
 
+  const settingAlbumToPlay = async (e) => {
+    const id = e.currentTarget.dataset.id;
+    const album = await spotifyApi.getAlbum(id);
+    setPlaylistToPlay(album.tracks.items);
+    setTracks(album.tracks.items);
+    setNameB(album.name);
+    setDescription(album.artists[0].name);
+    setFollowers(album.label);
+    scrollTop();
+  };
+
   const millisToMinutesAndSeconds = (millis) => {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
@@ -269,6 +280,7 @@ export const AppProvider = (props) => {
         getSearch,
         input,
         artistToShow,
+        settingAlbumToPlay,
         setArtistShow,
         millisToMinutesAndSeconds,
         trackToShow,

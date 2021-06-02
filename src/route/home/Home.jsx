@@ -12,10 +12,10 @@ const Home = () => {
     getAlbumTracks,
     setTrackShow,
     savedAlbums,
-    fetchPlaylistContent,
     topArtists,
     setArtistShow,
   } = useContext(AppContext);
+
   const [newReleases, setNewReleases] = useState();
 
   useEffect(() => {
