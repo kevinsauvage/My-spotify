@@ -12,14 +12,9 @@ const SearchResult = () => {
     searchResults,
     setPlaylistToPlay,
     isLoading,
-    setArtistShow,
-    addToQueu,
     playlistToPlay,
-    setTrackToPlay,
     setPlaylistUri,
-    fetchPlaylistContent,
     millisToMinutesAndSeconds,
-    setTrackShow,
   } = useContext(AppContext);
 
   const [searchResultArtist, setSearchResultArtist] = useState(); // array of search result arstis
@@ -65,16 +60,12 @@ const SearchResult = () => {
                   return (
                     <BibliothequeItem
                       key={track.id}
-                      onClick={setTrackShow}
                       id={track.id}
                       name={track.name}
                       artist={track.artists[0]?.name}
                       duration={millisToMinutesAndSeconds(track.duration_ms)}
-                      onClickArtist={setArtistShow}
                       artistId={track.artists[0]?.id}
-                      setTrackToPlay={setTrackToPlay}
                       uri={track.track ? track.track.uri : track.uri}
-                      addToQueu={addToQueu}
                       play
                     />
                   );
@@ -95,7 +86,6 @@ const SearchResult = () => {
                         owner={playlist.owner && playlist.owner.display_name}
                         playlistId={playlist.id}
                         play
-                        setTrackToPlay={fetchPlaylistContent}
                       />
                     );
                   })}
@@ -112,7 +102,6 @@ const SearchResult = () => {
                         key={artist.id && artist.id}
                         artist={artist.name && artist.name}
                         popularity={artist.popularity && artist.popularity}
-                        onClickArtist={setArtistShow}
                         artistId={artist.id && artist.id}
                       />
                     );

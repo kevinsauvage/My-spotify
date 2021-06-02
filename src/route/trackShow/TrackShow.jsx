@@ -17,9 +17,7 @@ const TrackShow = () => {
     setPlaylistToPlay,
     isLoading,
     setTrackToPlay,
-    addToQueu,
     setPlaylistUri,
-    setTrackShow,
     setArtistShow,
     millisToMinutesAndSeconds,
   } = useContext(AppContext);
@@ -62,12 +60,10 @@ const TrackShow = () => {
                 recomendedTracks.map((track) => {
                   return (
                     <BibliothequeItem
-                      onClick={setTrackShow}
                       id={track.id}
                       name={track.name}
                       artist={track.artists[0].name}
                       duration={millisToMinutesAndSeconds(track.duration_ms)}
-                      onClickArtist={setArtistShow}
                       artistId={
                         track.track
                           ? track.track.artists[0].id
@@ -77,9 +73,7 @@ const TrackShow = () => {
                           ? track.artists[0].id
                           : null
                       }
-                      setTrackToPlay={setTrackToPlay}
                       uri={track.track ? track.track.uri : track.uri}
-                      addToQueu={addToQueu}
                       play
                     />
                   );

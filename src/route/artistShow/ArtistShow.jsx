@@ -11,11 +11,7 @@ import ArtistShowLogic from "./ArtistShowLogic";
 const ArtistShow = () => {
   const {
     artistToShow,
-    setTrackToPlay,
-    addToQueu,
-    setTrackShow,
     setPlaylistUri,
-    setArtistShow,
     millisToMinutesAndSeconds,
     isLoading,
     isFollowing,
@@ -99,11 +95,7 @@ const ArtistShow = () => {
                         artistId={track.artists[0].id}
                         artist={track.artists[0].name}
                         duration={millisToMinutesAndSeconds(track.duration_ms)}
-                        setTrackToPlay={setTrackToPlay}
                         uri={track.track ? track.track.uri : track.uri}
-                        addToQueu={addToQueu}
-                        onClick={setTrackShow}
-                        onClickArtist={setArtistShow}
                         play
                       />
                     );
@@ -146,7 +138,6 @@ const ArtistShow = () => {
                         key={artist.id}
                         artist={artist.name}
                         popularity={artist.popularity}
-                        onClickArtist={setArtistShow}
                         artistId={artist.id}
                       />
                     );
@@ -168,11 +159,9 @@ const ArtistShow = () => {
                       <BibliothequeItem
                         key={track.id}
                         name={track.name}
-                        onClick={setTrackShow}
                         id={track.id}
                         artist={track.artists[0].name}
                         duration={millisToMinutesAndSeconds(track.duration_ms)}
-                        onClickArtist={setArtistShow}
                         artistId={
                           track.track
                             ? track.track.artists[0].id
@@ -182,9 +171,7 @@ const ArtistShow = () => {
                             ? track.artists[0].id
                             : null
                         }
-                        setTrackToPlay={setTrackToPlay}
                         uri={track.track ? track.track.uri : track.uri}
-                        addToQueu={addToQueu}
                         play
                       />
                     );
