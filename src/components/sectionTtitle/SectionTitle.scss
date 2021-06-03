@@ -2,9 +2,19 @@
 
 .sectionTitle {
   padding: 1rem 0 0.5rem 0;
+  margin-bottom: 2rem;
+
+  @include respond(mobileS) {
+    margin: 0;
+    padding: 0 0 0.5rem 0;
+  }
 
   &__title {
-    @include openSans(600, 15px);
+    @include openSans(600, 16px);
     color: whitesmoke;
+
+    @include respond(mobileS) {
+      @include openSans(600, 12px);
+    }
   }
 }

@@ -34,6 +34,12 @@ export const AppProvider = (props) => {
   const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false); // Mobile menu
   const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false); // Mobile menu
   const [searchResults, setSearchResults] = useState(null);
+  const [newReleases, setNewReleases] = useState();
+
+  const getNewReleases = async () => {
+    const response = await spotifyApi.getNewReleases({ limit: 50 });
+    setNewReleases(response.albums.items);
+  };
 
   const getTopTracks = useCallback(async () => {
     const response = await spotifyApi.getMyTopTracks({ limit: 50 });
@@ -49,6 +55,7 @@ export const AppProvider = (props) => {
     setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
     getTopTracks();
     getMe();
+    getNewReleases();
     getUserPlaylists();
     getTopArtist();
     getSavedAlbums();
@@ -270,6 +277,7 @@ export const AppProvider = (props) => {
         isFollowing,
         setPlaylistUri,
         searchResults,
+        newReleases,
         playlistToPlay,
         deviceId,
         uri,
