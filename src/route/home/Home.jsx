@@ -16,24 +16,28 @@ const Home = () => {
 
   const dataConfig = [
     {
+      id: 1,
       items: newReleases,
       title: "NEW RELEASES",
       fn: getAlbumTracks,
       link: "/biblio",
     },
     {
+      id: 2,
       items: topTracks,
       title: "YOUR TOP TRACKS",
       fn: setTrackShow,
       link: "/track",
     },
     {
+      id: 3,
       items: topArtists,
       title: "YOUR TOP ARTISTS",
       fn: setArtistShow,
       link: "/Artist",
     },
     {
+      id: 4,
       items: savedAlbums,
       title: "YOUR ALBUMS",
       fn: getAlbumTracks,
@@ -45,7 +49,7 @@ const Home = () => {
     <div className="home">
       {dataConfig.map((data) => (
         <div className="space">
-          <CarouselContainer data={data} />
+          <CarouselContainer data={data} key={data.id} />
         </div>
       ))}
     </div>

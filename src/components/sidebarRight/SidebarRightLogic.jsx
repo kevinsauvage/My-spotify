@@ -13,6 +13,14 @@ const SidebarRightLogic = () => {
     setDescription,
     sidebarRightIsOpen,
     setFollowers,
+    fetchPlaylistContent,
+    topTracks,
+    setTrackShow,
+    topArtists,
+    setArtistShow,
+    savedAlbums,
+    getAlbumTracks,
+    followedArtists,
   } = useContext(AppContext);
 
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]); // user featured playlist
@@ -30,53 +38,80 @@ const SidebarRightLogic = () => {
     setSidebarRightIsOpen(false);
     handleLoader();
     scrollTop();
-    const id = e.currentTarget.dataset.id;
-    const recommendations = await fetchRecomendedGenres(id);
-    setBannerInfoGenre(id);
-    setTracks(recommendations.tracks);
-    setPlaylistToPlay(recommendations.tracks);
-  };
-
-  const setBannerInfoGenre = (id) => {
-    setNameB(id);
-    setDescription(undefined);
-    setFollowers(undefined);
-  }; // Set the banner info fo genre  recomendation
-
-  const fetchRecomendedGenres = async (id) => {
+    const id = e.currentTarget.dataset.name;
     const recommendations = await spotifyApi.getRecommendations({
       seed_genres: id,
       limit: 50,
     });
-    return recommendations;
-  }; // Get recommended track for a genre ID
+    setNameB(id);
+    setDescription(undefined);
+    setFollowers(undefined);
+    setTracks(recommendations.tracks);
+    setPlaylistToPlay(recommendations.tracks);
+  };
 
   const categories = [
-    "chill",
-    "pop",
-    "sleep",
-    "party",
-    "metal",
-    "rock",
-    "jazz",
-    "romance",
-    "soul",
-    "classical",
-    "latin",
-    "blues",
-    "funk",
-    "punk",
-    "country",
+    { name: "chill" },
+    { name: "pop" },
+    { name: "sleep" },
+    { name: "party" },
+    { name: "metal" },
+    { name: "rock" },
+    { name: "jazz" },
+    { name: "romance" },
+    { name: "soul" },
+    { name: "classical" },
+    { name: "latin" },
+    { name: "blues" },
+    { name: "funk" },
+    { name: "punk" },
+    { name: "country" },
   ];
 
-  const handleClick = (e) => {
-    const list = Array.from(e.currentTarget.nextElementSibling.children);
-    for (let i = 0; i <= list.length - 1; i++) {
-      setTimeout(() => {
-        list[i].classList.toggle("open");
-      }, i * 25);
-    }
-  };
+  const dataConfig = [
+    {
+      id: 1,
+      items: categories,
+      link: "/Biblio",
+      fn: getRecomended,
+      title: "Categories",
+    },
+    {
+      id: 2,
+      items: featuredPlaylists,
+      link: "/Biblio",
+      fn: fetchPlaylistContent,
+      title: "Featured playlist",
+    },
+    {
+      id: 3,
+      items: topTracks,
+      link: "/Track",
+      fn: setTrackShow,
+      title: "Top tracks",
+    },
+    {
+      id: 4,
+      items: topArtists,
+      link: "/Artist",
+      fn: setArtistShow,
+      title: "Top artists",
+    },
+    {
+      id: 5,
+      items: savedAlbums,
+      link: "/Biblio",
+      fn: getAlbumTracks,
+      title: " Saved albums",
+    },
+    {
+      id: 6,
+      items: followedArtists,
+      link: "/Artist",
+      fn: setArtistShow,
+      title: "Followed Artists",
+    },
+  ];
 
   const closeSidebar = () => {
     if (sidebarRightIsOpen) {
@@ -84,13 +119,7 @@ const SidebarRightLogic = () => {
     }
   };
 
-  return {
-    handleClick,
-    categories,
-    getRecomended,
-    closeSidebar,
-    featuredPlaylists,
-  };
+  return { closeSidebar, dataConfig };
 };
 
 export default SidebarRightLogic;

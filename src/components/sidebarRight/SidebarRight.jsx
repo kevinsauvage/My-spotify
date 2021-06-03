@@ -2,41 +2,20 @@ import { useContext, useRef } from "react";
 import "./SidebarRight.scss";
 import SmoothScrollbar from "smooth-scrollbar";
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
-import SectionTitle from "../sectionTtitle/SectionTitle";
 import Scrollbar from "react-smooth-scrollbar";
-import Subtitle from "../subtitle/Subtitle";
-import { IoIosArrowDown } from "react-icons/io";
 import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import SidebarRightLogic from "./SidebarRightLogic";
 import useClickOutside from "../../hooks/useClickOutside";
+import SidebarRightCategoryWrapper from "../sidebarRightCategoryWrapper/SidebarRightCategoryWrapper";
 
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarRight = () => {
-  const {
-    sidebarRightIsOpen,
-    fetchPlaylistContent,
-    topTracks,
-    setTrackShow,
-    topArtists,
-    setArtistShow,
-    savedAlbums,
-    getAlbumTracks,
-    followedArtists,
-  } = useContext(AppContext);
-
-  const {
-    handleClick,
-    categories,
-    getRecomended,
-    closeSidebar,
-    featuredPlaylists,
-  } = SidebarRightLogic();
-
+  const { sidebarRightIsOpen } = useContext(AppContext);
+  const { closeSidebar, dataConfig } = SidebarRightLogic();
   const sidebar = useRef(null);
-
   useClickOutside(sidebar, closeSidebar);
 
   return (
@@ -56,145 +35,17 @@ const SidebarRight = () => {
             <motion.h1 whileHover={{ scale: 1.05 }}>My Spotifly</motion.h1>
           </div>
         </Link>
-        <div className="sidebarRight__categoriesWrapper">
-          <div
-            className="sidebarRight__categories"
-            data-set="categories"
-            onClick={handleClick}>
-            <SectionTitle padding="0.4rem 0px" title="Categories" />
-            <IoIosArrowDown />
-          </div>
-          <div className="sidebarRight__categoryItems ">
-            {categories.map((category) => {
-              return (
-                <Link to="/Biblio" key={category}>
-                  <Subtitle
-                    text={category}
-                    id={category}
-                    onClick={getRecomended}
-                  />
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-        <div className="sidebarRight__categoriesWrapper">
-          <div
-            className="sidebarRight__categories"
-            data-set="categories"
-            onClick={handleClick}>
-            <SectionTitle padding="0.4rem 0px" title="Featured playlists" />
-            <IoIosArrowDown />
-          </div>
-          <div className="sidebarRight__categoryItems">
-            {featuredPlaylists &&
-              featuredPlaylists.map((playlist) => {
-                return (
-                  <Link to="/Biblio" key={playlist.id}>
-                    <Subtitle
-                      text={playlist.name}
-                      id={playlist.id}
-                      onClick={fetchPlaylistContent}
-                      name={playlist.name}
-                    />
-                  </Link>
-                );
-              })}
-          </div>
-        </div>
-        <div className="sidebarRight__categoriesWrapper">
-          <div
-            className="sidebarRight__categories"
-            data-set="categories"
-            onClick={handleClick}>
-            <SectionTitle padding="0.4rem 0px" title="Your Top Tracks" />
-            <IoIosArrowDown />
-          </div>
-          <div className="sidebarRight__categoryItems">
-            {topTracks &&
-              topTracks.map((track) => {
-                return (
-                  <Link key={track.id} to="/Track">
-                    <Subtitle
-                      onClick={setTrackShow}
-                      text={track.name}
-                      id={track.id}
-                    />
-                  </Link>
-                );
-              })}
-          </div>
-        </div>
-        <div className="sidebarRight__categoriesWrapper">
-          <div
-            className="sidebarRight__categories"
-            data-set="categories"
-            onClick={handleClick}>
-            <SectionTitle padding="0.4rem 0px" title="Your Top Artists" />
-            <IoIosArrowDown />
-          </div>
-          <div className="sidebarRight__categoryItems">
-            {topArtists &&
-              topArtists.map((artist) => {
-                return (
-                  <Link key={artist.id} to="/Artist">
-                    <Subtitle
-                      text={artist.name}
-                      onClick={setArtistShow}
-                      id={artist.id}
-                    />
-                  </Link>
-                );
-              })}
-          </div>
-        </div>
-        <div className="sidebarRight__categoriesWrapper">
-          <div
-            className="sidebarRight__categories"
-            data-set="categories"
-            onClick={handleClick}>
-            <SectionTitle padding="0.4rem 0px" title="Your Saved Albums" />
-            <IoIosArrowDown />
-          </div>
-          <div className="sidebarRight__categoryItems">
-            {savedAlbums &&
-              savedAlbums.map((album) => {
-                return (
-                  <Link to="/Biblio" key={album.album.id}>
-                    <Subtitle
-                      text={album.album.name}
-                      id={album.album.id}
-                      name={album.album.name}
-                      onClick={getAlbumTracks}
-                    />
-                  </Link>
-                );
-              })}
-          </div>
-        </div>
-        <div className="sidebarRight__categoriesWrapper">
-          <div
-            className="sidebarRight__categories"
-            data-set="categories"
-            onClick={handleClick}>
-            <SectionTitle padding="0.4rem 0px" title="Followed Artists" />
-            <IoIosArrowDown />
-          </div>
-          <div className="sidebarRight__categoryItems">
-            {followedArtists &&
-              followedArtists.map((artist) => {
-                return (
-                  <Link key={artist.id} to="/Artist">
-                    <Subtitle
-                      text={artist.name}
-                      onClick={setArtistShow}
-                      id={artist.id}
-                    />
-                  </Link>
-                );
-              })}
-          </div>
-        </div>
+        {dataConfig.map((data) => {
+          return (
+            <SidebarRightCategoryWrapper
+              key={data.id}
+              data={data.items}
+              link={data.link}
+              fn={data.fn}
+              title={data.title}
+            />
+          );
+        })}
       </Scrollbar>
     </div>
   );

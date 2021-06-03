@@ -1,6 +1,5 @@
 import { useContext, useRef } from "react";
 import "./SidebarLeft.scss";
-import SectionTitle from "../sectionTtitle/SectionTitle";
 import Subtitle from "../subtitle/Subtitle";
 import SmoothScrollbar from "smooth-scrollbar";
 import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
@@ -10,6 +9,7 @@ import { Link } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
 import SidebarLeftLogic from "./SidebarLeftLogic";
 import useClickOutside from "../../hooks/useClickOutside";
+import SectionTitleSidebar from "../sectionTitleSidebar/SectionTitleSidebar";
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarLeft = () => {
@@ -41,7 +41,7 @@ const SidebarLeft = () => {
         </div>
         <SearchBar />
         <div className="sidebarLeft__userLibrary">
-          <SectionTitle title="LIBRARY" />
+          <SectionTitleSidebar title="LIBRARY" />
           <div className="libraryItem">
             <Link to="/Biblio">
               <Subtitle text="Recently Played" onClick={getRecentlyPlayed} />
@@ -55,7 +55,7 @@ const SidebarLeft = () => {
           </div>
         </div>
         <div className="sidebarLeft__userPlaylist">
-          <SectionTitle title="PLAYLISTS" />
+          <SectionTitleSidebar title="PLAYLISTS" />
           <div className="playlist">
             {props.playlists &&
               props.playlists.map((playlist) => {

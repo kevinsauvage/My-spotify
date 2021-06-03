@@ -22,7 +22,6 @@ export const AppProvider = (props) => {
   const [followers, setFollowers] = useState(""); // follower to display in biblio
   const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
   const [artistToShow, setArtistToShow] = useState(undefined); // Set artist to display on the show page
-  const [scrollbar, setScrollbar] = useState(); // storing scrollbar - scroll to top function
   const [input, setInput] = useState(""); // input search
   const [isLoading, setIsLoading] = useState(false); // spinner loader on each page
   const [firstLoad, setFirstLoad] = useState(true); // display spinner loader for first render
@@ -52,7 +51,6 @@ export const AppProvider = (props) => {
   }, []); // Getting top tracks, only run once
 
   useEffect(() => {
-    setScrollbar(Scrollbar.get(document.querySelector("#my-scrollbar")));
     getTopTracks();
     getMe();
     getNewReleases();
@@ -97,8 +95,9 @@ export const AppProvider = (props) => {
   }; // Fetching the top artist of the user
 
   const getSavedAlbums = async () => {
-    const albums = await spotifyApi.getMySavedAlbums({ limit: 50 });
-    setSavedAlbums(albums.items);
+    const response = await spotifyApi.getMySavedAlbums({ limit: 50 });
+    const albums = response.items.map((item) => item.album);
+    setSavedAlbums(albums);
   }; // Fetching the Albums saved by the user
 
   const settingFollowedArtists = async () => {
@@ -128,9 +127,7 @@ export const AppProvider = (props) => {
   }; // Seting playlist Uri when user click on play btn playlist
 
   const fetchPlaylistContent = async (e) => {
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
+    scrollTop();
     handleLoader();
     const id = e.currentTarget.dataset.id;
     const name = e.currentTarget.dataset.name;
@@ -152,29 +149,18 @@ export const AppProvider = (props) => {
 
   const getAlbumTracks = async (e) => {
     handleLoader();
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
+    scrollTop();
     const id = e.currentTarget.dataset.id;
     const name = e.currentTarget.dataset.name;
     const albumsTracks = await spotifyApi.getAlbumTracks(id);
     setTracks(albumsTracks.items);
     setPlaylistToPlay(albumsTracks.items);
-    setBannerInfoAlbum(name);
+    setNameB(name);
   }; // Getting the track of album when clicking on album link
-
-  const setBannerInfoAlbum = (name) => {
-    let savedAlbum = savedAlbums.find(
-      (album) => album.album.name === name || album
-    );
-    setNameB(savedAlbum.album.name);
-  }; // Set the banner  name of the album displayed
 
   const setTrackShow = async (e) => {
     handleLoader();
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
+    scrollTop();
     let id = e.currentTarget.dataset.id;
     const track = await spotifyApi.getTrack(id);
     setTrackToShow(track);
@@ -182,9 +168,7 @@ export const AppProvider = (props) => {
 
   const setArtistShow = async (e) => {
     handleLoader();
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
+    scrollTop();
     const id = e.currentTarget.dataset.id;
     const artist = await spotifyApi.getArtist(id);
     setArtistToShow(artist);
@@ -246,9 +230,7 @@ export const AppProvider = (props) => {
   }; // Adding track to queue
 
   const scrollTop = () => {
-    if (scrollbar) {
-      scrollbar.scrollTop = 0;
-    }
+    Scrollbar.scrollTop = -100;
   };
 
   return (

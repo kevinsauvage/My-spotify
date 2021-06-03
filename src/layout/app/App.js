@@ -32,7 +32,7 @@ const App = () => {
             clientID={process.env.REACT_APP_CLIENT_ID}
             scopes={[Scopes.all]}
           />
-          <h3>( Only for spotify premium user )</h3>
+          <h3>( Only for spotify premium users )</h3>
         </div>
       )}
     </div>
