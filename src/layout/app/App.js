@@ -12,6 +12,7 @@ import HeaderLogin from "../../components/headerLogin/HeaderLogin";
 
 const App = () => {
   let token = Cookies.get("spotifyAuthToken");
+
   return (
     <div className="App">
       {token ? (

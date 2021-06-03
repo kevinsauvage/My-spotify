@@ -61,6 +61,7 @@ const TrackShow = () => {
                   return (
                     <BibliothequeItem
                       id={track.id}
+                      key={track.id}
                       name={track.name}
                       artist={track.artists[0].name}
                       duration={millisToMinutesAndSeconds(track.duration_ms)}

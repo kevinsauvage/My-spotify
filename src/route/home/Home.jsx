@@ -47,11 +47,13 @@ const Home = () => {
 
   return (
     <div className="home">
-      {dataConfig.map((data) => (
-        <div className="space">
-          <CarouselContainer data={data} key={data.id} />
-        </div>
-      ))}
+      {dataConfig.map((data) => {
+        return (
+          <div className="space" key={data.id}>
+            <CarouselContainer data={data} />
+          </div>
+        );
+      })}
     </div>
   );
 };

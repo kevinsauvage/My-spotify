@@ -1,4 +1,3 @@
-import React from "react";
 import CarouselComponent from "../carousel/CarouselComponent";
 import SectionTitle from "../sectionTtitle/SectionTitle";
 
