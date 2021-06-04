@@ -128,7 +128,7 @@ export const AppProvider = (props) => {
 
   const fetchPlaylistContent = async (e) => {
     scrollTop();
-    handleLoader();
+    handleSidebarMenu();
     const id = e.currentTarget.dataset.id;
     const name = e.currentTarget.dataset.name;
     const playlistContent = await spotifyApi.getPlaylist(id);
@@ -148,7 +148,7 @@ export const AppProvider = (props) => {
   }; // Setting the banner info in relation with the playlist displayed
 
   const getAlbumTracks = async (e) => {
-    handleLoader();
+    handleSidebarMenu();
     scrollTop();
     const id = e.currentTarget.dataset.id;
     const name = e.currentTarget.dataset.name;
@@ -159,7 +159,7 @@ export const AppProvider = (props) => {
   }; // Getting the track of album when clicking on album link
 
   const setTrackShow = async (e) => {
-    handleLoader();
+    handleSidebarMenu();
     scrollTop();
     let id = e.currentTarget.dataset.id;
     const track = await spotifyApi.getTrack(id);
@@ -167,7 +167,7 @@ export const AppProvider = (props) => {
   }; // Function to set the track of the show page
 
   const setArtistShow = async (e) => {
-    handleLoader();
+    handleSidebarMenu();
     scrollTop();
     const id = e.currentTarget.dataset.id;
     const artist = await spotifyApi.getArtist(id);
@@ -176,7 +176,7 @@ export const AppProvider = (props) => {
 
   const getSearch = async (e) => {
     e.preventDefault();
-    handleLoader();
+    handleSidebarMenu();
     const searchResults = await spotifyApi.search(input, [
       "artist",
       "playlist",
@@ -198,13 +198,13 @@ export const AppProvider = (props) => {
     setUri(urisToPlay);
   }; // Seting track to play when clicking on play
 
-  const handleLoader = () => {
+  const handleSidebarMenu = () => {
+    setIsLoading(true);
     setSidebarLeftIsOpen(false);
     setSidebarRightIsOpen(false);
-    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
   }; // Setting the loader when fetching and then disable it
 
   const settingAlbumToPlay = async (e) => {
@@ -246,7 +246,7 @@ export const AppProvider = (props) => {
         getUserPlaylists,
         setInput,
         scrollTop,
-        handleLoader,
+        handleSidebarMenu,
         topTracks,
         setIsFollowing,
         setTracks,

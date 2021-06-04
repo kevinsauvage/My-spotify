@@ -5,7 +5,7 @@ const SidebarLeftLogic = () => {
   const {
     spotifyApi,
     scrollTop,
-    handleLoader,
+    handleSidebarMenu,
     sidebarLeftIsOpen,
     setSidebarLeftIsOpen,
     setTracks,
@@ -30,8 +30,8 @@ const SidebarLeftLogic = () => {
   }, [spotifyApi]);
 
   const setMyToptracks = () => {
+    handleSidebarMenu();
     scrollTop();
-    handleLoader();
     if (topTracks.lenght !== 0) {
       setTracks(topTracks);
       setNameB("Top Tracks");
@@ -42,9 +42,9 @@ const SidebarLeftLogic = () => {
   };
 
   const getRecentlyPlayed = async () => {
+    handleSidebarMenu();
     setDescription("");
     setFollowers("");
-    handleLoader();
     scrollTop();
     const response = await spotifyApi.getMyRecentlyPlayedTracks({
       type: "track",
@@ -57,9 +57,9 @@ const SidebarLeftLogic = () => {
   }; // Fetching recently played tracks by user
 
   const settingSavedTracks = async () => {
+    handleSidebarMenu();
     setDescription("");
     setFollowers("");
-    handleLoader();
     scrollTop();
     setTracks(savedTracks);
     setPlaylistToPlay(savedTracks);

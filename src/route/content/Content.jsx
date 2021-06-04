@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import "./Content.scss";
 import { Route } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
@@ -9,6 +9,8 @@ import Artistshow from "../artistShow/ArtistShow";
 import SearchResult from "../searchResult/SearchResult";
 import Scrollbar from "smooth-scrollbar";
 import NotFound from "../notFound/NotFound";
+import PageLoader from "../../components/pageLoader/PageLoader";
+import { AppContext } from "../../context/AppContext";
 
 const Content = () => {
   useEffect(() => {
@@ -19,8 +21,12 @@ const Content = () => {
       continuousScrolling: true,
     });
   }, []);
+
+  const { isLoading } = useContext(AppContext);
+
   return (
     <div className="content">
+      {isLoading && <PageLoader />}
       <AnimatedSwitch
         atEnter={{ opacity: 0 }}
         atActive={{ opacity: 1 }}

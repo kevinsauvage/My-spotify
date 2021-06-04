@@ -34,31 +34,6 @@
     opacity: 1;
 }
 
-.loader {
-    position: fixed;
-    width: unset;
-    height: 107vh;
-    z-index: 600000;
-    left: 0;
-    top: 0;
-    right: 0;
-    background-color: $color-mediumLight;
-    background-color: $color-mediumLight;
-    @include flex-center;
-}
-
-.loader-full {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    z-index: 600000;
-    left: 0;
-    top: 0;
-    right: 0;
-    background-color: $color-mediumLight;
-    @include flex-center;
-
-}
 
 .scrollbar-track {
     width: 4px !important;

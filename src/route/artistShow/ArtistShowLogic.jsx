@@ -44,7 +44,7 @@ const ArtistShowLogic = () => {
       setRecomendedTracks(tracks.tracks);
       setPlaylistToPlay(tracks.tracks);
     },
-    [artistToShow.id, setPlaylistToPlay, spotifyApi]
+    [artistToShow?.id, setPlaylistToPlay, spotifyApi]
   ); // get Recommendation tracks for a artist
 
   const getArtistRelatedArtists = useCallback(

@@ -5,7 +5,7 @@ const SidebarRightLogic = () => {
   const {
     spotifyApi,
     setSidebarRightIsOpen,
-    handleLoader,
+    handleSidebarMenu,
     scrollTop,
     setTracks,
     setPlaylistToPlay,
@@ -36,7 +36,7 @@ const SidebarRightLogic = () => {
 
   const getRecomended = async (e) => {
     setSidebarRightIsOpen(false);
-    handleLoader();
+    handleSidebarMenu();
     scrollTop();
     const id = e.currentTarget.dataset.name;
     const recommendations = await spotifyApi.getRecommendations({
