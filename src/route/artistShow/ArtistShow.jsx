@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import "./ArtistShow.scss";
 import { AppContext } from "../../context/AppContext";
-import Loader from "react-loader-spinner";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import ArtistShowLogic from "./ArtistShowLogic";
@@ -11,7 +10,7 @@ import Tracks from "../../components/tracks/Tracks";
 import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
 
 const ArtistShow = () => {
-  const { artistToShow, isLoading, isFollowing } = useContext(AppContext);
+  const { artistToShow, isFollowing } = useContext(AppContext);
 
   const {
     artistAlbums,
@@ -31,59 +30,45 @@ const ArtistShow = () => {
 
   return (
     <div className="artist-show">
-      {isLoading ? (
-        <div className="loader">
-          <Loader
-            type="ThreeDots"
-            color="#FFF"
-            height={40}
-            width={40}
-            timeout={1000}
-          />
-        </div>
-      ) : (
-        <>
-          <div>
-            <div
-              className="artist-show__banner-image"
-              style={{ backgroundImage: bg }}>
-              <div className="artist-show__detail padding">
-                {artistToShow && (
-                  <div className="artist-show__detail__title">
-                    <BibliothequeTitle title={artistToShow?.name} />
-                    {isFollowing ? (
-                      <p onClick={handleFollow} className="follow-btn">
-                        <RiUserUnfollowFill size={21} />
-                      </p>
-                    ) : (
-                      <p onClick={handleFollow} className="follow-btn">
-                        <RiUserFollowFill size={21} />
-                      </p>
-                    )}
-                  </div>
+      <div>
+        <div
+          className="artist-show__banner-image"
+          style={{ backgroundImage: bg }}>
+          <div className="artist-show__detail padding">
+            {artistToShow && (
+              <div className="artist-show__detail__title">
+                <BibliothequeTitle title={artistToShow?.name} />
+                {isFollowing ? (
+                  <p onClick={handleFollow} className="follow-btn">
+                    <RiUserUnfollowFill size={21} />
+                  </p>
+                ) : (
+                  <p onClick={handleFollow} className="follow-btn">
+                    <RiUserFollowFill size={21} />
+                  </p>
                 )}
-                <div className="artist-show__detail__wrapper">
-                  {artistToShow && <p>{artistToShow?.followers.total}</p>}
-                  <p>Followers</p>
-                </div>
-                <div className="artist-show__playBtn">
-                  <PlayBtn onClick={setUriFromArtistTopTracks} />
-                </div>
               </div>
+            )}
+            <div className="artist-show__detail__wrapper">
+              {artistToShow && <p>{artistToShow?.followers.total}</p>}
+              <p>Followers</p>
             </div>
-            <Tracks data={artistTopTracks} title="Top tracks" />
-          </div>
-          <div>
-            <div className="artist-show__recomended">
-              <Tracks data={recomendedTracks} title="Recomended Tracks" />
-            </div>
-            <div className="artist-show__bottom">
-              <Albums data={artistAlbums} />
-              <Artists data={relatedArtists} />
+            <div className="artist-show__playBtn">
+              <PlayBtn onClick={setUriFromArtistTopTracks} />
             </div>
           </div>
-        </>
-      )}
+        </div>
+        <Tracks data={artistTopTracks} title="Top tracks" />
+      </div>
+      <div>
+        <div className="artist-show__recomended">
+          <Tracks data={recomendedTracks} title="Recomended Tracks" />
+        </div>
+        <div className="artist-show__bottom">
+          <Albums data={artistAlbums} />
+          <Artists data={relatedArtists} />
+        </div>
+      </div>
     </div>
   );
 };

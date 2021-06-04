@@ -1,7 +1,6 @@
 import { memo, useContext } from "react";
 import "./TrackShow.scss";
 import { AppContext } from "../../context/AppContext";
-import Loader from "react-loader-spinner";
 import { MdPlayCircleFilled } from "react-icons/md";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { Link } from "react-router-dom";
@@ -15,7 +14,6 @@ const TrackShow = () => {
     spotifyApi,
     trackToShow,
     setPlaylistToPlay,
-    isLoading,
     setTrackToPlay,
     setPlaylistUri,
     setArtistShow,
@@ -44,63 +42,47 @@ const TrackShow = () => {
 
   return (
     <div className="track-show">
-      {isLoading ? (
-        <div className="loader">
-          <Loader
-            color="#FFF"
-            type="ThreeDots"
-            height={40}
-            width={40}
-            timeout={1000}
-          />
+      <div className="track-show__content">
+        <div className="content-left">
+          <BibliothequeTitle title="Similar tracks" />
+          <PlayBtn onClick={setPlaylistUri} />
+          <Tracks data={recomendedTracks} title="" />
         </div>
-      ) : (
-        <>
-          <div className="track-show__content">
-            <div className="content-left">
-              <BibliothequeTitle title="Similar tracks" />
-              <PlayBtn onClick={setPlaylistUri} />
-              <Tracks data={recomendedTracks} title="" />
+      </div>
+      <div className="track-show__banner">
+        {trackToShow && (
+          <div
+            className="track-show__album-cover"
+            style={{ backgroundImage: bg }}>
+            <div className="track-show__track-detail padding">
+              <BibliothequeTitle title={trackToShow?.name} />
+              <Link
+                to="/Artist"
+                onClick={setArtistShow}
+                data-id={trackToShow.artists[0].id}>
+                <h2 className="track-show__artist-name">
+                  {trackToShow.artists[0].name}
+                </h2>
+              </Link>
+              <h3 className="track-show__popularity">
+                <span>Popularity</span> {trackToShow.popularity}
+              </h3>
+              <span className="track-show__duration">
+                {millisToMinutesAndSeconds(trackToShow.duration_ms)}
+              </span>
+              <div
+                className="track-show__play"
+                onClick={setTrackToPlay}
+                data-id={trackToShow.id}
+                data-uri={trackToShow.uri}>
+                <p className="icon-play">
+                  <MdPlayCircleFilled size={60} />
+                </p>
+              </div>
             </div>
           </div>
-          <div className="track-show__banner">
-            {trackToShow && (
-              <>
-                <div
-                  className="track-show__album-cover"
-                  style={{ backgroundImage: bg }}>
-                  <div className="track-show__track-detail padding">
-                    <BibliothequeTitle title={trackToShow?.name} />
-                    <Link
-                      to="/Artist"
-                      onClick={setArtistShow}
-                      data-id={trackToShow.artists[0].id}>
-                      <h2 className="track-show__artist-name">
-                        {trackToShow.artists[0].name}
-                      </h2>
-                    </Link>
-                    <h3 className="track-show__popularity">
-                      <span>Popularity</span> {trackToShow.popularity}
-                    </h3>
-                    <span className="track-show__duration">
-                      {millisToMinutesAndSeconds(trackToShow.duration_ms)}
-                    </span>
-                    <div
-                      className="track-show__play"
-                      onClick={setTrackToPlay}
-                      data-id={trackToShow.id}
-                      data-uri={trackToShow.uri}>
-                      <p className="icon-play">
-                        <MdPlayCircleFilled size={60} />
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 };

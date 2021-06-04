@@ -8,7 +8,6 @@ import Login from "../components/login/Login";
 import Cookies from "js-cookie";
 import { AppProvider } from "../context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";
-import { SpotifyApiContext } from "react-spotify-api";
 import { useEffect, useState } from "react";
 
 const App = () => {
@@ -18,7 +17,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 2500);
   }, []);
 
   return (
@@ -26,13 +25,11 @@ const App = () => {
       {isLoading && <PageLoader />}
       {token ? (
         <AppProvider>
-          <SpotifyApiContext.Provider value={token}>
-            <Router>
-              <SidebarLeft />
-              <Main />
-              <SidebarRight />
-            </Router>
-          </SpotifyApiContext.Provider>
+          <Router>
+            <SidebarLeft />
+            <Main />
+            <SidebarRight />
+          </Router>
         </AppProvider>
       ) : (
         <Login />

@@ -6,10 +6,11 @@ import Cookies from "js-cookie";
 export const AppContext = createContext();
 const { Provider } = AppContext;
 const spotifyApi = new SpotifyWebApi();
-const token = Cookies.get("spotifyAuthToken");
-spotifyApi.setAccessToken(token);
 
 export const AppProvider = (props) => {
+  const token =
+    window.location.hash.split("=")[1] || Cookies.get("spotifyAuthToken");
+  spotifyApi.setAccessToken(token);
   const [user, setUser] = useState(); // user info
   const [playlists, setPlaylists] = useState([]); // user Playlist
   const [topTracks, setTopTracks] = useState([]); // user top tracks
