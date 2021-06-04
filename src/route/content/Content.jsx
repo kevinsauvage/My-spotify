@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import "./Content.scss";
 import { Route } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
@@ -7,21 +7,11 @@ import Bibliotheque from "../bibliotheque/Bibliotheque";
 import TrackShow from "../trackShow/TrackShow";
 import Artistshow from "../artistShow/ArtistShow";
 import SearchResult from "../searchResult/SearchResult";
-import Scrollbar from "smooth-scrollbar";
 import NotFound from "../notFound/NotFound";
 import PageLoader from "../../components/pageLoader/PageLoader";
 import { AppContext } from "../../context/AppContext";
 
 const Content = () => {
-  useEffect(() => {
-    Scrollbar.init(document.querySelector("#my-scrollbar"), {
-      damping: 0.1,
-      renderByPixels: true,
-      alwaysShowTracks: false,
-      continuousScrolling: true,
-    });
-  }, []);
-
   const { isLoading } = useContext(AppContext);
 
   return (

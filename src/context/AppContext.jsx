@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import Scrollbar from "smooth-scrollbar";
 import Cookies from "js-cookie";
+import Scrollbar from "smooth-scrollbar";
 
 export const AppContext = createContext();
 const { Provider } = AppContext;
@@ -35,6 +35,17 @@ export const AppProvider = (props) => {
   const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false); // Mobile menu
   const [searchResults, setSearchResults] = useState(null);
   const [newReleases, setNewReleases] = useState();
+  const [scrollbar, setScrollbar] = useState();
+
+  useEffect(() => {
+    const scrollbar = Scrollbar.init(document.querySelector("#my-scrollbar"), {
+      damping: 0.1,
+      renderByPixels: true,
+      alwaysShowTracks: false,
+      continuousScrolling: true,
+    });
+    setScrollbar(scrollbar);
+  }, []);
 
   const getNewReleases = async () => {
     const response = await spotifyApi.getNewReleases({ limit: 50 });
@@ -168,8 +179,8 @@ export const AppProvider = (props) => {
   }; // Function to set the track of the show page
 
   const setArtistShow = async (e) => {
-    handleSidebarMenu();
     scrollTop();
+    handleSidebarMenu();
     const id = e.currentTarget.dataset.id;
     const artist = await spotifyApi.getArtist(id);
     setArtistToShow(artist);
@@ -231,7 +242,7 @@ export const AppProvider = (props) => {
   }; // Adding track to queue
 
   const scrollTop = () => {
-    Scrollbar.scrollTop = -100;
+    scrollbar.setPosition(0, 0);
   };
 
   return (

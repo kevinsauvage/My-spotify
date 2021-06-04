@@ -96,13 +96,13 @@ const ArtistShowLogic = () => {
 
   const handleFollow = async () => {
     if (isFollowing) {
-      spotifyApi.unfollowArtists([artistToShow.id]);
+      spotifyApi.unfollowArtists([artistToShow?.id]);
       setIsFollowing(false);
       setTimeout(() => {
         settingFollowedArtists();
       }, 1000);
     } else {
-      spotifyApi.followArtists([artistToShow.id]);
+      spotifyApi.followArtists([artistToShow?.id]);
       setIsFollowing(true);
       setTimeout(() => {
         settingFollowedArtists();
