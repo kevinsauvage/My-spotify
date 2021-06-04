@@ -7,6 +7,7 @@ import PlayBtn from "../../components/playBtn/PlayBtn";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 import ArtistShowLogic from "./ArtistShowLogic";
+import RecomendedTracks from "../../components/recomendedTracks/RecomendedTracks";
 
 const ArtistShow = () => {
   const {
@@ -146,36 +147,9 @@ const ArtistShow = () => {
             </div>
             <div className="artist-show__right-column">
               <div className="artist-show__recomended">
-                <h1 className="artist-show__recomended__title title">
-                  Recomended Tracks
-                </h1>
-                <PlayBtn onClick={setPlaylistUri} />
-                <div className="section-header">
-                  <BibliothequeItemHeader name artist duration play queu />
-                </div>
-                {recomendedTracks &&
-                  recomendedTracks.map((track) => {
-                    return (
-                      <BibliothequeItem
-                        key={track.id}
-                        name={track.name}
-                        id={track.id}
-                        artist={track.artists[0].name}
-                        duration={millisToMinutesAndSeconds(track.duration_ms)}
-                        artistId={
-                          track.track
-                            ? track.track.artists[0].id
-                            : track.album
-                            ? track.album.artists[0].id
-                            : track.artists
-                            ? track.artists[0].id
-                            : null
-                        }
-                        uri={track.track ? track.track.uri : track.uri}
-                        play
-                      />
-                    );
-                  })}
+                {recomendedTracks && (
+                  <RecomendedTracks data={recomendedTracks} />
+                )}
               </div>
             </div>
           </div>

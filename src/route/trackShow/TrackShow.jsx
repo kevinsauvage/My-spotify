@@ -8,6 +8,7 @@ import PlayBtn from "../../components/playBtn/PlayBtn";
 import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
+import RecomendedTracks from "../../components/recomendedTracks/RecomendedTracks";
 
 const TrackShow = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
@@ -53,32 +54,7 @@ const TrackShow = () => {
             <div className="content-left">
               <h2 className="title">Similar Tracks</h2>
               <PlayBtn onClick={setPlaylistUri} />
-              <div className="section-header">
-                <BibliothequeItemHeader name artist duration play queu />
-              </div>
-              {recomendedTracks &&
-                recomendedTracks.map((track) => {
-                  return (
-                    <BibliothequeItem
-                      id={track.id}
-                      key={track.id}
-                      name={track.name}
-                      artist={track.artists[0].name}
-                      duration={millisToMinutesAndSeconds(track.duration_ms)}
-                      artistId={
-                        track.track
-                          ? track.track.artists[0].id
-                          : track.album
-                          ? track.album.artists[0].id
-                          : track.artists
-                          ? track.artists[0].id
-                          : null
-                      }
-                      uri={track.track ? track.track.uri : track.uri}
-                      play
-                    />
-                  );
-                })}
+              {recomendedTracks && <RecomendedTracks data={recomendedTracks} />}
             </div>
           </div>
           <div className="track-show__banner">
