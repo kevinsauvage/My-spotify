@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem";
 import { AppContext } from "../../context/AppContext";
 import Loader from "react-loader-spinner";
 import "./SearchResult.scss";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { AnimatePresence, motion } from "framer-motion";
-import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
+import Artists from "../../components/artists/Artists";
+import Tracks from "../../components/tracks/Tracks";
+import Playlists from "../../components/playlists/Playlists";
+import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
 
 const SearchResult = () => {
   const {
@@ -14,7 +16,6 @@ const SearchResult = () => {
     isLoading,
     playlistToPlay,
     setPlaylistUri,
-    millisToMinutesAndSeconds,
   } = useContext(AppContext);
 
   const [searchResultArtist, setSearchResultArtist] = useState(); // array of search result arstis
@@ -50,63 +51,13 @@ const SearchResult = () => {
         ) : (
           <>
             <div className="search-result__tracks">
-              <h1 className="search-result__tracks__title">Search result</h1>
+              <BibliothequeTitle title="Search result" />
               {playlistToPlay && <PlayBtn onClick={setPlaylistUri} />}
-              <div className="section-header">
-                <BibliothequeItemHeader name artist duration play queu />
-              </div>
-              {tracks &&
-                tracks.map((track) => {
-                  return (
-                    <BibliothequeItem
-                      key={track.id}
-                      id={track.id}
-                      name={track.name}
-                      artist={track.artists[0]?.name}
-                      duration={millisToMinutesAndSeconds(track.duration_ms)}
-                      artistId={track.artists[0]?.id}
-                      uri={track.track ? track.track.uri : track.uri}
-                      play
-                    />
-                  );
-                })}
+              <Tracks data={tracks} />
             </div>
             <div className="search-result__wrapper">
-              <div className="search-result__playlists">
-                <h1 className="search-result__playlists__title">Playlist</h1>
-                <div className="section-header">
-                  <BibliothequeItemHeader name owner play />
-                </div>
-                {playlistSearchResult &&
-                  playlistSearchResult.map((playlist) => {
-                    return (
-                      <BibliothequeItem
-                        key={playlist.id}
-                        name={playlist.name && playlist.name}
-                        owner={playlist.owner && playlist.owner.display_name}
-                        playlistId={playlist.id}
-                        play
-                      />
-                    );
-                  })}
-              </div>
-              <div className="search-result__artists">
-                <h1 className="search-result__tracks__title">Artist</h1>
-                <div className="section-header">
-                  <BibliothequeItemHeader artist popularity />
-                </div>
-                {searchResultArtist &&
-                  searchResultArtist.map((artist) => {
-                    return (
-                      <BibliothequeItem
-                        key={artist.id && artist.id}
-                        artist={artist.name && artist.name}
-                        popularity={artist.popularity && artist.popularity}
-                        artistId={artist.id && artist.id}
-                      />
-                    );
-                  })}
-              </div>
+              <Playlists data={playlistSearchResult} />
+              <Artists data={searchResultArtist} />
             </div>
           </>
         )}

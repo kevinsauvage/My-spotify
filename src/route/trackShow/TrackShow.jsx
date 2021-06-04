@@ -1,14 +1,13 @@
 import { memo, useContext } from "react";
 import "./TrackShow.scss";
-import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem";
 import { AppContext } from "../../context/AppContext";
 import Loader from "react-loader-spinner";
 import { MdPlayCircleFilled } from "react-icons/md";
 import PlayBtn from "../../components/playBtn/PlayBtn";
-import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import RecomendedTracks from "../../components/recomendedTracks/RecomendedTracks";
+import Tracks from "../../components/tracks/Tracks";
+import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
 
 const TrackShow = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
@@ -36,6 +35,13 @@ const TrackShow = () => {
     getRecommendationsTrack();
   }, [getRecommendationsTrack]);
 
+  const bg =
+    "linear-gradient(0deg, rgba(2,8,17,1) 35%, rgba(2,8,17,0.8155637254901961) 100%)" +
+    "," +
+    "url(" +
+    trackToShow.album.images[1].url +
+    ")";
+
   return (
     <div className="track-show">
       {isLoading ? (
@@ -52,9 +58,9 @@ const TrackShow = () => {
         <>
           <div className="track-show__content">
             <div className="content-left">
-              <h2 className="title">Similar Tracks</h2>
+              <BibliothequeTitle title="Similar tracks" />
               <PlayBtn onClick={setPlaylistUri} />
-              {recomendedTracks && <RecomendedTracks data={recomendedTracks} />}
+              <Tracks data={recomendedTracks} title="" />
             </div>
           </div>
           <div className="track-show__banner">
@@ -62,16 +68,9 @@ const TrackShow = () => {
               <>
                 <div
                   className="track-show__album-cover"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(0deg, rgba(2,8,17,1) 35%, rgba(2,8,17,0.8155637254901961) 100%)" +
-                      "," +
-                      "url(" +
-                      trackToShow.album.images[1].url +
-                      ")",
-                  }}>
+                  style={{ backgroundImage: bg }}>
                   <div className="track-show__track-detail">
-                    <h1 className="track-show__title">{trackToShow.name}</h1>
+                    <BibliothequeTitle title={trackToShow?.name} />
                     <Link
                       to="/Artist"
                       onClick={setArtistShow}

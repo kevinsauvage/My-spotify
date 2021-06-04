@@ -1,155 +1,12 @@
 @import "./variable";
 @import "./mixin";
 
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    color: $light-grey;
-}
-
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-    display: block;
-}
-
-body {
-    line-height: 1;
-    font-family: 'Raleway', sans-serif;
-}
-
-ol,
-ul {
-    list-style: none;
-}
-
-blockquote,
-q {
-    quotes: none;
-}
-
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-    content: '';
-    content: none;
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
-a {
-    text-decoration: none;
-    color: white;
-}
 
 .scroll-content {
     height: 100vh;
     padding: 1rem;
     padding-bottom: 2rem;
-    width: 230px;
+    width: 250px;
 
     >div {
         padding-bottom: 1rem;
@@ -176,11 +33,6 @@ a {
 
 .opacity {
     opacity: 1;
-}
-
-
-.space {
-    margin-bottom: 2rem;
 }
 
 .loader {
@@ -221,18 +73,6 @@ a {
     width: 4px !important;
 }
 
-.section-header {
-    padding: 5px 0;
-    margin-bottom: 1rem;
-
-    * {
-        color: whitesmoke;
-    }
-
-    .preview__btn {
-        display: none;
-    }
-}
 
 .scroll__content,
 .scroll-main {

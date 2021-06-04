@@ -26,6 +26,17 @@
 
 .__mvqn38 {
   height: 60px;
+
+  @include respond(mobileS) {
+    height: 55px;
+  }
+
+  img {
+    @include respond(mobileS) {
+      height: 30px !important;
+      width: 30px !important;
+    }
+  }
 }
 
 ._ContentRSWP {
@@ -52,11 +63,6 @@
   }
 }
 
-.__mvqn38 {
-  @include respond(mobileS) {
-    height: 55px;
-  }
-}
 
 .__3hi4aq {
   @include respond(mobileS) {
@@ -64,21 +70,15 @@
   }
 }
 
-.__mvqn38 img {
-  @include respond(mobileS) {
-    height: 30px !important;
-    width: 30px !important;
-  }
-}
 
-.__nnvdcq p {
-  @include respond(mobileS) {
-    font-size: 12px !important;
-
-  }
-}
 
 .__1g1kf0v {
+  @include respond(tablet) {
+    padding: 0;
+    position: absolute !important;
+    right: 30% !important;
+  }
+
   @include respond(mobileS) {
     padding: 10px;
     width: fit-content !important;
@@ -100,18 +100,18 @@
   }
 }
 
-.__1g1kf0v {
-  @include respond(tablet) {
-    padding: 0;
-    position: absolute !important;
-    right: 30% !important;
-  }
-}
 
 .__nnvdcq {
   @include respond(mobileS) {
     padding-left: 3px;
     white-space: unset;
+  }
+
+  p {
+    @include respond(mobileS) {
+      font-size: 12px !important;
+
+    }
   }
 }
 

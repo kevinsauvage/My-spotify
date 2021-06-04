@@ -34,16 +34,10 @@
     text-align: center;
     top: 2rem;
 
-
     div {
       @include flex-center;
 
     }
-  }
-
-  &__title {
-    color: white;
-    @include openSans(800, 28px)
   }
 
   &__artist-name {
@@ -57,7 +51,6 @@
     @include openSans(500, 14px);
     margin-top: 1rem;
     margin-bottom: 0.3rem;
-
   }
 
   &__play {
@@ -72,25 +65,11 @@
         color: $color-strong;
       }
     }
-
   }
-
 
   &__content {
     z-index: 1000;
     margin-top: 18rem;
     position: relative;
-
-    .content-left {
-      padding: 2rem 1rem;
-
-      h2 {
-        text-align: center;
-        margin-bottom: 1rem;
-        font-weight: 600;
-        color: whitesmoke;
-      }
-    }
   }
-
 }

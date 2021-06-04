@@ -1,22 +1,17 @@
 import { useContext } from "react";
 import "./ArtistShow.scss";
 import { AppContext } from "../../context/AppContext";
-import BibliothequeItem from "../../components/bibliothequeItem/BibliothequeItem";
 import Loader from "react-loader-spinner";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
-import BibliothequeItemHeader from "../../components/bibliothequeItemHeader/BibliothequeItemHeader";
 import ArtistShowLogic from "./ArtistShowLogic";
-import RecomendedTracks from "../../components/recomendedTracks/RecomendedTracks";
+import Artists from "../../components/artists/Artists";
+import Albums from "../../components/albums/Albums";
+import Tracks from "../../components/tracks/Tracks";
+import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
 
 const ArtistShow = () => {
-  const {
-    artistToShow,
-    setPlaylistUri,
-    millisToMinutesAndSeconds,
-    isLoading,
-    isFollowing,
-  } = useContext(AppContext);
+  const { artistToShow, isLoading, isFollowing } = useContext(AppContext);
 
   const {
     artistAlbums,
@@ -41,7 +36,7 @@ const ArtistShow = () => {
         </div>
       ) : (
         <>
-          <div className="artist-show__first-wrapper">
+          <div>
             <div
               className="artist-show__banner-image"
               style={{
@@ -55,9 +50,7 @@ const ArtistShow = () => {
               <div className="artist-show__detail">
                 {artistToShow && (
                   <div className="artist-show__detail__title">
-                    <h1 className="artist-show__detail__title">
-                      {artistToShow?.name}
-                    </h1>
+                    <BibliothequeTitle title={artistToShow?.name} />
                     {isFollowing ? (
                       <p onClick={handleFollow} className="follow-btn">
                         <RiUserUnfollowFill size={21} />
@@ -78,79 +71,15 @@ const ArtistShow = () => {
                 </div>
               </div>
             </div>
-            <div className="artist-show__artist-top">
-              <h1 className="artist-show__artist-top__title title">
-                Artist top tracks
-              </h1>
-              <div className="artist-show__artist-top__header section-header">
-                <BibliothequeItemHeader name artist duration queu play />
-              </div>
-              <div className="artist-show____artist-top">
-                {artistTopTracks &&
-                  artistTopTracks.map((track) => {
-                    return (
-                      <BibliothequeItem
-                        key={track.id + Math.random(1000)}
-                        name={track.name}
-                        id={track.id}
-                        artistId={track.artists[0].id}
-                        artist={track.artists[0].name}
-                        duration={millisToMinutesAndSeconds(track.duration_ms)}
-                        uri={track.track ? track.track.uri : track.uri}
-                        play
-                      />
-                    );
-                  })}
-              </div>
-            </div>
+            <Tracks data={artistTopTracks} title="Top tracks" />
           </div>
-          <div className="artist-show__wrapper-second">
-            <div className="artist-show__left-column">
-              <div className="artist-show__albums">
-                <h1 className="artist-show__albums-title title">
-                  Artist Albums
-                </h1>
-                <div className="section-header">
-                  <BibliothequeItemHeader album year />
-                </div>
-                {artistAlbums &&
-                  artistAlbums.map((album) => {
-                    return (
-                      <BibliothequeItem
-                        key={album.id}
-                        albumName={album.name}
-                        year={album.release_date.split("-")[0]}
-                        albumId={album.id}
-                      />
-                    );
-                  })}
-              </div>
-              <div className="artist-show__related-artist">
-                <h1 className="artist-show__related-artist__title title">
-                  Related Artists
-                </h1>
-                <div className="section-header">
-                  <BibliothequeItemHeader artist popularity />
-                </div>
-                {relatedArtists &&
-                  relatedArtists.map((artist) => {
-                    return (
-                      <BibliothequeItem
-                        key={artist.id}
-                        artist={artist.name}
-                        popularity={artist.popularity}
-                        artistId={artist.id}
-                      />
-                    );
-                  })}
-              </div>
+          <div>
+            <div className="artist-show__recomended">
+              <Tracks data={recomendedTracks} title="Recomended Tracks" />
             </div>
-            <div className="artist-show__right-column">
-              <div className="artist-show__recomended">
-                {recomendedTracks && (
-                  <RecomendedTracks data={recomendedTracks} />
-                )}
-              </div>
+            <div className="artist-show__bottom">
+              <Albums data={artistAlbums} />
+              <Artists data={relatedArtists} />
             </div>
           </div>
         </>

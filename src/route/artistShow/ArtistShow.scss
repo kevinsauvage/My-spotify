@@ -6,18 +6,10 @@
   height: 100%;
   position: relative;
 
-  &__first-wrapper {
-    width: 100%;
-    height: fit-content;
-    position: relative;
-    margin-bottom: 2rem;
-    justify-content: space-around;
-  }
-
   &__banner-image {
     width: 100%;
     height: 1000px;
-    margin-bottom: -894px;
+    margin-bottom: -850px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
@@ -31,12 +23,10 @@
     text-align: center;
 
     &__title {
-      font-size: 17px;
-      font-weight: 600;
-      color: whitesmoke;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
+      margin-top: 20px;
 
       svg {
         margin-left: 5px;
@@ -63,132 +53,12 @@
     }
   }
 
-  &__artist-top {
-    flex: 1;
-    padding: 1rem;
-    margin-top: 50px;
-  }
-
-  &__wrapper-second {
+  &__bottom {
     display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
-    padding: 1rem;
-  }
-
-  &__left-column {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__right-column {
-    flex: 2;
-    margin-bottom: 2rem;
-  }
-
-  .bibliotheque-item__time {
-    width: 100%;
-    justify-content: flex-start;
+    justify-content: space-around;
   }
 
   &__recomended {
     margin-bottom: 2rem;
-
-    .bibliotheque-item__wrapper-right {
-      justify-content: space-between;
-    }
-
-    .bibliotheque-item__time {
-      justify-content: flex-start;
-    }
-
-    .btn {
-      width: 20%;
-    }
-
-    .section-header {
-      .bibliotheque-item__time {
-        justify-content: flex-start;
-        margin-right: 25px;
-      }
-    }
-  }
-
-  &__albums {
-    margin-right: 2rem;
-    height: fit-content;
-    flex: 1;
-
-    .preview__btn {
-      display: none;
-    }
-
-    .btn {
-      display: none;
-    }
-
-    .bibliotheque-item__time {
-      justify-content: flex-end !important;
-    }
-  }
-
-  &__related-artist {
-    flex: 1;
-    height: inherit;
-
-    .preview__btn {
-      display: none;
-    }
-
-    .btn {
-      display: none;
-    }
-
-    .bibliotheque-item__artist {
-      margin-left: 0;
-    }
-
-    .bibliotheque-item__wrapper {
-      width: 100%;
-    }
-
-    .bibliotheque-item__time {
-      justify-content: flex-end !important;
-    }
-  }
-
-  .play-btn {
-    margin-bottom: 1rem;
-  }
-
-  .bibliotheque-item__wrapper-right {
-    width: 48%;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  &__artist-top__header {
-    margin-bottom: 1rem;
-
-    .preview__btn {
-      display: none;
-    }
-
-    .bibliotheque-item__wrapper-right {
-      justify-content: space-between;
-    }
-
-    .bibliotheque-item__wrapper {
-      width: 70%;
-    }
-  }
-
-  .title {
-    text-align: center;
-    font-size: 20px;
-    color: white;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    position: relative;
   }
 }

@@ -1,77 +1,13 @@
-@import "../../assets/stylesheets/mixin";
-@import "../../assets/stylesheets/global";
-
 .search-result {
   padding: 2rem;
 
   &__tracks {
     flex: 2;
     margin-bottom: 2rem;
-
-    .section-header {
-      margin-top: 3rem;
-    }
-
-    &__title {
-      font-size: 20px;
-      font-weight: 600;
-      color: whitesmoke;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
   }
 
   &__wrapper {
     display: flex;
-  }
-
-  &__playlists {
-    flex: 1;
-    margin-right: 2rem;
-
-    .bibliotheque-item__time {
-      justify-content: flex-end;
-      text-align: end;
-    }
-
-    .preview__btn {
-      display: none;
-    }
-
-    &__title {
-      font-size: 20px;
-      font-weight: 600;
-      color: whitesmoke;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-  }
-
-  &__artists {
-    flex: 1;
-
-    .bibliotheque-item__wrapper-right {
-      justify-content: flex-end !important;
-    }
-
-    .btn {
-      display: none;
-    }
-  }
-}
-
-.search-result {
-  .bibliotheque-item__wrapper-right {
-    justify-content: space-between;
-  }
-}
-
-.search-result__playlists {
-  .btn {
-    display: none;
-  }
-
-  .bibliotheque-item__wrapper-right {
-    justify-content: flex-end;
+    justify-content: space-around;
   }
 }
