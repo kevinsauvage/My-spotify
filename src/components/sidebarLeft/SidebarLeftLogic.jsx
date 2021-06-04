@@ -46,11 +46,12 @@ const SidebarLeftLogic = () => {
     setFollowers("");
     handleLoader();
     scrollTop();
-    const recentlyPlayed = await spotifyApi.getMyRecentlyPlayedTracks({
+    const response = await spotifyApi.getMyRecentlyPlayedTracks({
       type: "track",
       limit: 50,
     });
-    setTracks(recentlyPlayed.items);
+    const recentlyPlayed = response.items.map((item) => item.track);
+    setTracks(recentlyPlayed);
     setPlaylistToPlay("");
     setNameB("Recently Played");
   }; // Fetching recently played tracks by user

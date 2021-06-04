@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useEffect } from "react";
 import { CgPlayListAdd } from "react-icons/cg";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { MdAddCircleOutline, MdPlayCircleFilled } from "react-icons/md";
@@ -42,6 +42,10 @@ const BibliothequeItem = ({
     handleClickAddToQueu,
     showMenu,
   } = BibliothequeItemLogic(menu, iconMenu, addToQueu);
+
+  useEffect(() => {
+    console.log("bbbb");
+  }, []);
 
   return (
     <div className={"bibliotheque-item"}>

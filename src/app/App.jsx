@@ -4,14 +4,16 @@ import SidebarLeft from "../components/sidebarLeft/SidebarLeft";
 import Main from "../layout/main/Main";
 import SidebarRight from "../components/sidebarRight/SidebarRight";
 import Cookies from "js-cookie";
-import { AppProvider } from "../context/AppContext";
+import { AppContext, AppProvider } from "../context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SpotifyApiContext } from "react-spotify-api";
-import { SpotifyAuth, Scopes } from "react-spotify-auth";
-import HeaderLogin from "../components/headerLogin/HeaderLogin";
+import PageLoader from "../components/pageLoader/PageLoader";
+import { useContext } from "react";
+import Login from "../components/login/Login";
 
 const App = () => {
   let token = Cookies.get("spotifyAuthToken");
+  const props = useContext(AppContext);
 
   return (
     <div className="App">
@@ -25,16 +27,10 @@ const App = () => {
             </Router>
           </SpotifyApiContext.Provider>
         </AppProvider>
+      ) : props?.isLoading ? (
+        <PageLoader />
       ) : (
-        <div className="auth">
-          <HeaderLogin />
-          <SpotifyAuth
-            redirectUri={process.env.REACT_APP_REDIRECT_URL}
-            clientID={process.env.REACT_APP_CLIENT_ID}
-            scopes={[Scopes.all]}
-          />
-          <h3>( Only for spotify premium users )</h3>
-        </div>
+        <Login />
       )}
     </div>
   );

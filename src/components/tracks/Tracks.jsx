@@ -18,10 +18,10 @@ const Tracks = ({ data, title }) => {
               key={track.id + Math.random(1000)}
               name={track.name}
               id={track.id}
-              artistId={track.artists[0].id}
-              artist={track.artists[0].name}
+              artistId={track.artists?.[0].id}
+              artist={track.artists?.[0].name}
               duration={millisToMinutesAndSeconds(track.duration_ms)}
-              uri={track.track ? track.track.uri : track.uri}
+              uri={track.track?.uri || track.uri}
               play
             />
           );

@@ -13,8 +13,11 @@ import SectionTitleSidebar from "../sectionTitleSidebar/SectionTitleSidebar";
 SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarLeft = () => {
-  const props = useContext(AppContext);
+  const { sidebarLeftIsOpen, user, playlists, fetchPlaylistContent } =
+    useContext(AppContext);
+
   const sidebar = useRef(null);
+
   const {
     settingSavedTracks,
     getRecentlyPlayed,
@@ -29,7 +32,7 @@ const SidebarLeft = () => {
       ref={sidebar}
       className="sidebarLeft"
       style={{
-        transform: props.sidebarLeftIsOpen ? "translateX(0px)" : null,
+        transform: sidebarLeftIsOpen ? "translateX(0px)" : null,
       }}>
       <Scrollbar
         damping={0.1}
@@ -37,7 +40,7 @@ const SidebarLeft = () => {
         alwaysShowTracks={false}
         className="scroll__content">
         <div className="sidebarLeft__userInfo padding">
-          <h1 className="userName">{props.user && props.user.email}</h1>
+          <h1 className="userName">{user && user.email}</h1>
         </div>
         <SearchBar />
         <div className="sidebarLeft__userLibrary padding">
@@ -57,17 +60,15 @@ const SidebarLeft = () => {
         <div className="sidebarLeft__userPlaylist padding">
           <SectionTitleSidebar title="PLAYLISTS" />
           <div className="playlist">
-            {props.playlists &&
-              props.playlists.map((playlist) => {
-                let name = playlist.name;
-                let id = playlist.id;
+            {playlists &&
+              playlists.map((playlist) => {
                 return (
-                  <Link to="/Biblio" key={id}>
+                  <Link to="/Biblio" key={playlist.id}>
                     <Subtitle
-                      text={name}
-                      data-name={name}
-                      id={id}
-                      onClick={props.fetchPlaylistContent}
+                      text={playlist.name}
+                      data-name={playlist.name}
+                      id={playlist.id}
+                      onClick={fetchPlaylistContent}
                     />
                   </Link>
                 );

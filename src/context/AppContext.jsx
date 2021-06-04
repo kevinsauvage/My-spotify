@@ -131,12 +131,12 @@ export const AppProvider = (props) => {
     handleLoader();
     const id = e.currentTarget.dataset.id;
     const name = e.currentTarget.dataset.name;
-    setNameB(name);
     const playlistContent = await spotifyApi.getPlaylist(id);
-    setTracks(playlistContent.tracks.items);
+    const tracks = playlistContent.tracks.items.map((res) => res.track);
+    setNameB(name);
     setBannerInfoPlaylist(playlistContent);
-    const tracksq = playlistContent.tracks.items.map((res) => res.track);
-    setPlaylistToPlay(tracksq);
+    setTracks(tracks);
+    setPlaylistToPlay(tracks);
   }; // Fetch the plyalist content when clickinng on playlist link
 
   const setBannerInfoPlaylist = (response) => {

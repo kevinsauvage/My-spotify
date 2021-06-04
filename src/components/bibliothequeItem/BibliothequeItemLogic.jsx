@@ -3,7 +3,9 @@ import { AppContext } from "../../context/AppContext";
 
 const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
+
   const props = useContext(AppContext);
+
   const [showMenu, setShowMenu] = useState(false);
 
   const handleClickOutside = useCallback(
