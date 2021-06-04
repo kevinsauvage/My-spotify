@@ -3,23 +3,14 @@
 @import "../../assets/stylesheets/global";
 
 .bibliotheque {
-  margin: 0 1rem 2rem 1rem;
+  margin: 0 0rem 2rem 0rem;
   border-radius: 10px;
-
-  &__tracks {
-    margin-bottom: 2rem;
-  }
 
   &__banner {
     width: 100%;
     height: fit-content;
     position: relative;
-    margin-bottom: 2rem;
     margin-top: 2rem;
-  }
-
-  &__item {
-    display: flex;
   }
 
   &__name {
