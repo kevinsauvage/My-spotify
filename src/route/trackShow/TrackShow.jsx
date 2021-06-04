@@ -69,7 +69,7 @@ const TrackShow = () => {
                 <div
                   className="track-show__album-cover"
                   style={{ backgroundImage: bg }}>
-                  <div className="track-show__track-detail">
+                  <div className="track-show__track-detail padding">
                     <BibliothequeTitle title={trackToShow?.name} />
                     <Link
                       to="/Artist"

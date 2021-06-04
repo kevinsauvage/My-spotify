@@ -1,7 +1,7 @@
 @import "../../assets/stylesheets/mixin";
 
 .home {
-  padding: 2rem;
+  padding: 1rem;
 
   @include respond(tablet) {
     padding: 0.5rem;

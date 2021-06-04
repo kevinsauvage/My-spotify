@@ -3,6 +3,7 @@ import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import Card from "../card/Card";
 import responsive from "./responsive";
+import "./CarouselComponent.scss";
 
 const CarouselComponent = ({ data, onClick, link }) => {
   return (

@@ -4,9 +4,8 @@
 
 .scroll-content {
     height: 100vh;
-    padding: 1rem;
     padding-bottom: 2rem;
-    width: 250px;
+    min-width: 250px;
 
     >div {
         padding-bottom: 1rem;
@@ -81,4 +80,8 @@
     @include respond(tablet) {
         height: calc(100vh - 115px);
     }
+}
+
+.padding {
+    padding: 1rem;
 }

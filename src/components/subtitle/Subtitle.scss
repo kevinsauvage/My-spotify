@@ -5,6 +5,7 @@
   transform-origin: top center;
   cursor: pointer;
 
+
   &__title {
     text-transform: capitalize;
     @include openSans(500, 12px);

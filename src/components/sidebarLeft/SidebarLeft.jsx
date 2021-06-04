@@ -36,13 +36,13 @@ const SidebarLeft = () => {
         continuousScrolling={false}
         alwaysShowTracks={false}
         className="scroll__content">
-        <div className="sidebarLeft__userInfo">
+        <div className="sidebarLeft__userInfo padding">
           <h1 className="userName">{props.user && props.user.email}</h1>
         </div>
         <SearchBar />
-        <div className="sidebarLeft__userLibrary">
+        <div className="sidebarLeft__userLibrary padding">
           <SectionTitleSidebar title="LIBRARY" />
-          <div className="libraryItem">
+          <div className="sidebarLeft__libraryItem">
             <Link to="/Biblio">
               <Subtitle text="Recently Played" onClick={getRecentlyPlayed} />
             </Link>
@@ -54,7 +54,7 @@ const SidebarLeft = () => {
             </Link>
           </div>
         </div>
-        <div className="sidebarLeft__userPlaylist">
+        <div className="sidebarLeft__userPlaylist padding">
           <SectionTitleSidebar title="PLAYLISTS" />
           <div className="playlist">
             {props.playlists &&

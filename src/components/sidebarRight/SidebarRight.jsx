@@ -31,21 +31,23 @@ const SidebarRight = () => {
         alwaysShowTracks={false}
         className="scroll__content">
         <Link to="/">
-          <div className="sidebarRight__logo">
+          <div className="sidebarRight__logo padding">
             <motion.h1 whileHover={{ scale: 1.05 }}>My Spotifly</motion.h1>
           </div>
         </Link>
-        {dataConfig.map((data) => {
-          return (
-            <SidebarRightCategoryWrapper
-              key={data.id}
-              data={data.items}
-              link={data.link}
-              fn={data.fn}
-              title={data.title}
-            />
-          );
-        })}
+        <div className="padding">
+          {dataConfig.map((data) => {
+            return (
+              <SidebarRightCategoryWrapper
+                key={data.id}
+                data={data.items}
+                link={data.link}
+                fn={data.fn}
+                title={data.title}
+              />
+            );
+          })}
+        </div>
       </Scrollbar>
     </div>
   );

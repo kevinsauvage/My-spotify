@@ -47,7 +47,7 @@ const ArtistShow = () => {
                   artistToShow?.images[1].url +
                   ")",
               }}>
-              <div className="artist-show__detail">
+              <div className="artist-show__detail padding">
                 {artistToShow && (
                   <div className="artist-show__detail__title">
                     <BibliothequeTitle title={artistToShow?.name} />

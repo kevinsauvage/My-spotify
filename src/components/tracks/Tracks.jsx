@@ -3,13 +3,12 @@ import { AppContext } from "../../context/AppContext";
 import BibliothequeItem from "../bibliothequeItem/BibliothequeItem";
 import BibliothequeItemHeader from "../bibliothequeItemHeader/BibliothequeItemHeader";
 import BibliothequeTitle from "../bibliothequeTitle/BibliothequeTitle";
-import "./Tracks.scss";
 
 const Tracks = ({ data, title }) => {
   const { millisToMinutesAndSeconds } = useContext(AppContext);
 
   return (
-    <div className="tracks">
+    <div className="tracks padding">
       <BibliothequeTitle title={title} />
       <BibliothequeItemHeader name artist duration queu play />
       {data &&
