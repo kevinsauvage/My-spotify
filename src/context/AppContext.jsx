@@ -163,17 +163,18 @@ export const AppProvider = (props) => {
   }; // Getting the track of album when clicking on album link
 
   const setTrackShow = async (e) => {
-    handleSidebarMenu();
     scrollTop();
     let id = e.currentTarget.dataset.id;
+    if (id === trackToShow.id) return;
+    handleSidebarMenu();
     const track = await spotifyApi.getTrack(id);
     setTrackToShow(track);
   }; // Function to set the track of the show page
 
   const setArtistShow = async (e) => {
+    scrollTop();
     const id = e.currentTarget.dataset.id;
     if (id === artistToShow.id) return;
-    scrollTop();
     handleSidebarMenu();
     const artist = await spotifyApi.getArtist(id);
     setArtistToShow(artist);
