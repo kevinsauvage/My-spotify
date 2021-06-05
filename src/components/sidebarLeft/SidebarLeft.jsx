@@ -27,7 +27,6 @@ const SidebarLeft = () => {
 
   const array = Array.from(Array(50).keys());
 
-  console.log(playlists);
   return (
     <div
       ref={sidebar}
@@ -67,7 +66,6 @@ const SidebarLeft = () => {
           <div className="playlist">
             {playlists.length !== 0
               ? playlists.map((playlist) => {
-                  console.log(playlist);
                   return (
                     <Link to="/Biblio" key={playlist.id}>
                       <Subtitle

@@ -171,9 +171,10 @@ export const AppProvider = (props) => {
   }; // Function to set the track of the show page
 
   const setArtistShow = async (e) => {
+    const id = e.currentTarget.dataset.id;
+    if (id === artistToShow.id) return;
     scrollTop();
     handleSidebarMenu();
-    const id = e.currentTarget.dataset.id;
     const artist = await spotifyApi.getArtist(id);
     setArtistToShow(artist);
   }; // Set artist to show on artist show page

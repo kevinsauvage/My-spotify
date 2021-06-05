@@ -38,7 +38,7 @@ const ArtistShowLogic = () => {
   const getRecommendationsTrackFromArtist = useCallback(
     async (id) => {
       const tracks = await spotifyApi.getRecommendations({
-        seed_artists: artistToShow.id,
+        seed_artists: artistToShow?.id,
         limit: 50,
       });
       setRecomendedTracks(tracks.tracks);
@@ -111,15 +111,19 @@ const ArtistShowLogic = () => {
   }; // Following || unfollowing artist
 
   const setUriFromArtistTopTracks = () => {
-    const tracksq = artistTopTracks.map((res) => {
-      return res.uri;
-    });
+    const tracksq = artistTopTracks.map((res) => res.uri);
     setUri(tracksq);
   }; // fetch uris and set uris to play when user click on artist top track play button
+
+  const setUriFromArtistRecomendedTracks = () => {
+    const uris = recomendedTracks.map((track) => track.uri);
+    setUri(uris);
+  };
 
   return {
     artistAlbums,
     setUriFromArtistTopTracks,
+    setUriFromArtistRecomendedTracks,
     handleFollow,
     relatedArtists,
     artistTopTracks,
