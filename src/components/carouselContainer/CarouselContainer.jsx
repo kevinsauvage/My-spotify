@@ -3,16 +3,14 @@ import SectionTitle from "../sectionTtitle/SectionTitle";
 
 const CarouselContainer = ({ data }) => {
   return (
-    data && (
-      <>
-        <SectionTitle title={data.title} />
-        <CarouselComponent
-          data={data.items}
-          link={data.link}
-          onClick={data.fn}
-        />
-      </>
-    )
+    <>
+      <SectionTitle title={data?.title} />
+      <CarouselComponent
+        data={data?.items}
+        link={data?.link}
+        onClick={data?.fn}
+      />
+    </>
   );
 };
 

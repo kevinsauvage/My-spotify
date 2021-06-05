@@ -1,8 +1,6 @@
 import { useContext, useRef } from "react";
 import "./SidebarLeft.scss";
 import Subtitle from "../subtitle/Subtitle";
-import SmoothScrollbar from "smooth-scrollbar";
-import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import Scrollbar from "react-smooth-scrollbar";
 import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
@@ -10,7 +8,7 @@ import SearchBar from "../searchBar/SearchBar";
 import SidebarLeftLogic from "./SidebarLeftLogic";
 import useClickOutside from "../../hooks/useClickOutside";
 import SectionTitleSidebar from "../sectionTitleSidebar/SectionTitleSidebar";
-SmoothScrollbar.use(OverscrollPlugin);
+import TextLoader from "../textLoader/TextLoader";
 
 const SidebarLeft = () => {
   const { sidebarLeftIsOpen, user, playlists, fetchPlaylistContent } =
@@ -27,6 +25,9 @@ const SidebarLeft = () => {
 
   useClickOutside(sidebar, closeSidebar);
 
+  const array = Array.from(Array(50).keys());
+
+  console.log(playlists);
   return (
     <div
       ref={sidebar}
@@ -40,7 +41,11 @@ const SidebarLeft = () => {
         alwaysShowTracks={false}
         className="scroll__content">
         <div className="sidebarLeft__userInfo padding">
-          <h1 className="userName">{user && user.email}</h1>
+          {user ? (
+            <h1 className="userName">{user.email}</h1>
+          ) : (
+            <TextLoader height="2px" width="200px" margin="0" />
+          )}
         </div>
         <SearchBar />
         <div className="sidebarLeft__userLibrary padding">
@@ -60,19 +65,23 @@ const SidebarLeft = () => {
         <div className="sidebarLeft__userPlaylist padding">
           <SectionTitleSidebar title="PLAYLISTS" />
           <div className="playlist">
-            {playlists &&
-              playlists.map((playlist) => {
-                return (
-                  <Link to="/Biblio" key={playlist.id}>
-                    <Subtitle
-                      text={playlist.name}
-                      data-name={playlist.name}
-                      id={playlist.id}
-                      onClick={fetchPlaylistContent}
-                    />
-                  </Link>
-                );
-              })}
+            {playlists.length !== 0
+              ? playlists.map((playlist) => {
+                  console.log(playlist);
+                  return (
+                    <Link to="/Biblio" key={playlist.id}>
+                      <Subtitle
+                        text={playlist.name}
+                        data-name={playlist.name}
+                        id={playlist.id}
+                        onClick={fetchPlaylistContent}
+                      />
+                    </Link>
+                  );
+                })
+              : array.map((e) => {
+                  return <TextLoader height="13px" width="200px" key={e} />;
+                })}
           </div>
         </div>
       </Scrollbar>

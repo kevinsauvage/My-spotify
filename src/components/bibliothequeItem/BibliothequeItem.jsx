@@ -43,10 +43,6 @@ const BibliothequeItem = ({
     showMenu,
   } = BibliothequeItemLogic(menu, iconMenu, addToQueu);
 
-  useEffect(() => {
-    console.log("bbbb");
-  }, []);
-
   return (
     <div className={"bibliotheque-item"}>
       {name && (

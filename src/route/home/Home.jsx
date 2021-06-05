@@ -2,6 +2,7 @@ import { useContext } from "react";
 import "./Home.scss";
 import { AppContext } from "../../context/AppContext";
 import CarouselContainer from "../../components/carouselContainer/CarouselContainer";
+import CardLoader from "../../components/cardLoader/CardLoader";
 
 const Home = () => {
   const {
@@ -45,15 +46,21 @@ const Home = () => {
     },
   ];
 
+  const array = Array.from(Array(6).keys()); // Make an array to display 8 card loader carussel
+
   return (
     <div className="home">
-      {dataConfig.map((data) => {
-        return (
-          <div className="space" key={data.id}>
-            <CarouselContainer data={data} />
-          </div>
-        );
-      })}
+      {savedAlbums && topArtists && topTracks && newReleases
+        ? dataConfig.map((data) => {
+            return (
+              <div className="space" key={data.id}>
+                <CarouselContainer data={data} />
+              </div>
+            );
+          })
+        : array.map((e) => {
+            return <CardLoader key={e} />;
+          })}
     </div>
   );
 };

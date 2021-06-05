@@ -25,7 +25,6 @@ export const AppProvider = (props) => {
   const [artistToShow, setArtistToShow] = useState(undefined); // Set artist to display on the show page
   const [input, setInput] = useState(""); // input search
   const [isLoading, setIsLoading] = useState(false); // spinner loader on each page
-  const [firstLoad, setFirstLoad] = useState(true); // display spinner loader for first render
   const [uri, setUri] = useState(); // uri of track to play
   const [deviceId, setDeviceId] = useState(); // id of user device if the user is playing something
   const [playlistToPlay, setPlaylistToPlay] = useState(); // array of the playlist to start if push play btn
@@ -71,14 +70,7 @@ export const AppProvider = (props) => {
     getSavedAlbums();
     settingFollowedArtists();
     getNowPlaying();
-    disableFirstLoader();
   }, [getTopTracks]);
-
-  const disableFirstLoader = () => {
-    setTimeout(() => {
-      setFirstLoad(false);
-    }, 4000);
-  }; // Disable first loader after 4 secondes
 
   // Fetching user info -----------------------------------------------------------------------------------------Fetching user info-----------
 
@@ -277,7 +269,6 @@ export const AppProvider = (props) => {
         uri,
         setUri,
         setTrackToPlay,
-        firstLoad,
         isLoading,
         getSearch,
         input,
