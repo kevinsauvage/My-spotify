@@ -24,7 +24,7 @@ export const AppProvider = (props) => {
   const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
   const [artistToShow, setArtistToShow] = useState(undefined); // Set artist to display on the show page
   const [input, setInput] = useState(""); // input search
-  const [isLoading, setIsLoading] = useState(false); // spinner loader on each page
+  const [isLoading, setIsLoading] = useState(true); // spinner loader on each page
   const [uri, setUri] = useState(); // uri of track to play
   const [deviceId, setDeviceId] = useState(); // id of user device if the user is playing something
   const [playlistToPlay, setPlaylistToPlay] = useState(); // array of the playlist to start if push play btn
@@ -35,6 +35,8 @@ export const AppProvider = (props) => {
   const [searchResults, setSearchResults] = useState(null);
   const [newReleases, setNewReleases] = useState();
   const [scrollbar, setScrollbar] = useState();
+  const [playlistShowed, setPlaylistsShowed] = useState();
+  const [albumShowed, setAlbumShowed] = useState();
 
   useEffect(() => {
     const scrollbar = Scrollbar.init(document.querySelector("#my-scrollbar"), {
@@ -134,13 +136,17 @@ export const AppProvider = (props) => {
     scrollTop();
     handleSidebarMenu();
     const id = e.currentTarget.dataset.id;
+    if (id === playlistShowed?.id) return;
+    setIsLoading(true);
     const name = e.currentTarget.dataset.name;
     const playlistContent = await spotifyApi.getPlaylist(id);
     const tracks = playlistContent.tracks.items.map((res) => res.track);
+    setPlaylistsShowed(playlistContent);
     setNameB(name);
     setBannerInfoPlaylist(playlistContent);
     setTracks(tracks);
     setPlaylistToPlay(tracks);
+    setIsLoading(false);
   }; // Fetch the plyalist content when clickinng on playlist link
 
   const setBannerInfoPlaylist = (response) => {
@@ -152,20 +158,25 @@ export const AppProvider = (props) => {
   }; // Setting the banner info in relation with the playlist displayed
 
   const getAlbumTracks = async (e) => {
-    handleSidebarMenu();
     scrollTop();
+    handleSidebarMenu();
     const id = e.currentTarget.dataset.id;
+    if (albumShowed === id) return;
+    setIsLoading(true);
     const name = e.currentTarget.dataset.name;
     const albumsTracks = await spotifyApi.getAlbumTracks(id);
+    setAlbumShowed(id);
     setTracks(albumsTracks.items);
     setPlaylistToPlay(albumsTracks.items);
     setNameB(name);
+    setIsLoading(false);
   }; // Getting the track of album when clicking on album link
 
   const setTrackShow = async (e) => {
     scrollTop();
     let id = e.currentTarget.dataset.id;
     if (id === trackToShow.id) return;
+    setIsLoading(true);
     handleSidebarMenu();
     const track = await spotifyApi.getTrack(id);
     setTrackToShow(track);
@@ -175,22 +186,11 @@ export const AppProvider = (props) => {
     scrollTop();
     const id = e.currentTarget.dataset.id;
     if (id === artistToShow.id) return;
+    setIsLoading(true);
     handleSidebarMenu();
     const artist = await spotifyApi.getArtist(id);
     setArtistToShow(artist);
   }; // Set artist to show on artist show page
-
-  const getSearch = async (e) => {
-    e.preventDefault();
-    handleSidebarMenu();
-    const searchResults = await spotifyApi.search(input, [
-      "artist",
-      "playlist",
-      "track",
-    ]);
-    setSearchResults(searchResults);
-    setInput("");
-  }; // Fetch from search input
 
   const setTrackToPlay = async (e) => {
     let uri = e.currentTarget.dataset.uri;
@@ -205,15 +205,13 @@ export const AppProvider = (props) => {
   }; // Seting track to play when clicking on play
 
   const handleSidebarMenu = () => {
-    setIsLoading(true);
     setSidebarLeftIsOpen(false);
     setSidebarRightIsOpen(false);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
   }; // Setting the loader when fetching and then disable it
 
   const settingAlbumToPlay = async (e) => {
+    scrollTop();
+    setIsLoading(true);
     const id = e.currentTarget.dataset.id;
     const album = await spotifyApi.getAlbum(id);
     setPlaylistToPlay(album.tracks.items);
@@ -221,7 +219,7 @@ export const AppProvider = (props) => {
     setNameB(album.name);
     setDescription(album.artists[0].name);
     setFollowers(album.label);
-    scrollTop();
+    setIsLoading(false);
   };
 
   const millisToMinutesAndSeconds = (millis) => {
@@ -269,10 +267,10 @@ export const AppProvider = (props) => {
         playlistToPlay,
         deviceId,
         uri,
+        setSearchResults,
         setUri,
         setTrackToPlay,
         isLoading,
-        getSearch,
         input,
         artistToShow,
         settingAlbumToPlay,
@@ -281,6 +279,7 @@ export const AppProvider = (props) => {
         trackToShow,
         setTrackShow,
         followers,
+        setIsLoading,
         description,
         nameB,
         getAlbumTracks,

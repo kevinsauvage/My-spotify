@@ -22,8 +22,6 @@ const ArtistShow = () => {
     setUriFromArtistRecomendedTracks,
   } = ArtistShowLogic();
 
-  console.log(recomendedTracks);
-
   const bg =
     "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +
     "," +

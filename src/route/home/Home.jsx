@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "./Home.scss";
 import { AppContext } from "../../context/AppContext";
 import CarouselContainer from "../../components/carouselContainer/CarouselContainer";
@@ -13,7 +13,12 @@ const Home = () => {
     topArtists,
     setArtistShow,
     newReleases,
+    setIsLoading,
   } = useContext(AppContext);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [setIsLoading]);
 
   const dataConfig = [
     {

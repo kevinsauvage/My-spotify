@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import "./Bibliotheque.scss";
 import PlayBtn from "../../components/playBtn/PlayBtn";
@@ -11,8 +11,15 @@ const Bibliotheque = () => {
     followers,
     playlistToPlay,
     setPlaylistUri,
+    setIsLoading,
     tracks,
   } = useContext(AppContext);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [setIsLoading]);
 
   return (
     <div className="bibliotheque">

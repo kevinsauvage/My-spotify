@@ -17,7 +17,7 @@ const PageLoader = () => {
           color="#FFF"
           height={40}
           width={40}
-          timeout={3000}
+          timeout={300000}
         />
       </motion.div>
     </AnimatePresence>

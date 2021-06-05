@@ -10,6 +10,7 @@ const ArtistShowLogic = () => {
     setIsFollowing,
     setUri,
     settingFollowedArtists,
+    setIsLoading,
   } = useContext(AppContext);
 
   const [artistAlbums, setArtistAlbums] = useState();
@@ -62,8 +63,9 @@ const ArtistShowLogic = () => {
     async (id) => {
       const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", 100);
       setArtistTopTracks(topTracks.tracks);
+      setIsLoading(false);
     },
-    [spotifyApi]
+    [spotifyApi, setIsLoading]
   ); // get artist top tracks
 
   const isFollowingArtist = useCallback(

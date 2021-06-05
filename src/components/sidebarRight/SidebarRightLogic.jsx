@@ -19,6 +19,8 @@ const SidebarRightLogic = () => {
     topArtists,
     setArtistShow,
     savedAlbums,
+    nameB,
+    setIsLoading,
     getAlbumTracks,
     followedArtists,
   } = useContext(AppContext);
@@ -37,8 +39,10 @@ const SidebarRightLogic = () => {
   const getRecomended = async (e) => {
     setSidebarRightIsOpen(false);
     handleSidebarMenu();
-    scrollTop();
     const id = e.currentTarget.dataset.name;
+    if (id === nameB) return;
+    setIsLoading(true);
+    scrollTop();
     const recommendations = await spotifyApi.getRecommendations({
       seed_genres: id,
       limit: 50,
@@ -48,6 +52,7 @@ const SidebarRightLogic = () => {
     setFollowers(undefined);
     setTracks(recommendations.tracks);
     setPlaylistToPlay(recommendations.tracks);
+    setIsLoading(false);
   };
 
   const categories = [

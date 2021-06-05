@@ -8,6 +8,7 @@ const SidebarLeftLogic = () => {
     handleSidebarMenu,
     sidebarLeftIsOpen,
     setSidebarLeftIsOpen,
+    setIsLoading,
     setTracks,
     topTracks,
     setNameB,
@@ -30,6 +31,7 @@ const SidebarLeftLogic = () => {
   }, [spotifyApi]);
 
   const setMyToptracks = () => {
+    setIsLoading(true);
     handleSidebarMenu();
     scrollTop();
     if (topTracks.lenght !== 0) {
@@ -39,9 +41,11 @@ const SidebarLeftLogic = () => {
     setPlaylistToPlay(topTracks);
     setDescription("");
     setFollowers("");
+    setIsLoading(false);
   };
 
   const getRecentlyPlayed = async () => {
+    setIsLoading(true);
     handleSidebarMenu();
     setDescription("");
     setFollowers("");
@@ -54,9 +58,11 @@ const SidebarLeftLogic = () => {
     setTracks(recentlyPlayed);
     setPlaylistToPlay("");
     setNameB("Recently Played");
+    setIsLoading(false);
   }; // Fetching recently played tracks by user
 
   const settingSavedTracks = async () => {
+    setIsLoading(true);
     handleSidebarMenu();
     setDescription("");
     setFollowers("");
@@ -64,6 +70,7 @@ const SidebarLeftLogic = () => {
     setTracks(savedTracks);
     setPlaylistToPlay(savedTracks);
     setNameB("Liked Tracks");
+    setIsLoading(false);
   };
 
   const closeSidebar = () => {

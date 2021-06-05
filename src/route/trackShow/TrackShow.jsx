@@ -17,6 +17,7 @@ const TrackShow = () => {
     setTrackToPlay,
     setPlaylistUri,
     setArtistShow,
+    setIsLoading,
     millisToMinutesAndSeconds,
   } = useContext(AppContext);
 
@@ -27,7 +28,8 @@ const TrackShow = () => {
     });
     setRecomendedTracks(tracks.tracks);
     setPlaylistToPlay(tracks.tracks);
-  }, [setPlaylistToPlay, spotifyApi, trackToShow]); // Get recommendation tracks for a track
+    setIsLoading(false);
+  }, [setPlaylistToPlay, spotifyApi, trackToShow, setIsLoading]); // Get recommendation tracks for a track
 
   useEffect(() => {
     getRecommendationsTrack();
@@ -37,7 +39,7 @@ const TrackShow = () => {
     "linear-gradient(0deg, rgba(2,8,17,1) 35%, rgba(2,8,17,0.8155637254901961) 100%)" +
     "," +
     "url(" +
-    trackToShow.album.images[1].url +
+    trackToShow?.album.images[1].url +
     ")";
 
   return (
