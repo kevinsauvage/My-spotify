@@ -222,12 +222,6 @@ export const AppProvider = (props) => {
     setIsLoading(false);
   };
 
-  const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-  }; // change milliseconde to second
-
   const addToQueu = (e) => {
     const uri = e.currentTarget.dataset.uri;
     spotifyApi.queue(uri);
@@ -275,7 +269,6 @@ export const AppProvider = (props) => {
         artistToShow,
         settingAlbumToPlay,
         setArtistShow,
-        millisToMinutesAndSeconds,
         trackToShow,
         setTrackShow,
         followers,

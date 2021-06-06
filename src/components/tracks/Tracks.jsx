@@ -1,12 +1,8 @@
-import { useContext } from "react";
-import { AppContext } from "../../context/AppContext";
 import BibliothequeItem from "../bibliothequeItem/BibliothequeItem";
 import BibliothequeItemHeader from "../bibliothequeItemHeader/BibliothequeItemHeader";
 import BibliothequeTitle from "../bibliothequeTitle/BibliothequeTitle";
 
 const Tracks = ({ data, title }) => {
-  const { millisToMinutesAndSeconds } = useContext(AppContext);
-
   return (
     <div className="tracks padding">
       <BibliothequeTitle title={title} />
@@ -20,7 +16,7 @@ const Tracks = ({ data, title }) => {
               id={track.id}
               artistId={track.artists?.[0].id}
               artist={track.artists?.[0].name}
-              duration={millisToMinutesAndSeconds(track.duration_ms)}
+              duration={track.duration_ms}
               uri={track.track?.uri || track.uri}
               play
             />

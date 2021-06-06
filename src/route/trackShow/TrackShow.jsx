@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import Tracks from "../../components/tracks/Tracks";
 import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
+import millisToMinutesAndSeconds from "../../helpers/millisToMinutesAndSeconds";
 
 const TrackShow = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
@@ -18,7 +19,6 @@ const TrackShow = () => {
     setPlaylistUri,
     setArtistShow,
     setIsLoading,
-    millisToMinutesAndSeconds,
   } = useContext(AppContext);
 
   const getRecommendationsTrack = useCallback(async () => {

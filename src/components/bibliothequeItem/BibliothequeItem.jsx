@@ -7,6 +7,7 @@ import "./BibliothequeItem.scss";
 import PlaylistModal from "../playlistModal/PlaylistModal";
 import BibliothequeItemLogic from "./BibliothequeItemLogic";
 import { AppContext } from "../../context/AppContext";
+import millisToMinutesAndSeconds from "../../helpers/millisToMinutesAndSeconds.js";
 
 const BibliothequeItem = ({
   name,
@@ -72,7 +73,11 @@ const BibliothequeItem = ({
           <p>{artist}</p>
         </Link>
       )}
-      {duration && <p className="bibliotheque-item__duration">{duration}</p>}
+      {duration && (
+        <p className="bibliotheque-item__duration">
+          {millisToMinutesAndSeconds(duration)}
+        </p>
+      )}
       {year && <p className="bibliotheque-item__year">{year}</p>}
       {popularity && (
         <p className="bibliotheque-item__popularity">{popularity}</p>
