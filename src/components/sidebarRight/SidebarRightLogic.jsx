@@ -4,9 +4,7 @@ import { AppContext } from "../../context/AppContext";
 const SidebarRightLogic = () => {
   const {
     spotifyApi,
-    setSidebarRightIsOpen,
     handleSidebarMenu,
-    sidebarRightIsOpen,
     scrollbar,
     followedArtists,
     setFollowedArtists,
@@ -16,6 +14,14 @@ const SidebarRightLogic = () => {
   const [topTracks, setTopTracks] = useState([]); // user top tracks
   const [topArtists, setTopArtists] = useState([]);
   const [savedAlbums, setSavedAlbums] = useState([]); // user saved albums
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    spotifyApi
+      .getAvailableGenreSeeds()
+      .then((response) => setCategories(response.genres))
+      .catch((error) => console.log(error));
+  }, [spotifyApi]);
 
   useEffect(() => {
     const getFeaturedPlaylist = () => {
@@ -60,70 +66,46 @@ const SidebarRightLogic = () => {
     settingFollowedArtists();
   }, [spotifyApi, setFollowedArtists]);
 
-  const categories = [
-    { name: "chill", id: "chill" },
-    { name: "pop", id: "pop" },
-    { name: "sleep", id: "sleep" },
-    { name: "party", id: "party" },
-    { name: "metal", id: "metal" },
-    { name: "rock", id: "rock" },
-    { name: "jazz", id: "jazz" },
-    { name: "romance", id: "romance" },
-    { name: "soul", id: "soul" },
-    { name: "classical", id: "classical" },
-    { name: "latin", id: "latin" },
-    { name: "blues", id: "blues" },
-    { name: "funk", id: "funk" },
-    { name: "punk", id: "punk" },
-    { name: "country", id: "country" },
-  ];
-
   const dataConfig = [
     {
       id: 1,
-      items: categories,
-      link: "/category",
-      title: "Categories",
-    },
-    {
-      id: 2,
       items: featuredPlaylists,
       link: "/playlist",
       title: "Featured playlist",
     },
     {
-      id: 3,
+      id: 2,
       items: topTracks,
       link: "/track",
       title: "Top tracks",
     },
     {
-      id: 4,
+      id: 3,
       items: topArtists,
       link: "/artist",
       title: "Top artists",
     },
     {
-      id: 5,
+      id: 4,
       items: savedAlbums,
       link: "/album",
       title: " Saved albums",
     },
     {
-      id: 6,
+      id: 5,
       items: followedArtists,
       link: "/artist",
       title: "Followed Artists",
     },
+    {
+      id: 6,
+      items: categories,
+      link: "/category",
+      title: "Categories",
+    },
   ];
 
-  const closeSidebar = () => {
-    if (sidebarRightIsOpen) {
-      setSidebarRightIsOpen(false);
-    }
-  };
-
-  return { closeSidebar, dataConfig };
+  return { dataConfig };
 };
 
 export default SidebarRightLogic;

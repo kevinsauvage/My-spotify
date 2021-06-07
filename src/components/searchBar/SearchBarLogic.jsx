@@ -7,6 +7,9 @@ const SearchBarLogic = () => {
   const history = useHistory();
 
   const handleInputChange = async (e) => {
+    if (!e.target.value) {
+      history.goBack();
+    }
     handleSidebarMenu();
     const searchResults = await spotifyApi.search(e.target.value, [
       "artist",
