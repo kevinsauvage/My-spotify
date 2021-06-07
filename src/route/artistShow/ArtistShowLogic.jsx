@@ -1,17 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
-import scrollTop from "../../helpers/scrollTop";
 
 const ArtistShowLogic = (id) => {
   const {
-    artistToShow,
     spotifyApi,
-    setPlaylistToPlay,
-    isFollowing,
-    setIsFollowing,
     setUri,
-    settingFollowedArtists,
-    setIsLoading,
+    setFollowedArtists,
     scrollbar,
     handleSidebarMenu,
   } = useContext(AppContext);
@@ -21,19 +15,24 @@ const ArtistShowLogic = (id) => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
   const [artistTopTracks, setArtistTopTracks] = useState(undefined); // array of artist top tracks
   const [artist, setArtist] = useState();
+  const [isFollowing, setIsFollowing] = useState();
+  const [bg, setBg] = useState();
 
-  console.log(artistAlbums);
   useEffect(() => {
     const setArtistShow = async () => {
-      scrollTop(scrollbar);
-      setIsLoading(true);
       handleSidebarMenu();
       const artist = await spotifyApi.getArtist(id);
       setArtist(artist);
+      setBg(
+        "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +
+          "," +
+          "url(" +
+          artist.images[1].url +
+          ")"
+      );
     }; // Set artist to show on artist show page
     setArtistShow(id);
-    setIsLoading(false);
-  }, [id, handleSidebarMenu, scrollbar, setIsLoading, spotifyApi]);
+  }, [id, handleSidebarMenu, scrollbar, spotifyApi]);
 
   useEffect(() => {
     const fetchArtistAlbums = async () => {
@@ -58,10 +57,9 @@ const ArtistShowLogic = (id) => {
         limit: 50,
       });
       setRecomendedTracks(tracks.tracks);
-      setPlaylistToPlay(tracks.tracks);
     };
     getRecommendedTrackFromArtist();
-  }, [id, setPlaylistToPlay, spotifyApi]); // get Recommendation tracks for a artist
+  }, [id, spotifyApi]); // get Recommendation tracks for a artist
 
   useEffect(() => {
     const getArtistRelatedArtists = async () => {
@@ -78,10 +76,9 @@ const ArtistShowLogic = (id) => {
     const getArtistTopTracks = async () => {
       const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", 100);
       setArtistTopTracks(topTracks.tracks);
-      setIsLoading(false);
     };
     getArtistTopTracks();
-  }, [spotifyApi, setIsLoading, id]); // get artist top tracks
+  }, [spotifyApi, id]); // get artist top tracks
 
   useEffect(() => {
     const isFollowingArtist = async () => {
@@ -97,19 +94,24 @@ const ArtistShowLogic = (id) => {
 
   const handleFollow = async () => {
     if (isFollowing) {
-      spotifyApi.unfollowArtists([artistToShow?.id]);
+      spotifyApi.unfollowArtists([id]);
       setIsFollowing(false);
       setTimeout(() => {
         settingFollowedArtists();
       }, 1000); // fetch artist followed by user after user unfollow a new artist
     } else {
-      spotifyApi.followArtists([artistToShow?.id]);
+      spotifyApi.followArtists([id]);
       setIsFollowing(true);
       setTimeout(() => {
         settingFollowedArtists();
       }, 1000); // fetch artist followed by user after user follow a new artist
     }
   }; // Following || unfollowing artist
+
+  const settingFollowedArtists = async () => {
+    const response = await spotifyApi.getFollowedArtists({ limit: 50 });
+    setFollowedArtists(response.artists.items);
+  }; // Fetch followed artist from user
 
   const setUriFromArtistTopTracks = () => {
     const tracksq = artistTopTracks.map((res) => res.uri);
@@ -130,6 +132,7 @@ const ArtistShowLogic = (id) => {
     artistTopTracks,
     artist,
     recomendedTracks,
+    bg,
     isFollowing,
   };
 };

@@ -26,8 +26,7 @@ const BibliothequeItem = ({
   const menu = useRef();
   const iconMenu = useRef();
 
-  const { setTrackToPlay, addToQueu, settingAlbumToPlay } =
-    useContext(AppContext);
+  const { setUri, spotifyApi } = useContext(AppContext);
 
   const {
     handleClickAddToPlaylist,
@@ -35,9 +34,23 @@ const BibliothequeItem = ({
     setDisplayPlaylistModal,
     handleClickPlaylist,
     handleClickMenu,
-    handleClickAddToQueu,
     showMenu,
-  } = BibliothequeItemLogic(menu, iconMenu, addToQueu);
+  } = BibliothequeItemLogic(menu, iconMenu);
+
+  const getRecommendationsTrack = async () => {
+    const tracks = await spotifyApi.getRecommendations({
+      seed_tracks: trackId,
+      limit: 50,
+    });
+    const uris = tracks.tracks.map((track) => track.uri);
+    const track = await spotifyApi.getTrack(trackId);
+    setUri([track.uri, ...uris]);
+  };
+
+  const addToQueu = async () => {
+    const track = await spotifyApi.getTrack(trackId);
+    spotifyApi.queue(track.uri);
+  }; // Adding track to queue
 
   return (
     <div className={"bibliotheque-item"}>
@@ -89,9 +102,7 @@ const BibliothequeItem = ({
       {owner && <p className="bibliotheque-item__owner">{owner}</p>}
       {play && (
         <div
-          onClick={setTrackToPlay}
-          data-id={trackId}
-          data-uri={uri}
+          onClick={() => getRecommendationsTrack()}
           className="bibliotheque-item__play">
           <MdPlayCircleFilled size={20} />
         </div>
@@ -104,9 +115,7 @@ const BibliothequeItem = ({
           />
           <div className="bibliotheque-item__add-to-queu">
             <MdAddCircleOutline size={18} />
-            <p data-uri={uri} onClick={handleClickAddToQueu}>
-              Add to Queu
-            </p>
+            <p onClick={addToQueu}>Add to Queu</p>
           </div>
           <div
             className="bibliotheque-item__add-to-playlist"

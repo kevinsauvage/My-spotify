@@ -11,7 +11,6 @@ import { useLocation } from "react-router";
 const ArtistShow = () => {
   const location = useLocation();
   const { id } = location.state;
-  console.log(id);
 
   const {
     artistAlbums,
@@ -23,14 +22,8 @@ const ArtistShow = () => {
     artistTopTracks,
     setUriFromArtistRecomendedTracks,
     artist,
+    bg,
   } = ArtistShowLogic(id);
-
-  const bg =
-    "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +
-    "," +
-    "url(" +
-    artist?.images[1].url +
-    ")";
 
   return (
     <div className="artist-show">

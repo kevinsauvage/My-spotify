@@ -1,17 +1,13 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
 const SearchBarLogic = () => {
-  const {
-    input,
-    setInput,
-    handleSidebarMenu,
-    spotifyApi,
-    setSearchResults,
-    setIsLoading,
-  } = useContext(AppContext);
+  const { handleSidebarMenu, spotifyApi, setIsLoading } =
+    useContext(AppContext);
+
   const history = useHistory();
+  const [input, setInput] = useState(""); // input search
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,12 +16,11 @@ const SearchBarLogic = () => {
     }
     setIsLoading(true);
     getSearch(e);
-    history.push("/Search");
-    setInput("");
   };
+
   const handleInputChange = (e) => {
     setInput(e.target.value);
-  };// Handle the search input change
+  }; // Handle the search input change
 
   const getSearch = async (e) => {
     e.preventDefault();
@@ -35,9 +30,12 @@ const SearchBarLogic = () => {
       "playlist",
       "track",
     ]);
-    setSearchResults(searchResults);
     setInput("");
-    setIsLoading(false);
+    history.push({
+      pathname: "/search",
+      search: "?query=" + input,
+      state: { items: searchResults },
+    });
   }; // Fetch from search input
 
   return { handleSubmit, handleInputChange };

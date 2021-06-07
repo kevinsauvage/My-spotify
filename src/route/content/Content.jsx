@@ -11,6 +11,9 @@ import NotFound from "../notFound/NotFound";
 import PageLoader from "../../components/pageLoader/PageLoader";
 import { AppContext } from "../../context/AppContext";
 import AlbumShow from "../albumShow/AlbumShow";
+import PlaylistShow from "../playlistShow/PlaylistShow";
+import LibraryShow from "../libraryShow/LibraryShow";
+import CategoryShow from "../categoryShow/CategoryShow";
 
 const Content = () => {
   const { isLoading } = useContext(AppContext);
@@ -28,6 +31,9 @@ const Content = () => {
         <Route path="/track/:id" component={TrackShow} />
         <Route path="/artist/:id" component={Artistshow} />
         <Route path="/album/:id" component={AlbumShow} />
+        <Route path="/playlist/:id" component={PlaylistShow} />
+        <Route path="/library/:id" component={LibraryShow} />
+        <Route path="/category/:id" component={CategoryShow} />
         <Route path="/Search" component={SearchResult} />
         <Route component={NotFound} />
       </AnimatedSwitch>

@@ -16,14 +16,8 @@ const TrackShow = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
   const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
 
-  const {
-    spotifyApi,
-    setPlaylistToPlay,
-    scrollbar,
-    handleSidebarMenu,
-    setPlaylistUri,
-    setIsLoading,
-  } = useContext(AppContext);
+  const { spotifyApi, scrollbar, handleSidebarMenu, setUri } =
+    useContext(AppContext);
 
   useEffect(() => {
     const setTrackShow = async (e) => {
@@ -33,7 +27,7 @@ const TrackShow = () => {
       setTrackToShow(track);
     }; // Function to set the track of the show page
     setTrackShow();
-  }, [handleSidebarMenu, id, scrollbar, setIsLoading, spotifyApi]);
+  }, [handleSidebarMenu, id, scrollbar, spotifyApi]);
 
   useEffect(() => {
     const getRecommendationsTrack = async () => {
@@ -42,17 +36,21 @@ const TrackShow = () => {
         limit: 50,
       });
       setRecomendedTracks(tracks.tracks);
-      setPlaylistToPlay(tracks.tracks);
     };
     getRecommendationsTrack();
-  }, [setIsLoading, setPlaylistToPlay, spotifyApi, id]);
+  }, [spotifyApi, id]);
+
+  const handlePlay = () => {
+    const uris = recomendedTracks.map((track) => track.uri);
+    setUri(uris);
+  };
 
   return (
     <div className="track-show">
       <div className="track-show__content">
         <div className="content-left">
           <BibliothequeTitle title="Similar tracks" />
-          <PlayBtn onClick={setPlaylistUri} />
+          <PlayBtn onClick={handlePlay} />
           <Tracks data={recomendedTracks} title="" />
         </div>
       </div>

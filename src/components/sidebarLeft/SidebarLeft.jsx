@@ -1,8 +1,7 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import "./SidebarLeft.scss";
 import Subtitle from "../subtitle/Subtitle";
 import Scrollbar from "react-smooth-scrollbar";
-import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
 import SidebarLeftLogic from "./SidebarLeftLogic";
@@ -11,21 +10,11 @@ import SectionTitleSidebar from "../sectionTitleSidebar/SectionTitleSidebar";
 import TextLoader from "../textLoader/TextLoader";
 
 const SidebarLeft = () => {
-  const { sidebarLeftIsOpen, user, playlists, fetchPlaylistContent } =
-    useContext(AppContext);
-
   const sidebar = useRef(null);
-
-  const {
-    settingSavedTracks,
-    getRecentlyPlayed,
-    setMyToptracks,
-    closeSidebar,
-  } = SidebarLeftLogic();
+  const { closeSidebar, data, array, sidebarLeftIsOpen, user, playlists } =
+    SidebarLeftLogic();
 
   useClickOutside(sidebar, closeSidebar);
-
-  const array = Array.from(Array(50).keys());
 
   return (
     <div
@@ -50,30 +39,38 @@ const SidebarLeft = () => {
         <div className="sidebarLeft__userLibrary padding">
           <SectionTitleSidebar title="LIBRARY" />
           <div className="sidebarLeft__libraryItem">
-            <Link to="/Biblio">
-              <Subtitle text="Recently Played" onClick={getRecentlyPlayed} />
-            </Link>
-            <Link to="/Biblio">
-              <Subtitle text="Liked Tracks" onClick={settingSavedTracks} />
-            </Link>
-            <Link to="/Biblio">
-              <Subtitle text="Top Tracks" onClick={setMyToptracks} />
-            </Link>
+            {data.map((item) => {
+              return (
+                <Link
+                  key={item.text}
+                  className="bibliotheque-item__name"
+                  to={{
+                    pathname: `/library/${item.text}`,
+                    state: {
+                      id: item.text,
+                    },
+                  }}>
+                  <Subtitle text={item.text} />
+                </Link>
+              );
+            })}
           </div>
         </div>
         <div className="sidebarLeft__userPlaylist padding">
           <SectionTitleSidebar title="PLAYLISTS" />
           <div className="playlist">
-            {playlists.length !== 0
+            {playlists
               ? playlists.map((playlist) => {
                   return (
-                    <Link to="/Biblio" key={playlist.id}>
-                      <Subtitle
-                        text={playlist.name}
-                        data-name={playlist.name}
-                        id={playlist.id}
-                        onClick={fetchPlaylistContent}
-                      />
+                    <Link
+                      key={playlist.id}
+                      to={{
+                        pathname: `/playlist/${playlist.id}`,
+                        state: {
+                          id: playlist.id,
+                        },
+                      }}>
+                      <Subtitle text={playlist.name} id={playlist.id} />
                     </Link>
                   );
                 })

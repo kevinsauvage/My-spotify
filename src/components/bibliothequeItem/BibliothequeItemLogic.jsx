@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import { AppContext } from "../../context/AppContext";
 
-const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
+const BibliothequeItemLogic = (ref1, ref2) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
 
   const props = useContext(AppContext);
@@ -30,11 +30,6 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
     setShowMenu(!showMenu);
   }; // display playlist modal on user click
 
-  const handleClickAddToQueu = (e) => {
-    addToQueu(e);
-    setShowMenu(false);
-  };
-
   const handleClickAddToPlaylist = (e) => {
     setDisplayPlaylistModal(true);
   }; // display user playlist modal
@@ -55,7 +50,6 @@ const BibliothequeItemLogic = (ref1, ref2, addToQueu) => {
     setDisplayPlaylistModal,
     handleClickPlaylist,
     handleClickMenu,
-    handleClickAddToQueu,
     showMenu,
   };
 };

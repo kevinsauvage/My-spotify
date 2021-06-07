@@ -8,12 +8,10 @@ import scrollTop from "../../helpers/scrollTop";
 const AlbumShow = () => {
   const location = useLocation();
   const { id } = location.state;
-  const { setIsLoading, scrollbar, spotifyApi, setPlaylistToPlay } =
-    useContext(AppContext);
-
   const [album, setAlbum] = useState();
-
   const [tracks, setTracks] = useState();
+
+  const { scrollbar, spotifyApi, setUri } = useContext(AppContext);
 
   useEffect(() => {
     const settingAlbum = async () => {
@@ -30,7 +28,7 @@ const AlbumShow = () => {
       <div className="bibliotheque__banner">
         <div className="bibliotheque__description">
           <h1 className="bibliotheque__name">Albums</h1>
-          <PlayBtn onClick={setPlaylistToPlay(album?.tracks.items)} />
+          <PlayBtn onClick={() => setUri(album?.uri)} />
         </div>
       </div>
       <Tracks data={tracks} />

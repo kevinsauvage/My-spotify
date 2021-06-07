@@ -1,21 +1,37 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import "rc-slider/assets/index.css";
 import "./ControlBar.scss";
 import SpotifyPlayer from "react-spotify-web-playback";
 
 const ControlBar = () => {
-  const props = useContext(AppContext);
+  const [deviceId, setDeviceId] = useState();
+  const { spotifyApi, setUri, token, uri } = useContext(AppContext);
+
+  useEffect(() => {
+    const getNowPlaying = async () => {
+      const response = await spotifyApi.getMyCurrentPlaybackState();
+      if (response) {
+        setUri(response.item.uri); // If something is playing in one of the user device, it will fetch the track and play it
+        setDeviceId(response.device.id); // Set the device for the control bar player
+      } else {
+        const response = await spotifyApi.getMyTopTracks({ limit: 50 });
+        const tracks = response.items;
+        setUri(tracks?.[0]?.uri);
+      }
+    }; // Fetching now playing,
+    getNowPlaying();
+  }, [spotifyApi, setDeviceId, setUri]);
+
   return (
     <div className="controlBar">
-      {props.token && props.uri !== "" && (
+      {token && uri !== "" && (
         <SpotifyPlayer
           showSaveIcon={true}
-          deviceId={props.deviceId !== "" ? props.deviceId : null}
-          uris={props.uri}
-          token={props.token}
+          deviceId={deviceId !== "" ? deviceId : null}
+          uris={uri}
+          token={token}
           syncExternalDevice={true}
-          play={props.play}
           styles={{
             activeColor: "#21d5fda1",
             sliderHandleColor: "#21d5fda1",

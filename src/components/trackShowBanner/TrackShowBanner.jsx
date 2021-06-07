@@ -6,7 +6,7 @@ import millisToMinutesAndSeconds from "../../helpers/millisToMinutesAndSeconds";
 import BibliothequeTitle from "../bibliothequeTitle/BibliothequeTitle";
 
 const TrackShowBanner = ({ trackToShow }) => {
-  const { setTrackToPlay } = useContext(AppContext);
+  const { setUri } = useContext(AppContext);
 
   const bg =
     "linear-gradient(0deg, rgba(2,8,17,1) 35%, rgba(2,8,17,0.8155637254901961) 100%)" +
@@ -38,9 +38,7 @@ const TrackShowBanner = ({ trackToShow }) => {
         </span>
         <div
           className="track-show__play"
-          onClick={setTrackToPlay}
-          data-id={trackToShow.id}
-          data-uri={trackToShow.uri}>
+          onClick={() => setUri(trackToShow?.uri)}>
           <p className="icon-play">
             <MdPlayCircleFilled size={60} />
           </p>
