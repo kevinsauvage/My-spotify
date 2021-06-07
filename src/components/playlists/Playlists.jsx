@@ -7,16 +7,15 @@ const Playlists = ({ data }) => {
   return (
     <div className="playlists">
       <BibliothequeTitle title="Playlist" />
-      <BibliothequeItemHeader name owner play />
+      <BibliothequeItemHeader name owner />
       {data &&
         data.map((playlist) => {
           return (
             <BibliothequeItem
               key={playlist.id}
-              name={playlist.name && playlist.name}
+              playlistName={playlist.name && playlist.name}
               owner={playlist.owner && playlist.owner.display_name}
               playlistId={playlist.id}
-              play
             />
           );
         })}

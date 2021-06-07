@@ -6,14 +6,11 @@ import SearchBarLogic from "./SearchBarLogic";
 
 const SearchBar = () => {
   const props = useContext(AppContext);
-  const { handleSubmit, handleInputChange } = SearchBarLogic();
+  const { handleInputChange } = SearchBarLogic();
 
   return (
     <div className="searchBar">
-      <form
-        type="submit"
-        className="searchBar__container"
-        onSubmit={handleSubmit}>
+      <form type="submit" className="searchBar__container">
         <input
           value={props.input}
           onChange={handleInputChange}

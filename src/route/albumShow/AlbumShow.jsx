@@ -1,27 +1,12 @@
-import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import Tracks from "../../components/tracks/Tracks";
-import { AppContext } from "../../context/AppContext";
-import scrollTop from "../../helpers/scrollTop";
+import AlbumShowLogic from "./AlbumShowLogic";
 
 const AlbumShow = () => {
   const location = useLocation();
   const { id } = location.state;
-  const [album, setAlbum] = useState();
-  const [tracks, setTracks] = useState();
-
-  const { scrollbar, spotifyApi, setUri } = useContext(AppContext);
-
-  useEffect(() => {
-    const settingAlbum = async () => {
-      scrollTop(scrollbar);
-      const album = await spotifyApi.getAlbum(id);
-      setTracks(album.tracks.items);
-      setAlbum(album);
-    };
-    settingAlbum();
-  }, [spotifyApi, id, setTracks, setAlbum, scrollbar]);
+  const { setUri, album, tracks } = AlbumShowLogic(id);
 
   return (
     <div className="bibliotheque">

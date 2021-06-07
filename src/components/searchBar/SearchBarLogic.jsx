@@ -1,44 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useHistory } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
 const SearchBarLogic = () => {
-  const { handleSidebarMenu, spotifyApi, setIsLoading } =
-    useContext(AppContext);
-
+  const { handleSidebarMenu, spotifyApi } = useContext(AppContext);
   const history = useHistory();
-  const [input, setInput] = useState(""); // input search
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!input) {
-      return;
-    }
-    setIsLoading(true);
-    getSearch(e);
-  };
-
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  }; // Handle the search input change
-
-  const getSearch = async (e) => {
-    e.preventDefault();
+  const handleInputChange = async (e) => {
     handleSidebarMenu();
-    const searchResults = await spotifyApi.search(input, [
+    const searchResults = await spotifyApi.search(e.target.value, [
       "artist",
       "playlist",
       "track",
     ]);
-    setInput("");
-    history.push({
+    var params = {
       pathname: "/search",
-      search: "?query=" + input,
+      search: "?query=" + e.target.value,
       state: { items: searchResults },
-    });
-  }; // Fetch from search input
+    };
+    history.push(params);
+  }; // Handle the search input change
 
-  return { handleSubmit, handleInputChange };
+  return { handleInputChange };
 };
 
 export default SearchBarLogic;

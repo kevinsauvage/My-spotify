@@ -13,12 +13,14 @@ const BibliothequeItem = ({
   name,
   artist,
   duration,
+  playlistId,
   trackId,
   popularity,
   uri,
   owner,
   artistId,
   albumId,
+  playlistName,
   albumName,
   year,
   play,
@@ -64,6 +66,18 @@ const BibliothequeItem = ({
             },
           }}>
           <p>{name}</p>
+        </Link>
+      )}
+      {playlistId && (
+        <Link
+          className="bibliotheque-item__name"
+          to={{
+            pathname: `/playlist/${playlistId}`,
+            state: {
+              id: playlistId,
+            },
+          }}>
+          <p>{playlistName}</p>
         </Link>
       )}
       {albumName && (
