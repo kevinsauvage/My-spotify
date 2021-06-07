@@ -27,13 +27,15 @@ const SidebarRightCategoryWrapper = ({ data, link, fn, title }) => {
         {data &&
           data.map((item) => {
             return (
-              <Link to={link} key={item.id}>
-                <Subtitle
-                  text={item.name}
-                  id={item.id}
-                  onClick={fn}
-                  name={item.name}
-                />
+              <Link
+                to={{
+                  pathname: link + `/${item.id}`,
+                  state: {
+                    id: item.id,
+                  },
+                }}
+                key={item.id}>
+                <Subtitle text={item.name} id={item.id} name={item.name} />
               </Link>
             );
           })}

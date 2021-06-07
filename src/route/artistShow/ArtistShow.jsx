@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import "./ArtistShow.scss";
-import { AppContext } from "../../context/AppContext";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import ArtistShowLogic from "./ArtistShowLogic";
@@ -8,9 +6,12 @@ import Artists from "../../components/artists/Artists";
 import Albums from "../../components/albums/Albums";
 import Tracks from "../../components/tracks/Tracks";
 import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
+import { useLocation } from "react-router";
 
 const ArtistShow = () => {
-  const { artistToShow, isFollowing } = useContext(AppContext);
+  const location = useLocation();
+  const { id } = location.state;
+  console.log(id);
 
   const {
     artistAlbums,
@@ -18,15 +19,17 @@ const ArtistShow = () => {
     handleFollow,
     relatedArtists,
     recomendedTracks,
+    isFollowing,
     artistTopTracks,
     setUriFromArtistRecomendedTracks,
-  } = ArtistShowLogic();
+    artist,
+  } = ArtistShowLogic(id);
 
   const bg =
     "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +
     "," +
     "url(" +
-    artistToShow?.images[1].url +
+    artist?.images[1].url +
     ")";
 
   return (
@@ -36,9 +39,9 @@ const ArtistShow = () => {
           className="artist-show__banner-image"
           style={{ backgroundImage: bg }}>
           <div className="artist-show__detail padding">
-            {artistToShow && (
+            {artist && (
               <div className="artist-show__detail__title">
-                <BibliothequeTitle title={artistToShow?.name} />
+                <BibliothequeTitle title={artist?.name} />
                 {isFollowing ? (
                   <p onClick={handleFollow} className="follow-btn">
                     <RiUserUnfollowFill size={21} />
@@ -51,7 +54,7 @@ const ArtistShow = () => {
               </div>
             )}
             <div className="artist-show__detail__wrapper">
-              {artistToShow && <p>{artistToShow?.followers.total}</p>}
+              {artist && <p>{artist?.followers.total}</p>}
               <p>Followers</p>
             </div>
             <div className="artist-show__playBtn">

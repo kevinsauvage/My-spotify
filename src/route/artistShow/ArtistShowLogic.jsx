@@ -1,7 +1,8 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import scrollTop from "../../helpers/scrollTop";
 
-const ArtistShowLogic = () => {
+const ArtistShowLogic = (id) => {
   const {
     artistToShow,
     spotifyApi,
@@ -11,15 +12,31 @@ const ArtistShowLogic = () => {
     setUri,
     settingFollowedArtists,
     setIsLoading,
+    scrollbar,
+    handleSidebarMenu,
   } = useContext(AppContext);
 
   const [artistAlbums, setArtistAlbums] = useState();
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
   const [artistTopTracks, setArtistTopTracks] = useState(undefined); // array of artist top tracks
+  const [artist, setArtist] = useState();
 
-  const fetchArtistAlbums = useCallback(
-    async (id) => {
+  console.log(artistAlbums);
+  useEffect(() => {
+    const setArtistShow = async () => {
+      scrollTop(scrollbar);
+      setIsLoading(true);
+      handleSidebarMenu();
+      const artist = await spotifyApi.getArtist(id);
+      setArtist(artist);
+    }; // Set artist to show on artist show page
+    setArtistShow(id);
+    setIsLoading(false);
+  }, [id, handleSidebarMenu, scrollbar, setIsLoading, spotifyApi]);
+
+  useEffect(() => {
+    const fetchArtistAlbums = async () => {
       const artistAlbums = await spotifyApi.getArtistAlbums(id);
       const unique = artistAlbums.items.filter(
         (thing, index, self) =>
@@ -28,73 +45,55 @@ const ArtistShowLogic = () => {
             (t) => t.place === thing.place && t.name === thing.name
           )
       );
-      const sorted = unique.sort((a, b) => {
-        return a.release_date > b.release_date;
-      });
+      const sorted = unique.sort((a, b) => a.release_date > b.release_date);
       setArtistAlbums(sorted);
-    },
-    [spotifyApi]
-  );
+    };
+    fetchArtistAlbums();
+  }, [id, spotifyApi]);
 
-  const getRecommendationsTrackFromArtist = useCallback(
-    async (id) => {
+  useEffect(() => {
+    const getRecommendedTrackFromArtist = async () => {
       const tracks = await spotifyApi.getRecommendations({
-        seed_artists: artistToShow?.id,
+        seed_artists: id,
         limit: 50,
       });
       setRecomendedTracks(tracks.tracks);
       setPlaylistToPlay(tracks.tracks);
-    },
-    [artistToShow?.id, setPlaylistToPlay, spotifyApi]
-  ); // get Recommendation tracks for a artist
+    };
+    getRecommendedTrackFromArtist();
+  }, [id, setPlaylistToPlay, spotifyApi]); // get Recommendation tracks for a artist
 
-  const getArtistRelatedArtists = useCallback(
-    async (id) => {
+  useEffect(() => {
+    const getArtistRelatedArtists = async () => {
       const relatedArtists = await spotifyApi.getArtistRelatedArtists(id);
       const sortedArtists = relatedArtists.artists.sort((a, b) => {
         return b.popularity - a.popularity;
       });
       setRelatedArtists(sortedArtists);
-    },
-    [spotifyApi]
-  ); // Get the artists related to artis in artist show page
+    };
+    getArtistRelatedArtists();
+  }, [spotifyApi, id]); // Get the artists related to artis in artist show page
 
-  const getArtistTopTracks = useCallback(
-    async (id) => {
+  useEffect(() => {
+    const getArtistTopTracks = async () => {
       const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", 100);
       setArtistTopTracks(topTracks.tracks);
       setIsLoading(false);
-    },
-    [spotifyApi, setIsLoading]
-  ); // get artist top tracks
+    };
+    getArtistTopTracks();
+  }, [spotifyApi, setIsLoading, id]); // get artist top tracks
 
-  const isFollowingArtist = useCallback(
-    async (id) => {
+  useEffect(() => {
+    const isFollowingArtist = async () => {
       const isFollow = await spotifyApi.isFollowingArtists([id]);
       if (isFollow[0] === true) {
         setIsFollowing(true);
       } else {
         setIsFollowing(false);
       }
-    },
-    [spotifyApi, setIsFollowing]
-  ); // Check if the artist display in artist show page is followed by user
-
-  useEffect(() => {
-    const artistId = artistToShow?.id;
-    isFollowingArtist(artistId);
-    fetchArtistAlbums(artistId);
-    getRecommendationsTrackFromArtist(artistId);
-    getArtistRelatedArtists(artistId);
-    getArtistTopTracks(artistId);
-  }, [
-    artistToShow,
-    fetchArtistAlbums,
-    getArtistRelatedArtists,
-    getArtistTopTracks,
-    getRecommendationsTrackFromArtist,
-    isFollowingArtist,
-  ]);
+    };
+    isFollowingArtist();
+  }, [spotifyApi, setIsFollowing, id]); // Check if the artist display in artist show page is followed by user
 
   const handleFollow = async () => {
     if (isFollowing) {
@@ -102,13 +101,13 @@ const ArtistShowLogic = () => {
       setIsFollowing(false);
       setTimeout(() => {
         settingFollowedArtists();
-      }, 1000);
+      }, 1000); // fetch artist followed by user after user unfollow a new artist
     } else {
       spotifyApi.followArtists([artistToShow?.id]);
       setIsFollowing(true);
       setTimeout(() => {
         settingFollowedArtists();
-      }, 1000);
+      }, 1000); // fetch artist followed by user after user follow a new artist
     }
   }; // Following || unfollowing artist
 
@@ -129,7 +128,9 @@ const ArtistShowLogic = () => {
     handleFollow,
     relatedArtists,
     artistTopTracks,
+    artist,
     recomendedTracks,
+    isFollowing,
   };
 };
 

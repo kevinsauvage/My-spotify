@@ -1,8 +1,8 @@
 import "./Card.scss";
 
-const Card = ({ url, name, artist, onClick, id }) => {
+const Card = ({ url, name, artist }) => {
   return (
-    <div data-id={id} onClick={onClick} className="card">
+    <div className="card">
       <div
         className="card__img"
         style={{

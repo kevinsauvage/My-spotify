@@ -5,11 +5,7 @@ const CarouselContainer = ({ data }) => {
   return (
     <>
       <SectionTitle title={data?.title} />
-      <CarouselComponent
-        data={data?.items}
-        link={data?.link}
-        onClick={data?.fn}
-      />
+      <CarouselComponent data={data?.items} link={data?.link} />
     </>
   );
 };

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import scrollTop from "../../helpers/scrollTop";
 
 const SidebarLeftLogic = () => {
   const {
     spotifyApi,
-    scrollTop,
     handleSidebarMenu,
     sidebarLeftIsOpen,
     setSidebarLeftIsOpen,

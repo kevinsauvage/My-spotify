@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import scrollTop from "../../helpers/scrollTop";
 
 const SidebarRightLogic = () => {
   const {
     spotifyApi,
     setSidebarRightIsOpen,
     handleSidebarMenu,
-    scrollTop,
     setTracks,
     setPlaylistToPlay,
     setNameB,
@@ -85,35 +85,30 @@ const SidebarRightLogic = () => {
       id: 2,
       items: featuredPlaylists,
       link: "/Biblio",
-      fn: fetchPlaylistContent,
       title: "Featured playlist",
     },
     {
       id: 3,
       items: topTracks,
-      link: "/Track",
-      fn: setTrackShow,
+      link: "/track",
       title: "Top tracks",
     },
     {
       id: 4,
       items: topArtists,
-      link: "/Artist",
-      fn: setArtistShow,
+      link: "/artist",
       title: "Top artists",
     },
     {
       id: 5,
       items: savedAlbums,
-      link: "/Biblio",
-      fn: getAlbumTracks,
+      link: "/album",
       title: " Saved albums",
     },
     {
       id: 6,
       items: followedArtists,
-      link: "/Artist",
-      fn: setArtistShow,
+      link: "/artist",
       title: "Followed Artists",
     },
   ];

@@ -13,7 +13,7 @@ const Tracks = ({ data, title }) => {
             <BibliothequeItem
               key={track.id + Math.random(1000)}
               name={track.name}
-              id={track.id}
+              trackId={track.id}
               artistId={track.artists?.[0].id}
               artist={track.artists?.[0].name}
               duration={track.duration_ms}

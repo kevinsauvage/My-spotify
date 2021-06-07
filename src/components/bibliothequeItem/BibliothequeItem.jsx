@@ -13,7 +13,7 @@ const BibliothequeItem = ({
   name,
   artist,
   duration,
-  id,
+  trackId,
   popularity,
   uri,
   owner,
@@ -26,13 +26,8 @@ const BibliothequeItem = ({
   const menu = useRef();
   const iconMenu = useRef();
 
-  const {
-    setTrackToPlay,
-    addToQueu,
-    setArtistShow,
-    setTrackShow,
-    settingAlbumToPlay,
-  } = useContext(AppContext);
+  const { setTrackToPlay, addToQueu, settingAlbumToPlay } =
+    useContext(AppContext);
 
   const {
     handleClickAddToPlaylist,
@@ -49,27 +44,36 @@ const BibliothequeItem = ({
       {name && (
         <Link
           className="bibliotheque-item__name"
-          to="/Track"
-          onClick={setTrackShow}
-          data-id={id}>
+          to={{
+            pathname: `/track/${trackId}`,
+            state: {
+              id: trackId,
+            },
+          }}>
           <p>{name}</p>
         </Link>
       )}
       {albumName && (
         <Link
           className="bibliotheque-item__name"
-          to="/Biblio"
-          onClick={settingAlbumToPlay}
-          data-id={albumId}>
+          to={{
+            pathname: `/album/${albumId}`,
+            state: {
+              id: albumId,
+            },
+          }}>
           <p>{albumName}</p>
         </Link>
       )}
       {artist && (
         <Link
           className="bibliotheque-item__artist"
-          to="/Artist"
-          onClick={setArtistShow}
-          data-id={artistId}>
+          to={{
+            pathname: `/artist/${artistId}`,
+            state: {
+              id: artistId,
+            },
+          }}>
           <p>{artist}</p>
         </Link>
       )}
@@ -86,7 +90,7 @@ const BibliothequeItem = ({
       {play && (
         <div
           onClick={setTrackToPlay}
-          data-id={id}
+          data-id={trackId}
           data-uri={uri}
           className="bibliotheque-item__play">
           <MdPlayCircleFilled size={20} />
@@ -111,7 +115,7 @@ const BibliothequeItem = ({
           </div>
         </div>
       )}
-      {id && (
+      {trackId && (
         <p
           className="bibliotheque-item__queu-icon"
           ref={iconMenu}

@@ -10,6 +10,7 @@ import SearchResult from "../searchResult/SearchResult";
 import NotFound from "../notFound/NotFound";
 import PageLoader from "../../components/pageLoader/PageLoader";
 import { AppContext } from "../../context/AppContext";
+import AlbumShow from "../albumShow/AlbumShow";
 
 const Content = () => {
   const { isLoading } = useContext(AppContext);
@@ -24,8 +25,9 @@ const Content = () => {
         className="switch-wrapper">
         <Route exact path="/" component={Home} />
         <Route path="/Biblio" component={Bibliotheque} />
-        <Route path="/Track" component={TrackShow} />
-        <Route path="/Artist" component={Artistshow} />
+        <Route path="/track/:id" component={TrackShow} />
+        <Route path="/artist/:id" component={Artistshow} />
+        <Route path="/album/:id" component={AlbumShow} />
         <Route path="/Search" component={SearchResult} />
         <Route component={NotFound} />
       </AnimatedSwitch>

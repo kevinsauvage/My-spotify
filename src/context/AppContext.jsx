@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, useCallback } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import Cookies from "js-cookie";
 import Scrollbar from "smooth-scrollbar";
+import scrollTop from "../helpers/scrollTop";
 
 export const AppContext = createContext();
 const { Provider } = AppContext;
@@ -21,8 +22,6 @@ export const AppProvider = (props) => {
   const [nameB, setNameB] = useState(""); // info to display in banner biblio
   const [description, setDescription] = useState(""); // description to display in header biblio
   const [followers, setFollowers] = useState(""); // follower to display in biblio
-  const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
-  const [artistToShow, setArtistToShow] = useState(undefined); // Set artist to display on the show page
   const [input, setInput] = useState(""); // input search
   const [isLoading, setIsLoading] = useState(true); // spinner loader on each page
   const [uri, setUri] = useState(); // uri of track to play
@@ -115,10 +114,7 @@ export const AppProvider = (props) => {
     const artistId = data[0].artists[0].id;
     setNameB("Top Tracks");
     setPlaylistToPlay(data); // Setting playlist to play with top track result
-    setTrackToShow(data[0]); // setting the track to show with the best track of the top tracks - displayed in tracks show
     setTracks(data); // Setting the tracks to display in biblio with top tracks data to display in biblio
-    const artistToShow = await spotifyApi.getArtist(artistId);
-    setArtistToShow(artistToShow); // Fetching the artist corresponding to best track of top tracks
   }; // Setting what to display in every page at first render
 
   // General function -----------------------------------------------------------------------------------------------General function
@@ -133,7 +129,7 @@ export const AppProvider = (props) => {
   }; // Seting playlist Uri when user click on play btn playlist
 
   const fetchPlaylistContent = async (e) => {
-    scrollTop();
+    scrollTop(scrollbar);
     handleSidebarMenu();
     const id = e.currentTarget.dataset.id;
     if (id === playlistShowed?.id) return;
@@ -158,7 +154,7 @@ export const AppProvider = (props) => {
   }; // Setting the banner info in relation with the playlist displayed
 
   const getAlbumTracks = async (e) => {
-    scrollTop();
+    scrollTop(scrollbar);
     handleSidebarMenu();
     const id = e.currentTarget.dataset.id;
     if (albumShowed === id) return;
@@ -171,26 +167,6 @@ export const AppProvider = (props) => {
     setNameB(name);
     setIsLoading(false);
   }; // Getting the track of album when clicking on album link
-
-  const setTrackShow = async (e) => {
-    scrollTop();
-    let id = e.currentTarget.dataset.id;
-    if (id === trackToShow.id) return;
-    setIsLoading(true);
-    handleSidebarMenu();
-    const track = await spotifyApi.getTrack(id);
-    setTrackToShow(track);
-  }; // Function to set the track of the show page
-
-  const setArtistShow = async (e) => {
-    scrollTop();
-    const id = e.currentTarget.dataset.id;
-    if (id === artistToShow.id) return;
-    setIsLoading(true);
-    handleSidebarMenu();
-    const artist = await spotifyApi.getArtist(id);
-    setArtistToShow(artist);
-  }; // Set artist to show on artist show page
 
   const setTrackToPlay = async (e) => {
     let uri = e.currentTarget.dataset.uri;
@@ -209,27 +185,10 @@ export const AppProvider = (props) => {
     setSidebarRightIsOpen(false);
   }; // Setting the loader when fetching and then disable it
 
-  const settingAlbumToPlay = async (e) => {
-    scrollTop();
-    setIsLoading(true);
-    const id = e.currentTarget.dataset.id;
-    const album = await spotifyApi.getAlbum(id);
-    setPlaylistToPlay(album.tracks.items);
-    setTracks(album.tracks.items);
-    setNameB(album.name);
-    setDescription(album.artists[0].name);
-    setFollowers(album.label);
-    setIsLoading(false);
-  };
-
   const addToQueu = (e) => {
     const uri = e.currentTarget.dataset.uri;
     spotifyApi.queue(uri);
   }; // Adding track to queue
-
-  const scrollTop = () => {
-    scrollbar.setPosition(0, 0);
-  };
 
   return (
     <Provider
@@ -243,7 +202,6 @@ export const AppProvider = (props) => {
         sidebarLeftIsOpen,
         getUserPlaylists,
         setInput,
-        scrollTop,
         handleSidebarMenu,
         topTracks,
         setIsFollowing,
@@ -254,6 +212,7 @@ export const AppProvider = (props) => {
         setFollowers,
         addToQueu,
         followedArtists,
+        scrollbar,
         isFollowing,
         setPlaylistUri,
         searchResults,
@@ -266,11 +225,7 @@ export const AppProvider = (props) => {
         setTrackToPlay,
         isLoading,
         input,
-        artistToShow,
-        settingAlbumToPlay,
-        setArtistShow,
-        trackToShow,
-        setTrackShow,
+
         followers,
         setIsLoading,
         description,
