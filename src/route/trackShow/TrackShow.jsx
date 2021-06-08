@@ -37,7 +37,7 @@ const TrackShow = () => {
 
   const handlePlay = () => {
     const uris = recomendedTracks.map((track) => track.uri);
-    setUri(uris);
+    setUri([trackToShow.uri, ...uris]);
   };
 
   const bg = "url(" + trackToShow?.album.images[1].url + ")";
@@ -45,11 +45,10 @@ const TrackShow = () => {
   return (
     <div className="track-show">
       <PageBanner
-        onClick={() => setUri(trackToShow.uri)}
+        onClick={() => setUri(handlePlay)}
         bg={bg}
         data={trackToShow}
       />
-      <PlayBtn onClick={handlePlay} />
       <Tracks data={recomendedTracks} title="Similar tracks" />
     </div>
   );
