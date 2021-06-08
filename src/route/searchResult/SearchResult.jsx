@@ -1,9 +1,7 @@
 import "./SearchResult.scss";
-import PlayBtn from "../../components/playBtn/PlayBtn";
 import Artists from "../../components/artists/Artists";
 import Tracks from "../../components/tracks/Tracks";
 import Playlists from "../../components/playlists/Playlists";
-import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
 import { useLocation } from "react-router";
 import { AppContext } from "../../context/AppContext";
 import { useContext } from "react";

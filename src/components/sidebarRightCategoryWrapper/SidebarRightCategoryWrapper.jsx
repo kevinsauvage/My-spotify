@@ -25,7 +25,7 @@ const SidebarRightCategoryWrapper = ({ data, link, fn, title }) => {
       </div>
       <div className="sidebarRight__categoryItems ">
         {data &&
-          data.map((item) => {
+          data.map((item, i) => {
             return (
               <Link
                 to={{
@@ -34,7 +34,7 @@ const SidebarRightCategoryWrapper = ({ data, link, fn, title }) => {
                     id: item.id || item,
                   },
                 }}
-                key={item.id}>
+                key={i}>
                 <Subtitle
                   text={item.name || item}
                   id={item.id}

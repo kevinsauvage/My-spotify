@@ -11,10 +11,10 @@ const Tracks = ({ data, title }) => {
       {title && <BibliothequeTitle title={title} />}
       <BibliothequeItemHeader name artist duration queu play />
       {data
-        ? data.map((track) => {
+        ? data.map((track, i) => {
             return (
               <BibliothequeItem
-                key={track.id}
+                key={i}
                 name={track.name}
                 trackId={track.id}
                 artistId={track.artists?.[0].id}
