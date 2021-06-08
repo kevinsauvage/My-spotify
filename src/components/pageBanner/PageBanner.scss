@@ -22,6 +22,11 @@
     width: fit-content;
   }
 
+  &__subtitle {
+    @include openSans(400, 12px);
+    padding-top: 0.5rem;
+  }
+
   &__name {
     @include raleway(800, 25px);
     color: white;

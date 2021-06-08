@@ -10,7 +10,6 @@ const AlbumShowLogic = (id) => {
 
   useEffect(() => {
     scrollTop(scrollbar);
-    console.log("hh");
   }, [scrollbar]);
 
   useEffect(() => {

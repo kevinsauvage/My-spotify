@@ -68,9 +68,6 @@ const LibraryShow = () => {
       setUri(uris);
     }
   }, [likedTracks, recentlyPlayedTracks, setUri, topTracks]);
-  useEffect(() => {
-    console.log("library render");
-  }, []);
 
   const bg =
     "url(https://cdn.pixabay.com/photo/2013/07/12/18/17/equalizer-153212_960_720.png)";

@@ -1,4 +1,5 @@
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import PlayBtn from "../playBtn/PlayBtn";
 import "./PageBanner.scss";
 
@@ -9,9 +10,9 @@ const PageBanner = ({
   title,
   isFollowing,
   handleFollow,
+  subtitle,
   followers,
 }) => {
-  console.log(followers);
   return (
     <div className="pageBanner">
       <div className="pageBanner__img">
@@ -33,6 +34,18 @@ const PageBanner = ({
             )
           ) : null}
         </h1>
+        {subtitle && (
+          <Link
+            to={{
+              pathname: `/artist/${data?.artists?.[0]?.id}`,
+              state: {
+                id: data?.artists?.[0]?.id,
+              },
+            }}>
+            <p className="pageBanner__subtitle"> {subtitle}</p>
+          </Link>
+        )}
+
         <div className="pageBanner__btn">
           <PlayBtn onClick={onClick} />
         </div>

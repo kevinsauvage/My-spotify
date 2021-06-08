@@ -11,12 +11,7 @@ const AlbumShow = () => {
 
   return (
     <div className="albumShow">
-      <PageBanner
-        follower={undefined}
-        data={album}
-        bg={bg}
-        onClick={() => setUri(album?.uri)}
-      />
+      <PageBanner data={album} bg={bg} onClick={() => setUri(album?.uri)} />
       <Tracks data={tracks} />
     </div>
   );

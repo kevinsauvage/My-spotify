@@ -1,6 +1,5 @@
 import { memo, useContext } from "react";
 import { AppContext } from "../../context/AppContext";
-import PlayBtn from "../../components/playBtn/PlayBtn";
 import { useEffect, useState } from "react";
 import Tracks from "../../components/tracks/Tracks";
 import { useLocation } from "react-router";
@@ -48,6 +47,7 @@ const TrackShow = () => {
         onClick={() => setUri(handlePlay)}
         bg={bg}
         data={trackToShow}
+        subtitle={trackToShow?.artists?.[0]?.name}
       />
       <Tracks data={recomendedTracks} title="Similar tracks" />
     </div>
