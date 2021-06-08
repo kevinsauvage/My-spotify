@@ -1,14 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
-import scrollTop from "../../helpers/scrollTop";
 
 const CategoryShowLogic = (id) => {
-  const { spotifyApi, scrollbar, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri } = useContext(AppContext);
   const [tracks, setTracks] = useState([]);
 
   useEffect(() => {
     const getRecomended = async () => {
-      scrollTop(scrollbar);
       const recommendations = await spotifyApi.getRecommendations({
         seed_genres: id,
         limit: 50,
@@ -16,7 +14,7 @@ const CategoryShowLogic = (id) => {
       setTracks(recommendations.tracks);
     };
     getRecomended();
-  }, [scrollbar, setTracks, spotifyApi, id]);
+  }, [setTracks, spotifyApi, id]);
 
   const handleClickPlay = () => {
     const uris = tracks.map((track) => track.uri);

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import { AppContext } from "../../context/AppContext";
 
-const BibliothequeItemLogic = (ref1, ref2) => {
+const BibliothequeItemLogic = (ref1, ref2, trackId) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
 
-  const props = useContext(AppContext);
+  const { spotifyApi, setUri } = useContext(AppContext);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -36,13 +36,27 @@ const BibliothequeItemLogic = (ref1, ref2) => {
 
   const handleClickPlaylist = (e, uri) => {
     const playlistId = e.currentTarget.dataset.id;
-    props.spotifyApi.addTracksToPlaylist(playlistId, [uri]);
+    spotifyApi.addTracksToPlaylist(playlistId, [uri]);
     e.target.insertAdjacentHTML(
       "afterEnd",
       "<p class='span-copied'>Correctly added !</p>"
     ); // Add new track to a user playlist playlist
-    props.getUserPlaylists(); // Fetch the user playlist after adding new track to a playlist
   };
+
+  const getRecommendationsTrack = async () => {
+    const tracks = await spotifyApi.getRecommendations({
+      seed_tracks: trackId,
+      limit: 50,
+    });
+    const uris = tracks.tracks.map((track) => track.uri);
+    const track = await spotifyApi.getTrack(trackId);
+    setUri([track.uri, ...uris]);
+  };
+
+  const addToQueu = async () => {
+    const track = await spotifyApi.getTrack(trackId);
+    spotifyApi.queue(track.uri);
+  }; // Adding track to queue
 
   return {
     handleClickAddToPlaylist,
@@ -50,6 +64,8 @@ const BibliothequeItemLogic = (ref1, ref2) => {
     setDisplayPlaylistModal,
     handleClickPlaylist,
     handleClickMenu,
+    addToQueu,
+    getRecommendationsTrack,
     showMenu,
   };
 };

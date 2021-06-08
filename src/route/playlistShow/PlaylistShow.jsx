@@ -3,7 +3,6 @@ import { useLocation } from "react-router";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import Tracks from "../../components/tracks/Tracks";
 import { AppContext } from "../../context/AppContext";
-import scrollTop from "../../helpers/scrollTop";
 import "./PlaylistShow.scss";
 
 const PlaylistShow = () => {
@@ -11,12 +10,10 @@ const PlaylistShow = () => {
   const { id } = location.state;
   const [tracks, setTracks] = useState();
   const [playlist, setPlaylist] = useState();
-  const { spotifyApi, scrollbar, handleSidebarMenu, setUri } =
-    useContext(AppContext);
+  const { spotifyApi, handleSidebarMenu, setUri } = useContext(AppContext);
 
   useEffect(() => {
     const fetchPlaylistContent = async (e) => {
-      scrollTop(scrollbar);
       handleSidebarMenu();
       const playlist = await spotifyApi.getPlaylist(id, { limit: 100 });
       setPlaylist(playlist);
@@ -24,7 +21,7 @@ const PlaylistShow = () => {
       setTracks(tracks);
     }; // Fetch the plyalist content when clickinng on playlist link
     fetchPlaylistContent();
-  }, [spotifyApi, handleSidebarMenu, setTracks, id, scrollbar]);
+  }, [spotifyApi, handleSidebarMenu, setTracks, id]);
 
   const bg =
     "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +

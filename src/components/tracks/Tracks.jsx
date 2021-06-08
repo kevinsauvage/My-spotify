@@ -11,7 +11,7 @@ const Tracks = ({ data, title }) => {
         data.map((track) => {
           return (
             <BibliothequeItem
-              key={track.id + Math.random(1000)}
+              key={track.id}
               name={track.name}
               trackId={track.id}
               artistId={track.artists?.[0].id}

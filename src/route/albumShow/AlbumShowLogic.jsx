@@ -6,17 +6,21 @@ const AlbumShowLogic = (id) => {
   const [album, setAlbum] = useState();
   const [tracks, setTracks] = useState();
 
-  const { scrollbar, spotifyApi, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri, scrollbar } = useContext(AppContext);
+
+  useEffect(() => {
+    scrollTop(scrollbar);
+    console.log("hh");
+  }, [scrollbar]);
 
   useEffect(() => {
     const settingAlbum = async () => {
-      scrollTop(scrollbar);
       const album = await spotifyApi.getAlbum(id);
       setTracks(album.tracks.items);
       setAlbum(album);
     };
     settingAlbum();
-  }, [spotifyApi, id, setTracks, setAlbum, scrollbar]);
+  }, [spotifyApi, id, setTracks, setAlbum]);
 
   return { setUri, album, tracks };
 };

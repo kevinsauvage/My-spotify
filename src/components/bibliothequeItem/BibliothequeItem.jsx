@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef } from "react";
 import { CgPlayListAdd } from "react-icons/cg";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { MdAddCircleOutline, MdPlayCircleFilled } from "react-icons/md";
@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import "./BibliothequeItem.scss";
 import PlaylistModal from "../playlistModal/PlaylistModal";
 import BibliothequeItemLogic from "./BibliothequeItemLogic";
-import { AppContext } from "../../context/AppContext";
 import millisToMinutesAndSeconds from "../../helpers/millisToMinutesAndSeconds.js";
 
 const BibliothequeItem = ({
@@ -28,8 +27,6 @@ const BibliothequeItem = ({
   const menu = useRef();
   const iconMenu = useRef();
 
-  const { setUri, spotifyApi } = useContext(AppContext);
-
   const {
     handleClickAddToPlaylist,
     displayPlaylistModal,
@@ -37,22 +34,9 @@ const BibliothequeItem = ({
     handleClickPlaylist,
     handleClickMenu,
     showMenu,
-  } = BibliothequeItemLogic(menu, iconMenu);
-
-  const getRecommendationsTrack = async () => {
-    const tracks = await spotifyApi.getRecommendations({
-      seed_tracks: trackId,
-      limit: 50,
-    });
-    const uris = tracks.tracks.map((track) => track.uri);
-    const track = await spotifyApi.getTrack(trackId);
-    setUri([track.uri, ...uris]);
-  };
-
-  const addToQueu = async () => {
-    const track = await spotifyApi.getTrack(trackId);
-    spotifyApi.queue(track.uri);
-  }; // Adding track to queue
+    getRecommendationsTrack,
+    addToQueu,
+  } = BibliothequeItemLogic(menu, iconMenu, trackId);
 
   return (
     <div className={"bibliotheque-item"}>
@@ -116,7 +100,7 @@ const BibliothequeItem = ({
       {owner && <p className="bibliotheque-item__owner">{owner}</p>}
       {play && (
         <div
-          onClick={() => getRecommendationsTrack()}
+          onClick={getRecommendationsTrack}
           className="bibliotheque-item__play">
           <MdPlayCircleFilled size={20} />
         </div>

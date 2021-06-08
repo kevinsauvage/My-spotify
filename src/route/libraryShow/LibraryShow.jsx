@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import Tracks from "../../components/tracks/Tracks";
 import { AppContext } from "../../context/AppContext";
-import scrollTop from "../../helpers/scrollTop";
 
 const LibraryShow = () => {
   const location = useLocation();
@@ -16,7 +15,6 @@ const LibraryShow = () => {
 
   useEffect(() => {
     const getTopTracks = async () => {
-      scrollTop(scrollbar);
       handleSidebarMenu();
       const response = await spotifyApi.getMyTopTracks({ limit: 50 });
       const tracks = response.items;
@@ -29,7 +27,6 @@ const LibraryShow = () => {
 
   useEffect(() => {
     const getLikedTracks = async () => {
-      scrollTop(scrollbar);
       handleSidebarMenu();
       const response = await spotifyApi.getMySavedTracks({
         limit: 50,
@@ -44,7 +41,6 @@ const LibraryShow = () => {
 
   useEffect(() => {
     const getRecentlyPlayed = async () => {
-      scrollTop(scrollbar);
       handleSidebarMenu();
       const response = await spotifyApi.getMyRecentlyPlayedTracks({
         type: "track",
@@ -58,7 +54,7 @@ const LibraryShow = () => {
     } else setRecentlyPlayedTracks(null);
   }, [spotifyApi, setRecentlyPlayedTracks, id, scrollbar, handleSidebarMenu]);
 
-  const handleClickPlay = () => {
+  const handleClickPlay = useCallback(() => {
     if (topTracks) {
       const uris = topTracks.map((track) => track.uri);
       setUri(uris);
@@ -71,7 +67,10 @@ const LibraryShow = () => {
       const uris = likedTracks.map((track) => track.uri);
       setUri(uris);
     }
-  };
+  }, [likedTracks, recentlyPlayedTracks, setUri, topTracks]);
+  useEffect(() => {
+    console.log("library render");
+  }, []);
 
   return (
     <div className="bibliotheque">
