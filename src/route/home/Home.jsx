@@ -82,7 +82,7 @@ const Home = () => {
     {
       id: 1,
       items: newReleases,
-      title: "New ReleaseS",
+      title: "New Release",
       link: "/album",
     },
     {
