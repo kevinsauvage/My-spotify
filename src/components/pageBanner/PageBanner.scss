@@ -1,15 +1,13 @@
 @import "../../assets/stylesheets/mixin";
+@import "../../assets/stylesheets/variable";
 
-.playlistShow {
+.pageBanner {
 
-  &__banner {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    background-color: #0b0d17;
-    margin-bottom: -24px;
-  }
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background-color: #0b0d17;
 
   &__detail {
     width: 50%;
@@ -25,16 +23,14 @@
   }
 
   &__name {
-    @include openSans(800, 25px);
+    @include raleway(800, 25px);
     color: white;
   }
 
   &__description {
-    margin-top: 2rem;
     @include openSans(600, 12px);
 
   }
-
 
   &__img {
     display: flex;
@@ -48,5 +44,11 @@
       background-size: cover;
       background-repeat: no-repeat;
     }
+  }
+
+  .follow-btn {
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
   }
 }

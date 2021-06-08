@@ -4,7 +4,7 @@
   margin-bottom: 10px;
 
   &__title {
-    @include openSans(600, 16px);
+    @include raleway(600, 14px);
     color: whitesmoke;
   }
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import PlayBtn from "../../components/playBtn/PlayBtn";
+import PageBanner from "../../components/pageBanner/PageBanner";
 import Tracks from "../../components/tracks/Tracks";
 import { AppContext } from "../../context/AppContext";
 import "./PlaylistShow.scss";
@@ -23,26 +23,15 @@ const PlaylistShow = () => {
     fetchPlaylistContent();
   }, [spotifyApi, handleSidebarMenu, setTracks, id]);
 
-  const bg =
-    "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +
-    "," +
-    "url(" +
-    playlist?.images[0].url +
-    ")";
+  const bg = "url(" + playlist?.images[0].url + ")";
+
   return (
     <div className="playlistShow">
-      <div className="playlistShow__banner">
-        <div className="playlistShow__img">
-          <div style={{ backgroundImage: bg }}></div>
-        </div>
-        <div className="playlistShow__detail">
-          <h1 className="playlistShow__name">{playlist?.name}</h1>
-          <div className="playlistShow__btn">
-            <PlayBtn onClick={() => setUri(playlist?.uri)} />
-          </div>
-          <p className="playlistShow__description">{playlist?.description}</p>
-        </div>
-      </div>
+      <PageBanner
+        data={playlist}
+        bg={bg}
+        onClick={() => setUri(playlist?.uri)}
+      />
       <Tracks data={tracks} />
     </div>
   );

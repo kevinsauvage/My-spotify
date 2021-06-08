@@ -9,7 +9,7 @@ const CategoryShowLogic = (id) => {
     const getRecomended = async () => {
       const recommendations = await spotifyApi.getRecommendations({
         seed_genres: id,
-        limit: 50,
+        limit: 100,
       });
       setTracks(recommendations.tracks);
     };

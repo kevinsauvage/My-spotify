@@ -1,20 +1,12 @@
 @import "../../assets/stylesheets/variable";
+@import "../../assets/stylesheets/mixin";
 
 .cardLoader {
   width: 200px;
   height: 200px;
-  background-color: gray;
-  animation-duration: 3.5s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeHolderShimmer;
-  animation-timing-function: linear;
-  background: #4e6a86;
-  background: linear-gradient(to right, $color-mediumLight 8%, #485979 38%, $color-mediumLight 54%);
+
   background-size: 1000px 640px;
-  position: relative;
-  opacity: 0.3;
-  border-radius: 4px;
+  @include loader
 }
 
 @keyframes placeHolderShimmer {

@@ -13,7 +13,7 @@
     color: whitesmoke;
 
     @include respond(mobileS) {
-      @include openSans(600, 12px);
+      @include raleway(600, 12px);
     }
   }
 }

@@ -1,19 +1,9 @@
 @import "../../assets/stylesheets/variable";
+@import "../../assets/stylesheets/mixin";
 
 .textLoader {
-  margin: 1rem 0 0.5rem 0;
-  background-color: gray;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeHolderShimmer;
-  animation-timing-function: linear;
-  background: #4e6a86;
-  background: linear-gradient(to right, $color-mediumLight 8%, #485979 38%, $color-mediumLight 54%);
-  background-size: 1000px 640px;
-  position: relative;
-  opacity: 0.8;
-  border-radius: 4px;
+  margin: 0.5rem 0;
+  @include loader
 }
 
 @keyframes placeHolderShimmer {

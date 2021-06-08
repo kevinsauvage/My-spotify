@@ -26,6 +26,12 @@
     font-size: $px;
 }
 
+@mixin raleway($weight, $px) {
+    font-family: 'raleway', sans-serif;
+    font-weight: $weight;
+    font-size: $px;
+}
+
 
 @mixin respond($breakpoint) {
     @if $breakpoint==tablet {
@@ -45,4 +51,18 @@
             @content;
         }
     }
+}
+
+@mixin loader {
+    border-radius: 4px;
+    background-color: gray;
+    animation-duration: 3.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #4e6a86;
+    background: linear-gradient(to right, $color-mediumLight 8%, #485979 38%, $color-mediumLight 54%);
+    position: relative;
+    opacity: 0.1;
 }

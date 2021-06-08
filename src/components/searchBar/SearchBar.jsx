@@ -10,7 +10,9 @@ const SearchBar = () => {
 
   return (
     <div className="searchBar">
-      <form type="submit" className="searchBar__container">
+      <form
+        className="searchBar__container"
+        onSubmit={(e) => e.preventDefault()}>
         <input
           value={props.input}
           onChange={handleInputChange}

@@ -2,56 +2,6 @@
 @import "../../assets/stylesheets/variable";
 
 .artist-show {
-  width: 100%;
-  height: 100%;
-  position: relative;
-
-  &__banner-image {
-    width: 100%;
-    height: 1000px;
-    margin-bottom: -850px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top;
-    position: relative;
-    flex: 1;
-  }
-
-  &__detail {
-    width: 100%;
-    text-align: center;
-
-    &__title {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      margin-top: 20px;
-
-      svg {
-        margin-left: 5px;
-      }
-    }
-
-    &__wrapper {
-      display: flex;
-      justify-content: center;
-      @include openSans(500, 12px);
-      margin-bottom: 2rem;
-
-      p:first-child {
-        margin-right: 0.3rem;
-      }
-    }
-
-    .follow-btn {
-      margin: 10px 0;
-      color: #b721ff;
-      @include openSans(500, 12px);
-      cursor: pointer;
-      text-decoration: underline;
-    }
-  }
-
   &__bottom {
     display: flex;
     justify-content: space-around;

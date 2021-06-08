@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import PlayBtn from "../../components/playBtn/PlayBtn";
+import PageBanner from "../../components/pageBanner/PageBanner";
 import Tracks from "../../components/tracks/Tracks";
 import { AppContext } from "../../context/AppContext";
 
@@ -22,7 +22,7 @@ const LibraryShow = () => {
     };
     if (id === "Top Tracks") {
       getTopTracks();
-    } else setTopTracks(null);
+    } else setTopTracks(undefined);
   }, [spotifyApi, setTopTracks, id, scrollbar, handleSidebarMenu]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const LibraryShow = () => {
     };
     if (id === "Liked Tracks") {
       getLikedTracks();
-    } else setLikedTracks(null);
+    } else setLikedTracks(undefined);
   }, [spotifyApi, setLikedTracks, id, scrollbar, handleSidebarMenu]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const LibraryShow = () => {
     };
     if (id === "Recently Played") {
       getRecentlyPlayed();
-    } else setRecentlyPlayedTracks(null);
+    } else setRecentlyPlayedTracks(undefined);
   }, [spotifyApi, setRecentlyPlayedTracks, id, scrollbar, handleSidebarMenu]);
 
   const handleClickPlay = useCallback(() => {
@@ -72,14 +72,12 @@ const LibraryShow = () => {
     console.log("library render");
   }, []);
 
+  const bg =
+    "url(https://cdn.pixabay.com/photo/2013/07/12/18/17/equalizer-153212_960_720.png)";
+
   return (
     <div className="bibliotheque">
-      <div className="bibliotheque__banner">
-        <div className="bibliotheque__description">
-          <h1 className="bibliotheque__name">{id}</h1>
-          <PlayBtn onClick={handleClickPlay} />
-        </div>
-      </div>
+      <PageBanner onClick={handleClickPlay} title={id} bg={bg} />
       <Tracks data={topTracks || likedTracks || recentlyPlayedTracks} />
     </div>
   );

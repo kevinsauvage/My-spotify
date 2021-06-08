@@ -23,13 +23,7 @@ const ArtistShowLogic = (id) => {
       handleSidebarMenu();
       const artist = await spotifyApi.getArtist(id);
       setArtist(artist);
-      setBg(
-        "linear-gradient(0deg, rgba(2,8,17,1) 0%, rgba(2,8,17,0.8687850140056023) 50%, rgba(2,8,17,0.6194852941176471) 100%)" +
-          "," +
-          "url(" +
-          artist.images[1].url +
-          ")"
-      );
+      setBg("url(" + artist.images[1].url + ")");
     }; // Set artist to show on artist show page
     setArtistShow(id);
   }, [id, handleSidebarMenu, scrollbar, spotifyApi]);

@@ -75,7 +75,7 @@ const SidebarLeft = () => {
                   );
                 })
               : array.map((e) => {
-                  return <TextLoader height="13px" width="200px" key={e} />;
+                  return <TextLoader height="10px" width="200px" key={e} />;
                 })}
           </div>
         </div>

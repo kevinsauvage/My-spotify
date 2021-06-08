@@ -1,12 +1,10 @@
 import { memo, useContext } from "react";
-import "./TrackShow.scss";
 import { AppContext } from "../../context/AppContext";
 import PlayBtn from "../../components/playBtn/PlayBtn";
 import { useEffect, useState } from "react";
 import Tracks from "../../components/tracks/Tracks";
-import BibliothequeTitle from "../../components/bibliothequeTitle/BibliothequeTitle";
-import TrackShowBanner from "../../components/trackShowBanner/TrackShowBanner";
 import { useLocation } from "react-router";
+import PageBanner from "../../components/pageBanner/PageBanner";
 
 const TrackShow = () => {
   const location = useLocation();
@@ -42,18 +40,17 @@ const TrackShow = () => {
     setUri(uris);
   };
 
+  const bg = "url(" + trackToShow?.album.images[1].url + ")";
+
   return (
     <div className="track-show">
-      <div className="track-show__content">
-        <div className="content-left">
-          <BibliothequeTitle title="Similar tracks" />
-          <PlayBtn onClick={handlePlay} />
-          <Tracks data={recomendedTracks} title="" />
-        </div>
-      </div>
-      <div className="track-show__banner">
-        {trackToShow && <TrackShowBanner trackToShow={trackToShow} />}
-      </div>
+      <PageBanner
+        onClick={() => setUri(trackToShow.uri)}
+        bg={bg}
+        data={trackToShow}
+      />
+      <PlayBtn onClick={handlePlay} />
+      <Tracks data={recomendedTracks} title="Similar tracks" />
     </div>
   );
 };
