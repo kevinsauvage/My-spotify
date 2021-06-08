@@ -20,7 +20,7 @@ const CarouselComponent = ({ data, link }) => {
                 }}
                 key={item.id}>
                 <Card
-                  url={item.images?.[1].url || item.album.images[0].url}
+                  url={item?.images?.[1]?.url || item?.album?.images?.[1]?.url}
                   name={item.name}
                   id={item.id}
                   artist={item.artists?.[0].name}

@@ -25,7 +25,7 @@ const SidebarRightLogic = () => {
 
   useEffect(() => {
     const getFeaturedPlaylist = () => {
-      spotifyApi.getFeaturedPlaylists({ limit: 10 }).then((data) => {
+      spotifyApi.getFeaturedPlaylists({ limit: 20 }).then((data) => {
         setFeaturedPlaylists(data.playlists.items);
       });
     }; // Fetching featured playlist

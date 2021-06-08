@@ -9,7 +9,8 @@ const Home = () => {
   const [topArtists, setTopArtists] = useState([]);
   const [savedAlbums, setSavedAlbums] = useState([]); // user saved albums
   const [newReleases, setNewReleases] = useState();
-
+  const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
+  const [dataFetch, setDataFetch] = useState([]);
   const { spotifyApi, handleSidebarMenu, scrollbar } = useContext(AppContext);
 
   useEffect(() => {
@@ -46,6 +47,37 @@ const Home = () => {
     getNewReleases();
   }, [spotifyApi]);
 
+  useEffect(() => {
+    const getFeaturedPlaylist = () => {
+      spotifyApi.getFeaturedPlaylists({ limit: 20 }).then((data) => {
+        setFeaturedPlaylists(data.playlists.items);
+      });
+    }; // Fetching featured playlist
+    getFeaturedPlaylist();
+  }, [spotifyApi]);
+
+  useEffect(() => {
+    Promise.all(
+      featuredPlaylists?.map((playlist) =>
+        spotifyApi.getPlaylist(playlist.id, {
+          limit: 10,
+        })
+      )
+    )
+      .then((responses) => {
+        return responses.map((re) => {
+          const tracks = re.tracks.items.slice(0, 20).map((x) => x.track);
+          return {
+            id: re.name,
+            items: tracks,
+            title: re.name,
+            link: "/track",
+          };
+        });
+      })
+      .then((data) => setDataFetch(data));
+  }, [spotifyApi, featuredPlaylists]); // fetch playlists from category array and set tracks to display in carousel
+
   const dataConfig = [
     {
       id: 1,
@@ -79,6 +111,17 @@ const Home = () => {
     <div className="home">
       {savedAlbums && topArtists && topTracks && newReleases
         ? dataConfig.map((data) => {
+            return (
+              <div className="space" key={data.id}>
+                <CarouselContainer data={data} />
+              </div>
+            );
+          })
+        : array.map((e) => {
+            return <CardLoader key={e} />;
+          })}
+      {dataFetch
+        ? dataFetch.map((data) => {
             return (
               <div className="space" key={data.id}>
                 <CarouselContainer data={data} />
