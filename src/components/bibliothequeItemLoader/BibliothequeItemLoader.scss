@@ -1,0 +1,60 @@
+@import "../../assets/stylesheets/mixin";
+@import "../../assets/stylesheets/variable";
+
+.bibliothequeItemLoader {
+  width: 100%;
+  position: relative;
+  padding: 3px 0;
+  min-height: 28.19px;
+  border-radius: 3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  @include flex-sp-b-ai-c;
+
+
+  .big,
+  .small,
+  .medium {
+    height: 15px;
+    border-radius: 4px;
+    width: 100px;
+    background-color: gray;
+    animation-duration: 3.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #4e6a86;
+    background: linear-gradient(to right, $color-mediumLight 8%, #485979 38%, $color-mediumLight 54%);
+    background-size: 1000px 640px;
+    position: relative;
+    opacity: 0.3;
+  }
+
+  .big {
+    flex: 5;
+    margin-right: 2rem;
+  }
+
+  .medium {
+    flex: 2;
+    margin-right: 2rem;
+  }
+
+  .small {
+    flex: 1;
+
+    &:last-child {
+      margin-left: 2rem;
+    }
+  }
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0
+  }
+
+  100% {
+    background-position: 468px 0
+  }
+}
