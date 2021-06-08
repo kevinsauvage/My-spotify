@@ -82,25 +82,25 @@ const Home = () => {
     {
       id: 1,
       items: newReleases,
-      title: "NEW RELEASES",
+      title: "New ReleaseS",
       link: "/album",
     },
     {
       id: 2,
       items: topTracks,
-      title: "YOUR TOP TRACKS",
+      title: "Your Top Tracks",
       link: "/track",
     },
     {
       id: 3,
       items: topArtists,
-      title: "YOUR TOP ARTISTS",
+      title: "Your Top Artists",
       link: "/artist",
     },
     {
       id: 4,
       items: savedAlbums,
-      title: "YOUR ALBUMS",
+      title: "Your Albums",
       link: "/album",
     },
   ];
