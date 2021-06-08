@@ -30,7 +30,7 @@ const SidebarRight = () => {
         className="scroll__content">
         <Link to="/">
           <div className="sidebarRight__logo padding">
-            <motion.h1 whileHover={{ scale: 1.05 }}>My Spotifly</motion.h1>
+            <motion.h1 whileHover={{ scale: 1.05 }}>Home</motion.h1>
           </div>
         </Link>
         <div className="padding">
