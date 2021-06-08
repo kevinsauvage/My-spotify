@@ -44,7 +44,7 @@ const TrackShow = () => {
   return (
     <div className="track-show">
       <PageBanner
-        onClick={() => setUri(handlePlay)}
+        onClick={handlePlay}
         bg={bg}
         data={trackToShow}
         subtitle={trackToShow?.artists?.[0]?.name}
