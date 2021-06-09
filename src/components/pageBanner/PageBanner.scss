@@ -11,7 +11,7 @@
 
   &__detail {
     width: 50%;
-    padding: 1rem;
+    padding: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,13 +28,19 @@
   }
 
   &__name {
-    @include raleway(800, 25px);
+    @include raleway(800, 40px);
     color: white;
   }
 
-  &__description {
+  &__release {
     @include openSans(600, 12px);
     margin-top: 0.5rem;
+  }
+
+  &__description {
+    @include openSans(600, 16px);
+    margin-top: 0.5rem;
+
   }
 
   &__img {

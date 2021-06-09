@@ -3,9 +3,7 @@ import { AppContext } from "../../context/AppContext";
 
 const BibliothequeItemLogic = (ref1, ref2, trackId) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
-
   const { spotifyApi, setUri } = useContext(AppContext);
-
   const [showMenu, setShowMenu] = useState(false);
 
   const handleClickOutside = useCallback(
