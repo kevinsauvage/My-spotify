@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { CgPlayListAdd } from "react-icons/cg";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { MdAddCircleOutline, MdPlayCircleFilled } from "react-icons/md";
@@ -140,4 +140,4 @@ const BibliothequeItem = ({
   );
 };
 
-export default BibliothequeItem;
+export default memo(BibliothequeItem);

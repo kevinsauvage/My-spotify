@@ -43,7 +43,7 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     ); // Add new track to a user playlist playlist
   };
 
-  const getRecommendationsTrack = async () => {
+  const getRecommendationsTrack = useCallback(async () => {
     const tracks = await spotifyApi.getRecommendations({
       seed_tracks: trackId,
       limit: 50,
@@ -51,7 +51,7 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     const uris = tracks.tracks.map((track) => track.uri);
     const track = await spotifyApi.getTrack(trackId);
     setUri([track.uri, ...uris]);
-  };
+  }, [setUri, spotifyApi, trackId]);
 
   const addToQueu = async () => {
     const track = await spotifyApi.getTrack(trackId);

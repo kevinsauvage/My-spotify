@@ -3,14 +3,17 @@ import { AppContext } from "../../context/AppContext";
 import "rc-slider/assets/index.css";
 import "./ControlBar.scss";
 import SpotifyPlayer from "react-spotify-web-playback";
-import Cookies from "js-cookie";
+import { useLocation } from "react-router";
 
 const ControlBar = () => {
   const [deviceId, setDeviceId] = useState();
   const { spotifyApi, setUri, uri } = useContext(AppContext);
+  const location = useLocation();
+  const [token, setToken] = useState();
 
-  const token =
-    window.location.hash.split("=")[1] || Cookies.get("spotifyAuthToken");
+  useEffect(() => {
+    if (location.hash !== "") setToken(location.hash.split("=")[1]);
+  }, [location]);
 
   useEffect(() => {
     const getNowPlaying = async () => {
