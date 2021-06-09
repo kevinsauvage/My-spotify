@@ -11,7 +11,7 @@
 
   &__detail {
     width: 50%;
-    padding: 3rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,19 +28,24 @@
   }
 
   &__name {
-    @include raleway(800, 40px);
+    @include poppins(800, 34px);
     color: white;
   }
 
   &__release {
-    @include openSans(600, 12px);
-    margin-top: 0.5rem;
+    @include openSans(600, 16px);
+    margin: 1rem 0;
   }
 
   &__description {
-    @include openSans(600, 16px);
-    margin-top: 0.5rem;
+    @include raleway(600, 16px);
+    margin-top: 2rem;
 
+  }
+
+  &__followers {
+    @include openSans(600, 16px);
+    margin: 1rem 0 2rem 0;
   }
 
   &__img {

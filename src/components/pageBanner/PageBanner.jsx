@@ -46,14 +46,16 @@ const PageBanner = ({
           </Link>
         )}
 
+        {data?.release_date && (
+          <p className="pageBanner__release">{data?.release_date}</p>
+        )}
+        {followers !== undefined && (
+          <p className="pageBanner__followers">{followers} followers</p>
+        )}
         <div className="pageBanner__btn">
           <PlayBtn onClick={onClick} />
         </div>
-        <p className="pageBanner__release">{data?.release_date}</p>
         <p className="pageBanner__description">{data?.description}</p>
-        {followers !== undefined && (
-          <p className="pageBanner__description">{followers} followers</p>
-        )}
       </div>
     </div>
   );
