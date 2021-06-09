@@ -1,0 +1,26 @@
+@import '../../assets/stylesheets/mixin';
+@import '../../assets/stylesheets/variable';
+
+.wentWrong {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+
+  &__title {
+    @include poppins(800, 30px);
+    margin-bottom: 3rem;
+    color: whitesmoke;
+  }
+
+  &__btn {
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    @include raleway(600, 18px);
+    background-color: $color-light;
+    color: rgb(214, 214, 214);
+    border: none;
+    cursor: pointer;
+  }
+}

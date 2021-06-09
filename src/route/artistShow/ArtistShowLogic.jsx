@@ -12,13 +12,18 @@ const ArtistShowLogic = (id) => {
   const [artist, setArtist] = useState();
   const [isFollowing, setIsFollowing] = useState();
   const [bg, setBg] = useState();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const setArtistShow = async () => {
       handleSidebarMenu();
-      const artist = await spotifyApi.getArtist(id);
-      setArtist(artist);
-      setBg("url(" + artist.images[1].url + ")");
+      try {
+        const artist = await spotifyApi.getArtist(id);
+        setArtist(artist);
+        setBg("url(" + artist.images[1].url + ")");
+      } catch (error) {
+        setError(true);
+      }
     }; // Set artist to show on artist show page
     setArtistShow(id);
   }, [id, handleSidebarMenu, spotifyApi]);
@@ -123,6 +128,7 @@ const ArtistShowLogic = (id) => {
     recomendedTracks,
     bg,
     isFollowing,
+    error,
   };
 };
 
