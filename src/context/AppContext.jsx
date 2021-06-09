@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
 
@@ -9,6 +9,16 @@ export const AppProvider = (props) => {
   const [uri, setUri] = useState(); // uri of track to play
   const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false); // Mobile menu
   const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false); // Mobile menu
+
+  useEffect(() => {
+    if (window.location.hash !== "") {
+      spotifyApi.setAccessToken(window.location.hash.split("=")[1]);
+      window.sessionStorage.setItem(
+        "token",
+        window.location.hash.split("=")[1]
+      );
+    }
+  }, []);
 
   window.location.hash !== "" &&
     spotifyApi.setAccessToken(window.location.hash.split("=")[1]);
