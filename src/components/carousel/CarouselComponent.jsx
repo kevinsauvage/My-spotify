@@ -3,12 +3,13 @@ import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import Card from "../card/Card";
 import responsive from "./responsive";
+import "./CarouselComponent.scss";
 
 const CarouselComponent = ({ data, link }) => {
   return (
-    <div>
+    <div className="carousel">
       {data && (
-        <Carousel responsive={responsive}>
+        <Carousel responsive={responsive} slidesToSlide={3}>
           {data.map((item) => {
             return (
               <Link

@@ -1,15 +1,11 @@
 import { useContext, useRef } from "react";
 import "./SidebarRight.scss";
-import SmoothScrollbar from "smooth-scrollbar";
-import OverscrollPlugin from "smooth-scrollbar/plugins/overscroll";
 import Scrollbar from "react-smooth-scrollbar";
 import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import SidebarRightLogic from "./SidebarRightLogic";
 import SidebarRightCategoryWrapper from "../sidebarRightCategoryWrapper/SidebarRightCategoryWrapper";
-
-SmoothScrollbar.use(OverscrollPlugin);
 
 const SidebarRight = () => {
   const { sidebarRightIsOpen } = useContext(AppContext);

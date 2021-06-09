@@ -9,10 +9,10 @@ const Artists = ({ data }) => {
       <BibliothequeTitle title="Related Artists" />
       <BibliothequeItemHeader artist popularity />
       {data &&
-        data.map((artist) => {
+        data.map((artist, i) => {
           return (
             <BibliothequeItem
-              key={artist.id}
+              key={i}
               artist={artist.name}
               popularity={artist.popularity}
               artistId={artist.id}

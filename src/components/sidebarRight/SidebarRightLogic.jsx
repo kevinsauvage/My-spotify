@@ -2,19 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const SidebarRightLogic = () => {
-  const {
-    spotifyApi,
-    handleSidebarMenu,
-    scrollbar,
-    followedArtists,
-    setFollowedArtists,
-  } = useContext(AppContext);
-
+  const { spotifyApi, handleSidebarMenu } = useContext(AppContext);
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]); // user featured playlist
   const [topTracks, setTopTracks] = useState([]); // user top tracks
   const [topArtists, setTopArtists] = useState([]);
   const [savedAlbums, setSavedAlbums] = useState([]); // user saved albums
   const [categories, setCategories] = useState([]);
+  const [followedArtists, setFollowedArtists] = useState();
 
   useEffect(() => {
     spotifyApi
@@ -39,7 +33,7 @@ const SidebarRightLogic = () => {
       setTopTracks(tracks);
     };
     getTopTracks();
-  }, [spotifyApi, setTopTracks, scrollbar, handleSidebarMenu]);
+  }, [spotifyApi, setTopTracks, handleSidebarMenu]);
 
   useEffect(() => {
     const getTopArtist = async () => {

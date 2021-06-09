@@ -10,13 +10,23 @@ import AlbumShow from "../albumShow/AlbumShow";
 import PlaylistShow from "../playlistShow/PlaylistShow";
 import LibraryShow from "../libraryShow/LibraryShow";
 import CategoryShow from "../categoryShow/CategoryShow";
-import { useContext, useEffect } from "react";
+import { useEffect, useState } from "react";
 import scrollTop from "../../helpers/scrollTop";
-import { AppContext } from "../../context/AppContext";
+import Scrollbar from "smooth-scrollbar";
 
 const Content = () => {
+  const [scrollbar, setScrollbar] = useState();
   const location = useLocation();
-  const { scrollbar } = useContext(AppContext);
+
+  useEffect(() => {
+    const scrollbar = Scrollbar.init(document.querySelector("#my-scrollbar"), {
+      damping: 0.1,
+      renderByPixels: true,
+      alwaysShowTracks: false,
+      continuousScrolling: true,
+    });
+    setScrollbar(scrollbar);
+  }, []);
 
   useEffect(() => {
     scrollTop(scrollbar);

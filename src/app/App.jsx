@@ -11,6 +11,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 const App = () => {
   const token =
     window.location.hash.split("=")[1] || Cookies.get("spotifyAuthToken");
+
   return (
     <div className="App">
       {token ? (

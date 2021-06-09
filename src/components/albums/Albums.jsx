@@ -9,10 +9,10 @@ const ArtistAlbums = ({ data }) => {
       <BibliothequeTitle title="Artist albums" />
       <BibliothequeItemHeader album year />
       {data &&
-        data.map((album) => {
+        data.map((album, i) => {
           return (
             <BibliothequeItem
-              key={album.id}
+              key={i}
               albumName={album.name}
               year={album.release_date.split("-")[0]}
               albumId={album.id}

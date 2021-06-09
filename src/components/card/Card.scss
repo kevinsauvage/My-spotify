@@ -19,34 +19,22 @@
   }
 
   &__detail {
-    width: 100%;
+    width: 200px;
     height: 100%;
     display: flex;
-    justify-content: space-evenly;
     flex-direction: column;
-    opacity: 0;
-    padding: 0.5rem;
-    transition: opacity 0.3s ease-in;
-    border-radius: 5px;
-
-    &:hover {
-      opacity: 0.9;
-      background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
-    }
+    padding: 0.5rem 0;
   }
 
   &__name {
-    color: $color-dark;
-    font-weight: 700;
-    text-align: center;
-    font-size: 16px;
+    color: white;
+    @include openSans(600, 13px)
   }
 
   &__artist {
-    font-size: 12px;
-    font-weight: 800;
-    color: $color-dark;
-    text-align: center;
+    color: white;
+    opacity: 0.8;
     margin-top: 5px;
+    @include poppins(300, 12px)
   }
 }

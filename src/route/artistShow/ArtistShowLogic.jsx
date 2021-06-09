@@ -2,13 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const ArtistShowLogic = (id) => {
-  const {
-    spotifyApi,
-    setUri,
-    setFollowedArtists,
-    scrollbar,
-    handleSidebarMenu,
-  } = useContext(AppContext);
+  const { spotifyApi, setUri, setFollowedArtists, handleSidebarMenu } =
+    useContext(AppContext);
 
   const [artistAlbums, setArtistAlbums] = useState();
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
@@ -26,7 +21,7 @@ const ArtistShowLogic = (id) => {
       setBg("url(" + artist.images[1].url + ")");
     }; // Set artist to show on artist show page
     setArtistShow(id);
-  }, [id, handleSidebarMenu, scrollbar, spotifyApi]);
+  }, [id, handleSidebarMenu, spotifyApi]);
 
   useEffect(() => {
     const fetchArtistAlbums = async () => {

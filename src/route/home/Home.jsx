@@ -11,7 +11,7 @@ const Home = () => {
   const [newReleases, setNewReleases] = useState();
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
   const [dataFetch, setDataFetch] = useState([]);
-  const { spotifyApi, handleSidebarMenu, scrollbar } = useContext(AppContext);
+  const { spotifyApi, handleSidebarMenu } = useContext(AppContext);
 
   useEffect(() => {
     const getTopTracks = async () => {
@@ -20,7 +20,7 @@ const Home = () => {
       setTopTracks(tracks);
     };
     getTopTracks();
-  }, [spotifyApi, setTopTracks, scrollbar, handleSidebarMenu]);
+  }, [spotifyApi, setTopTracks, handleSidebarMenu]);
 
   useEffect(() => {
     const getTopArtist = async () => {

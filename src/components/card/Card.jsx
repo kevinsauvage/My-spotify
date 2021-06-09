@@ -7,11 +7,10 @@ const Card = ({ url, name, artist }) => {
         className="card__img"
         style={{
           backgroundImage: "url(" + url + ")",
-        }}>
-        <div className="card__detail">
-          <h2 className="card__name">{name}</h2>
-          <p className="card__artist">{artist}</p>
-        </div>
+        }}></div>
+      <div className="card__detail">
+        <h2 className="card__name">{name}</h2>
+        <p className="card__artist">{artist}</p>
       </div>
     </div>
   );

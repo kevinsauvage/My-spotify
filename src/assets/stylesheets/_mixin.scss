@@ -66,3 +66,9 @@
     position: relative;
     opacity: 0.1;
 }
+
+@mixin poppins($weight, $size) {
+    font-family: 'Poppins', sans-serif;
+    font-weight: $weight;
+    font-size: $size;
+}
