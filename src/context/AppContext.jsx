@@ -10,16 +10,6 @@ export const AppProvider = (props) => {
   const [sidebarLeftIsOpen, setSidebarLeftIsOpen] = useState(false); // Mobile menu
   const [sidebarRightIsOpen, setSidebarRightIsOpen] = useState(false); // Mobile menu
 
-  useEffect(() => {
-    if (window.location.hash !== "") {
-      spotifyApi.setAccessToken(window.location.hash.split("=")[1]);
-      window.sessionStorage.setItem(
-        "token",
-        window.location.hash.split("=")[1]
-      );
-    }
-  }, []);
-
   window.location.hash !== "" &&
     spotifyApi.setAccessToken(window.location.hash.split("=")[1]);
 
