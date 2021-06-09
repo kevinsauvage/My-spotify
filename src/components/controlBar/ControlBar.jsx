@@ -3,10 +3,17 @@ import { AppContext } from "../../context/AppContext";
 import "rc-slider/assets/index.css";
 import "./ControlBar.scss";
 import SpotifyPlayer from "react-spotify-web-playback";
+import { useLocation } from "react-router";
 
 const ControlBar = () => {
   const [deviceId, setDeviceId] = useState();
   const { spotifyApi, setUri, uri } = useContext(AppContext);
+  const location = useLocation();
+  const [token, setToken] = useState();
+
+  useEffect(() => {
+    if (location.hash !== "") setToken(location.hash.split("=")[1]);
+  }, [location]);
 
   useEffect(() => {
     const getNowPlaying = async () => {
@@ -25,17 +32,19 @@ const ControlBar = () => {
 
   return (
     <div className="controlBar">
-      <SpotifyPlayer
-        showSaveIcon={true}
-        deviceId={deviceId !== "" ? deviceId : null}
-        uris={uri}
-        token={window.sessionStorage.getItem("token")}
-        syncExternalDevice={true}
-        styles={{
-          activeColor: "#21d5fda1",
-          sliderHandleColor: "#21d5fda1",
-        }}
-      />
+      {token && uri !== "" && (
+        <SpotifyPlayer
+          showSaveIcon={true}
+          deviceId={deviceId !== "" ? deviceId : null}
+          uris={uri}
+          token={token}
+          syncExternalDevice={true}
+          styles={{
+            activeColor: "#21d5fda1",
+            sliderHandleColor: "#21d5fda1",
+          }}
+        />
+      )}
     </div>
   );
 };

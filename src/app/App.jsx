@@ -4,13 +4,11 @@ import SidebarLeft from "../components/sidebarLeft/SidebarLeft";
 import Main from "../layout/main/Main";
 import SidebarRight from "../components/sidebarRight/SidebarRight";
 import Login from "../components/login/Login";
-import Cookies from "js-cookie";
 import { AppProvider } from "../context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const App = () => {
-  const token =
-    window.location.hash.split("=")[1] || Cookies.get("spotifyAuthToken");
+  const token = window.location.hash.split("=")[1];
 
   return (
     <div className="App">
