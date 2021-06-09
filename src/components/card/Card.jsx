@@ -1,8 +1,12 @@
+import { motion } from "framer-motion";
 import "./Card.scss";
 
 const Card = ({ url, name, artist }) => {
   return (
-    <div className="card">
+    <motion.div
+      whileHover={{ scale: 1.3 }}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}>
       <div
         className="card__img"
         style={{
@@ -12,7 +16,7 @@ const Card = ({ url, name, artist }) => {
         <h2 className="card__name">{name}</h2>
         <p className="card__artist">{artist}</p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
