@@ -34,11 +34,7 @@ const Content = () => {
 
   return (
     <div className="content">
-      <AnimatedSwitch
-        atEnter={{ opacity: 0, transitionDuration: 4 }}
-        atActive={{ opacity: 1, transitionDuration: 4 }}
-        atLeave={{ opacity: 0, transitionDuration: 4 }}
-        className="switch-wrapper">
+      <AnimatedSwitch className="switch-wrapper">
         <Route exact path="/" component={Home} />
         <Route path="/track/:id" component={TrackShow} />
         <Route path="/artist/:id" component={Artistshow} />
