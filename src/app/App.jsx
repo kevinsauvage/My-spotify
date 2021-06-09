@@ -9,7 +9,8 @@ import { AppProvider } from "../context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const App = () => {
-  let token = Cookies.get("spotifyAuthToken");
+  const token =
+    window.location.hash.split("=")[1] || Cookies.get("spotifyAuthToken");
   return (
     <div className="App">
       {token ? (

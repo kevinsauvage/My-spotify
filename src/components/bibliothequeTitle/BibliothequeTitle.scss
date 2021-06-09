@@ -2,11 +2,9 @@
 
 .bibliothequeTitle {
   text-align: center;
-  font-size: 18px;
   color: white;
-  font-weight: 600;
   margin-bottom: 1rem;
   position: relative;
-  padding-bottom: 1rem;
+  padding: 1rem;
   @include raleway(700, 16px)
 }
