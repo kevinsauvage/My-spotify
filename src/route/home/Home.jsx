@@ -3,6 +3,7 @@ import "./Home.scss";
 import { AppContext } from "../../context/AppContext";
 import CarouselContainer from "../../components/carouselContainer/CarouselContainer";
 import CardLoader from "../../components/cardLoader/CardLoader";
+import WentWrong from "../../components/wentWrong/WentWrong";
 
 const Home = () => {
   const [topTracks, setTopTracks] = useState([]); // user top tracks
@@ -11,6 +12,8 @@ const Home = () => {
   const [newReleases, setNewReleases] = useState();
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
   const [dataFetch, setDataFetch] = useState([]);
+  const [error, setError] = useState(false);
+
   const { spotifyApi, handleSidebarMenu } = useContext(AppContext);
 
   useEffect(() => {
@@ -75,7 +78,11 @@ const Home = () => {
           };
         });
       })
-      .then((data) => setDataFetch(data));
+      .then((data) => setDataFetch(data))
+      .catch((error) => {
+        setError(true);
+        console.log(error);
+      });
   }, [spotifyApi, featuredPlaylists]); // fetch playlists from category array and set tracks to display in carousel
 
   const dataConfig = [
@@ -107,30 +114,36 @@ const Home = () => {
 
   const array = Array.from(Array(6).keys()); // Make an array to display 8 card loader carussel
 
+  console.log(error);
   return (
     <div className="home">
-      {savedAlbums && topArtists && topTracks && newReleases
-        ? dataConfig.map((data) => {
+      {!error ? (
+        savedAlbums && topArtists && topTracks && newReleases ? (
+          dataConfig.map((data) => {
             return (
               <div className="space" key={data.id}>
                 <CarouselContainer data={data} />
               </div>
             );
           })
-        : array.map((e) => {
+        ) : array.map((e) => {
             return <CardLoader key={e} />;
-          })}
-      {dataFetch
-        ? dataFetch.map((data) => {
+          }) && dataFetch ? (
+          dataFetch.map((data) => {
             return (
               <div className="space" key={data.id}>
                 <CarouselContainer data={data} />
               </div>
             );
           })
-        : array.map((e) => {
+        ) : (
+          array.map((e) => {
             return <CardLoader key={e} />;
-          })}
+          })
+        )
+      ) : (
+        <WentWrong text="Oups... Something went wrong!" btn />
+      )}
     </div>
   );
 };

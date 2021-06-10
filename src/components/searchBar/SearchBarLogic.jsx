@@ -1,14 +1,17 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
 const SearchBarLogic = () => {
   const { handleSidebarMenu, spotifyApi } = useContext(AppContext);
   const history = useHistory();
+  const [changeCount, setChangeCount] = useState(0);
 
   const handleInputChange = async (e) => {
+    setChangeCount((prev) => prev + 1);
     if (!e.target.value) {
-      history.push("/");
+      setChangeCount(0);
+      history.go("-" + changeCount);
     }
     handleSidebarMenu();
     const searchResults = await spotifyApi.search(e.target.value, [

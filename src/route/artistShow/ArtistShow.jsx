@@ -52,7 +52,7 @@ const ArtistShow = () => {
           </div>
         </>
       ) : (
-        <WentWrong />
+        <WentWrong title="Oupss... , something went wrong!" btn />
       )}
     </div>
   );

@@ -1,13 +1,15 @@
 import "./WentWrong.scss";
-const WentWrong = () => {
+const WentWrong = ({ title, btn }) => {
   return (
     <div className="wentWrong">
-      <h1 className="wentWrong__title">Oupss... , something went wrong!</h1>
-      <button
-        className="wentWrong__btn"
-        onClick={() => window.location.reload()}>
-        Reload
-      </button>
+      <h1 className="wentWrong__title">{title}</h1>
+      {btn && (
+        <button
+          className="wentWrong__btn"
+          onClick={() => window.location.reload()}>
+          Reload
+        </button>
+      )}
     </div>
   );
 };
