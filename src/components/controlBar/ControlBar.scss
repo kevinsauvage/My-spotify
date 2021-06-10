@@ -2,100 +2,22 @@
 @import "../../assets/stylesheets/variable";
 @import "../../assets/stylesheets/global.scss";
 
-.controlBar {
-  width: 100%;
-  height: 65px;
-  background-color: $color-dark;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 500;
-  @include flex-sp-b-ai-c;
 
-  @include respond(tablet) {
-    position: relative;
-    z-index: 1500;
-  }
+.__1xc0f9k {
+  background-color: $color-extra-dark;
 }
 
-.PlayerRSWP {
-  background-color: $color-dark !important;
-}
+.__1g1kf0v {
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 
-.__mvqn38 {
-  img {
-    @include respond(mobileS) {
-      height: 30px !important;
-      width: 30px !important;
-    }
+  @include respond(mobileS) {
+    transform: translateX(-35%) !important;
+
   }
 }
 
 ._ContentRSWP {
-  height: 57px;
   justify-content: space-between !important;
-  margin: 0 1rem;
-
-  @include respond(mobileS) {
-    margin: 0 5px;
-    flex-direction: row;
-  }
-}
-
-.__1g1kf0v button.rswp__toggle,
-.__1g1kf0v button {
-
-  @include respond(mobileS) {
-    font-size: 15px !important;
-  }
-}
-
-._InfoRSWP {
-  @include respond(tablet) {
-    border-bottom: none !important;
-  }
-}
-
-.__nnvdcq {
-  @include respond(mobileS) {
-    padding-left: 3px;
-    white-space: unset;
-  }
-
-  p {
-    @include respond(mobileS) {
-      font-size: 12px !important;
-
-    }
-  }
-}
-
-.__hrnxs2 {
-  @include respond(mobileS) {
-    height: 51px;
-  }
-}
-
-._ActionsRSWP {
-  position: static !important;
-}
-
-.__1xc0f9k {
-  div {
-    width: fit-content !important;
-  }
-}
-
-.__1xc0f9k {
-  display: flex;
-  flex-direction: row;
-}
-
-.__1k6b4a3 {
-  height: fit-content;
-}
-
-.__nnvdcq span {
-  color: white;
-  @include poppins(600, 12px)
 }

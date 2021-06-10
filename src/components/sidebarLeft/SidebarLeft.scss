@@ -9,9 +9,10 @@
   z-index: 500;
 
   @include respond(tablet) {
+    position: absolute;
     transform: translateX(-270px);
     transform-origin: bottom left;
-    height: calc(100vh - 115px);
+    height: calc(100vh - 96px);
   }
 
   &__userInfo {

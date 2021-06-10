@@ -7,9 +7,7 @@
   height: 100vh;
 
   @include respond(tablet) {
-    position: absolute;
     top: 0;
     right: 0;
-    bottom: 115px;
   }
 }
