@@ -9,5 +9,12 @@
   &__title {
     text-transform: capitalize;
     @include openSans(500, 12px);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      color: white;
+      @include openSans(500, 13px);
+
+    }
   }
 }

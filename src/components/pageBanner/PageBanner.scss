@@ -25,6 +25,13 @@
   &__subtitle {
     @include openSans(600, 16px);
     padding-top: 0.5rem;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      color: white;
+      @include openSans(600, 17px);
+
+    }
   }
 
   &__name {
