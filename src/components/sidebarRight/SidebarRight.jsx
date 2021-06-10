@@ -36,7 +36,6 @@ const SidebarRight = () => {
                 key={data.id}
                 data={data.items}
                 link={data.link}
-                fn={data.fn}
                 title={data.title}
               />
             );

@@ -19,6 +19,12 @@
   &__categories {
     @include flex-sp-b-ai-c;
     cursor: pointer;
+    padding-bottom: 8px;
+
+    svg {
+      color: #21d4fd;
+      transition: all 0.5s ease-in-out;
+    }
   }
 
   &__categoriesWrapper {
@@ -78,4 +84,8 @@
     opacity: 1;
     transform: translateX(0px);
   }
+}
+
+.rotate {
+  transform: rotate(180deg);
 }

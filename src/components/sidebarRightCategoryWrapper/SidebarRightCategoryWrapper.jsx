@@ -1,11 +1,13 @@
 import React from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoMdArrowRoundDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 import SectionTitleSidebar from "../sectionTitleSidebar/SectionTitleSidebar";
 import Subtitle from "../subtitle/Subtitle";
 
-const SidebarRightCategoryWrapper = ({ data, link, fn, title }) => {
+const SidebarRightCategoryWrapper = ({ data, link, title }) => {
   const handleClick = (e) => {
+    const svg = e.currentTarget.children[1];
+    svg.classList.toggle("rotate");
     const list = Array.from(e.currentTarget.nextElementSibling.children);
     for (let i = 0; i <= list.length - 1; i++) {
       setTimeout(() => {
@@ -16,12 +18,9 @@ const SidebarRightCategoryWrapper = ({ data, link, fn, title }) => {
 
   return (
     <div className="sidebarRight__categoriesWrapper">
-      <div
-        className="sidebarRight__categories"
-        data-set="categories"
-        onClick={handleClick}>
+      <div className="sidebarRight__categories" onClick={handleClick}>
         <SectionTitleSidebar title={title} />
-        <IoIosArrowDown />
+        <IoMdArrowRoundDown size={25} />
       </div>
       <div className="sidebarRight__categoryItems ">
         {data &&
