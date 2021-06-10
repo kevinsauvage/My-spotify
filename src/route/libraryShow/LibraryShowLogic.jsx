@@ -8,12 +8,11 @@ const LibraryShowLogic = () => {
   const [tracks, setTracks] = useState();
   const [error, setError] = useState(false);
 
-  const { spotifyApi, handleSidebarMenu, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri } = useContext(AppContext);
 
   useEffect(() => {
     const getTopTracks = async () => {
       try {
-        handleSidebarMenu();
         const response = await spotifyApi.getMyTopTracks({ limit: 50 });
         const tracks = response.items;
         setTracks(tracks);
@@ -24,12 +23,11 @@ const LibraryShowLogic = () => {
     if (id === "Top Tracks") {
       getTopTracks();
     }
-  }, [spotifyApi, id, handleSidebarMenu]);
+  }, [spotifyApi, id]);
 
   useEffect(() => {
     const getLikedTracks = async () => {
       try {
-        handleSidebarMenu();
         const response = await spotifyApi.getMySavedTracks({
           limit: 50,
         });
@@ -42,12 +40,11 @@ const LibraryShowLogic = () => {
     if (id === "Liked Tracks") {
       getLikedTracks();
     }
-  }, [spotifyApi, id, handleSidebarMenu]);
+  }, [spotifyApi, id]);
 
   useEffect(() => {
     const getRecentlyPlayed = async () => {
       try {
-        handleSidebarMenu();
         const response = await spotifyApi.getMyRecentlyPlayedTracks({
           type: "track",
           limit: 50,
@@ -61,7 +58,7 @@ const LibraryShowLogic = () => {
     if (id === "Recently Played") {
       getRecentlyPlayed();
     }
-  }, [spotifyApi, id, handleSidebarMenu]);
+  }, [spotifyApi, id]);
 
   const handleClickPlay = useCallback(() => {
     const uris = tracks.map((track) => track.uri);

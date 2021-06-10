@@ -10,13 +10,16 @@ import AlbumShow from "../albumShow/AlbumShow";
 import PlaylistShow from "../playlistShow/PlaylistShow";
 import LibraryShow from "../libraryShow/LibraryShow";
 import CategoryShow from "../categoryShow/CategoryShow";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import scrollTop from "../../helpers/scrollTop";
 import Scrollbar from "smooth-scrollbar";
+import { AppContext } from "../../context/AppContext";
 
 const Content = () => {
   const [scrollbar, setScrollbar] = useState();
   const location = useLocation();
+  const { setSidebarLeftIsOpen, setSidebarRightIsOpen } =
+    useContext(AppContext);
 
   useEffect(() => {
     const scrollbar = Scrollbar.init(document.querySelector("#my-scrollbar"), {
@@ -30,7 +33,14 @@ const Content = () => {
 
   useEffect(() => {
     scrollTop(scrollbar);
-  }, [location.pathname, scrollbar]); // scroll to the top when route change
+    setSidebarLeftIsOpen(false);
+    setSidebarRightIsOpen(false);
+  }, [
+    location.pathname,
+    scrollbar,
+    setSidebarLeftIsOpen,
+    setSidebarRightIsOpen,
+  ]); // scroll to the top when route change
 
   return (
     <div className="content">

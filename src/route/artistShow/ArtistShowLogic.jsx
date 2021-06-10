@@ -5,8 +5,7 @@ import { AppContext } from "../../context/AppContext";
 const ArtistShowLogic = () => {
   const location = useLocation();
   const { id } = location.state;
-  const { spotifyApi, setUri, setFollowedArtists, handleSidebarMenu } =
-    useContext(AppContext);
+  const { spotifyApi, setUri, setFollowedArtists } = useContext(AppContext);
 
   const [artistAlbums, setArtistAlbums] = useState();
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
@@ -19,7 +18,6 @@ const ArtistShowLogic = () => {
 
   useEffect(() => {
     const setArtistShow = async () => {
-      handleSidebarMenu();
       try {
         const artist = await spotifyApi.getArtist(id);
         setArtist(artist);
@@ -29,7 +27,7 @@ const ArtistShowLogic = () => {
       }
     }; // Set artist to show on artist show page
     setArtistShow(id);
-  }, [id, handleSidebarMenu, spotifyApi]);
+  }, [id, spotifyApi]);
 
   useEffect(() => {
     const fetchArtistAlbums = async () => {

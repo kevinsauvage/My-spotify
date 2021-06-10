@@ -10,7 +10,7 @@ const HomeLogic = () => {
   const [dataFetch, setDataFetch] = useState([]);
   const [error, setError] = useState(false);
 
-  const { spotifyApi, handleSidebarMenu } = useContext(AppContext);
+  const { spotifyApi } = useContext(AppContext);
 
   useEffect(() => {
     const getTopTracks = async () => {
@@ -19,7 +19,7 @@ const HomeLogic = () => {
       setTopTracks(tracks);
     };
     getTopTracks();
-  }, [spotifyApi, setTopTracks, handleSidebarMenu]);
+  }, [spotifyApi, setTopTracks]);
 
   useEffect(() => {
     const getTopArtist = async () => {

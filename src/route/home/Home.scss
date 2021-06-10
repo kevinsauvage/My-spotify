@@ -4,6 +4,6 @@
   padding: 1rem;
 
   @include respond(tablet) {
-    padding: 0.5rem;
+    padding: 1rem 0 1.5rem 5px;
   }
 }

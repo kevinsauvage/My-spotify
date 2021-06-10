@@ -9,7 +9,7 @@
   padding: 2rem;
   background-color: #0b0d17;
 
-  @include respond(mobileS) {
+  @include respond(mobile) {
     padding: 0;
     flex-direction: column;
   }
@@ -22,7 +22,7 @@
     justify-content: center;
     align-items: center;
 
-    @include respond(mobileS) {
+    @include respond(mobile) {
       width: 100%;
     }
   }

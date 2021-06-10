@@ -13,11 +13,6 @@ export const AppProvider = (props) => {
   window.location.hash !== "" &&
     spotifyApi.setAccessToken(window.location.hash.split("=")[1]);
 
-  const handleSidebarMenu = () => {
-    setSidebarLeftIsOpen(false);
-    setSidebarRightIsOpen(false);
-  };
-
   return (
     <Provider
       value={{
@@ -26,7 +21,6 @@ export const AppProvider = (props) => {
         setSidebarLeftIsOpen,
         sidebarRightIsOpen,
         sidebarLeftIsOpen,
-        handleSidebarMenu,
         uri,
         setUri,
       }}>

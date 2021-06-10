@@ -5,6 +5,10 @@
   cursor: pointer;
   border-radius: 4px;
 
+  @include respond(mobileS) {
+    height: 173px;
+  }
+
   &__img {
     width: 200px;
     height: 200px;
@@ -24,11 +28,21 @@
     display: flex;
     flex-direction: column;
     padding: 0.5rem 0;
+
+    @include respond(mobileS) {
+      width: 110px;
+      height: 110px;
+    }
   }
 
   &__name {
     color: white;
-    @include openSans(600, 13px)
+    @include openSans(600, 13px);
+
+    @include respond(mobileS) {
+      @include openSans(600, 10px);
+
+    }
   }
 
   &__artist {

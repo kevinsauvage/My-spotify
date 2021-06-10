@@ -1,7 +1,18 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import "./Card.scss";
 
 const Card = ({ url, name, artist }) => {
+  const [nameMaxLength, setNameMaxLength] = useState();
+
+  useEffect(() => {
+    if (window.innerWidth <= 548) {
+      setNameMaxLength(18);
+    } else {
+      setNameMaxLength(30);
+    }
+  }, []);
+
   return (
     <motion.div
       className="card"
@@ -14,7 +25,9 @@ const Card = ({ url, name, artist }) => {
           backgroundImage: "url(" + url + ")",
         }}></div>
       <div className="card__detail">
-        <h2 className="card__name">{name}</h2>
+        <h2 className="card__name">
+          {name.length > 18 ? name.substring(0, nameMaxLength) + "..." : name}
+        </h2>
         <p className="card__artist">{artist}</p>
       </div>
     </motion.div>

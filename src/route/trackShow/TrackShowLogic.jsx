@@ -8,11 +8,10 @@ const TrackShowLogic = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
   const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
   const [error, setError] = useState(false);
-  const { spotifyApi, handleSidebarMenu, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri } = useContext(AppContext);
 
   useEffect(() => {
     const setTrackShow = async (e) => {
-      handleSidebarMenu();
       try {
         const track = await spotifyApi.getTrack(id);
         setTrackToShow(track);
@@ -21,7 +20,7 @@ const TrackShowLogic = () => {
       }
     }; // Function to set the track of the show page
     setTrackShow();
-  }, [handleSidebarMenu, id, spotifyApi]);
+  }, [id, spotifyApi]);
 
   useEffect(() => {
     const getRecommendationsTrack = async () => {

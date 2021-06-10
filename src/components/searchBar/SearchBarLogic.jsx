@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
 const SearchBarLogic = () => {
-  const { handleSidebarMenu, spotifyApi } = useContext(AppContext);
+  const { spotifyApi } = useContext(AppContext);
   const history = useHistory();
   const [changeCount, setChangeCount] = useState(0);
 
@@ -13,7 +13,6 @@ const SearchBarLogic = () => {
       setChangeCount(0);
       history.go("-" + changeCount);
     }
-    handleSidebarMenu();
     const searchResults = await spotifyApi.search(e.target.value, [
       "artist",
       "playlist",

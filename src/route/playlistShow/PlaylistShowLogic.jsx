@@ -9,11 +9,10 @@ const PlaylistShowLogic = () => {
   const [playlist, setPlaylist] = useState();
   const [error, setError] = useState(false);
 
-  const { spotifyApi, handleSidebarMenu, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri } = useContext(AppContext);
 
   useEffect(() => {
     const fetchPlaylistContent = async (e) => {
-      handleSidebarMenu();
       try {
         const playlist = await spotifyApi.getPlaylist(id, { limit: 100 });
         setPlaylist(playlist);
@@ -24,7 +23,7 @@ const PlaylistShowLogic = () => {
       }
     }; // Fetch the plyalist content when clickinng on playlist link
     fetchPlaylistContent();
-  }, [spotifyApi, handleSidebarMenu, setTracks, id]);
+  }, [spotifyApi, setTracks, id]);
 
   const bg = "url(" + playlist?.images[0].url + ")";
 

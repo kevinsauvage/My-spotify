@@ -15,22 +15,14 @@
   @include respond(tablet) {
     position: relative;
     z-index: 1500;
-
   }
 }
 
 .PlayerRSWP {
-  height: 100%;
   background-color: $color-dark !important;
 }
 
 .__mvqn38 {
-  height: 60px;
-
-  @include respond(mobileS) {
-    height: 55px;
-  }
-
   img {
     @include respond(mobileS) {
       height: 30px !important;
@@ -41,47 +33,12 @@
 
 ._ContentRSWP {
   height: 57px;
+  justify-content: space-between !important;
   margin: 0 1rem;
 
   @include respond(mobileS) {
     margin: 0 5px;
-  }
-}
-
-.__1g1kf0v>div {
-  @include respond(mobileS) {
-    min-width: 30px !important;
-  }
-}
-
-._InfoRSWP.rswp__active {
-  @include respond(mobileS) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 60px !important;
-  }
-}
-
-
-.__3hi4aq {
-  @include respond(mobileS) {
-    width: calc(100% - 242px);
-  }
-}
-
-
-
-.__1g1kf0v {
-  @include respond(tablet) {
-    padding: 0;
-    position: absolute !important;
-    right: 30% !important;
-  }
-
-  @include respond(mobileS) {
-    padding: 10px;
-    width: fit-content !important;
+    flex-direction: row;
   }
 }
 
@@ -93,13 +50,11 @@
   }
 }
 
-
 ._InfoRSWP {
   @include respond(tablet) {
     border-bottom: none !important;
   }
 }
-
 
 .__nnvdcq {
   @include respond(mobileS) {
@@ -119,4 +74,28 @@
   @include respond(mobileS) {
     height: 51px;
   }
+}
+
+._ActionsRSWP {
+  position: static !important;
+}
+
+.__1xc0f9k {
+  div {
+    width: fit-content !important;
+  }
+}
+
+.__1xc0f9k {
+  display: flex;
+  flex-direction: row;
+}
+
+.__1k6b4a3 {
+  height: fit-content;
+}
+
+.__nnvdcq span {
+  color: white;
+  @include poppins(600, 12px)
 }
