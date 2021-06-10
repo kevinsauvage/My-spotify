@@ -27,8 +27,12 @@ const Home = () => {
 
   useEffect(() => {
     const getTopArtist = async () => {
-      const topArtist = await spotifyApi.getMyTopArtists();
-      setTopArtists(topArtist.items);
+      try {
+        const topArtist = await spotifyApi.getMyTopArtists();
+        setTopArtists(topArtist.items);
+      } catch (error) {
+        setError(true);
+      }
     };
     getTopArtist();
   }, [setTopArtists, spotifyApi]);
