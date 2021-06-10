@@ -6,9 +6,14 @@
 .controlBar {
   position: absolute;
   left: 0;
-  bottom: 47px;
+  bottom: 0px;
   right: 0;
   z-index: 5000;
+
+  @include respond(tablet) {
+    bottom: 47px;
+
+  }
 
   * {
     border-bottom: none !important;
@@ -32,4 +37,8 @@
 
 ._ContentRSWP {
   justify-content: space-between !important;
+}
+
+.__mvqn38 {
+  max-width: 145px !important;
 }

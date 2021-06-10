@@ -15,7 +15,7 @@
 
 #my-scrollbar {
     width: 100%;
-    height: calc(100vh - 48px);
+    height: calc(100vh - 96px);
     overflow: auto;
 
 
@@ -50,7 +50,7 @@
     height: calc(100vh - 35px);
 
     @include respond(tablet) {
-        height: calc(100vh - 115px);
+        height: calc(100vh - 97px);
     }
 }
 
