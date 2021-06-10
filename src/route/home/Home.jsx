@@ -117,33 +117,30 @@ const Home = () => {
   console.log(error);
   return (
     <div className="home">
-      {!error ? (
-        savedAlbums && topArtists && topTracks && newReleases ? (
-          dataConfig.map((data) => {
+      {error && <WentWrong title="Oups... Something went wrong!" btn />}
+      {savedAlbums && topArtists && topTracks && newReleases
+        ? dataConfig.map((data) => {
             return (
               <div className="space" key={data.id}>
                 <CarouselContainer data={data} />
               </div>
             );
           })
-        ) : array.map((e) => {
+        : array.map((e) => {
             return <CardLoader key={e} />;
-          }) && dataFetch ? (
-          dataFetch.map((data) => {
+          })}
+
+      {dataFetch
+        ? dataFetch.map((data) => {
             return (
               <div className="space" key={data.id}>
                 <CarouselContainer data={data} />
               </div>
             );
           })
-        ) : (
-          array.map((e) => {
+        : array.map((e) => {
             return <CardLoader key={e} />;
-          })
-        )
-      ) : (
-        <WentWrong text="Oups... Something went wrong!" btn />
-      )}
+          })}
     </div>
   );
 };
