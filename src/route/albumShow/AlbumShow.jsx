@@ -1,14 +1,10 @@
-import { useLocation } from "react-router";
 import Tracks from "../../components/tracks/Tracks";
 import AlbumShowLogic from "./AlbumShowLogic";
 import PageBanner from "../../components/pageBanner/PageBanner";
 import WentWrong from "../../components/wentWrong/WentWrong";
 
 const AlbumShow = () => {
-  const location = useLocation();
-  const { id } = location.state;
-  const { setUri, album, tracks, error } = AlbumShowLogic(id);
-  const bg = "url(" + album?.images[0].url + ")";
+  const { setUri, album, tracks, error, bg } = AlbumShowLogic();
 
   return (
     <div className="albumShow">

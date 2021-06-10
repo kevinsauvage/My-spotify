@@ -4,13 +4,10 @@ import ArtistShowLogic from "./ArtistShowLogic";
 import Artists from "../../components/artists/Artists";
 import Albums from "../../components/albums/Albums";
 import Tracks from "../../components/tracks/Tracks";
-import { useLocation } from "react-router";
 import PageBanner from "../../components/pageBanner/PageBanner";
 import WentWrong from "../../components/wentWrong/WentWrong";
 
 const ArtistShow = () => {
-  const location = useLocation();
-  const { id } = location.state;
   const {
     error,
     artistAlbums,
@@ -23,7 +20,7 @@ const ArtistShow = () => {
     setUriFromArtistRecomendedTracks,
     artist,
     bg,
-  } = ArtistShowLogic(id);
+  } = ArtistShowLogic();
 
   return (
     <div className="artist-show">

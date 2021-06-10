@@ -1,7 +1,10 @@
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
-const ArtistShowLogic = (id) => {
+const ArtistShowLogic = () => {
+  const location = useLocation();
+  const { id } = location.state;
   const { spotifyApi, setUri, setFollowedArtists, handleSidebarMenu } =
     useContext(AppContext);
 

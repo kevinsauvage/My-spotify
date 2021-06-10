@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 
 const SidebarRightLogic = () => {
-  const { spotifyApi, handleSidebarMenu } = useContext(AppContext);
+  const { spotifyApi, handleSidebarMenu, sidebarRightIsOpen } =
+    useContext(AppContext);
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]); // user featured playlist
   const [topTracks, setTopTracks] = useState([]); // user top tracks
   const [topArtists, setTopArtists] = useState([]);
@@ -99,7 +100,7 @@ const SidebarRightLogic = () => {
     },
   ];
 
-  return { dataConfig };
+  return { dataConfig, sidebarRightIsOpen };
 };
 
 export default SidebarRightLogic;

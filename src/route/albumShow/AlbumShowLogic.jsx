@@ -1,7 +1,10 @@
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
-const AlbumShowLogic = (id) => {
+const AlbumShowLogic = () => {
+  const location = useLocation();
+  const { id } = location.state;
   const [album, setAlbum] = useState();
   const [tracks, setTracks] = useState();
   const [error, setError] = useState(false);
@@ -21,7 +24,9 @@ const AlbumShowLogic = (id) => {
     settingAlbum();
   }, [spotifyApi, id, setTracks, setAlbum]);
 
-  return { setUri, album, tracks, error };
+  const bg = "url(" + album?.images[0].url + ")";
+
+  return { setUri, album, tracks, error, bg };
 };
 
 export default AlbumShowLogic;

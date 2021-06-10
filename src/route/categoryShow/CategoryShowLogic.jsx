@@ -1,7 +1,10 @@
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
-const CategoryShowLogic = (id) => {
+const CategoryShowLogic = () => {
+  const location = useLocation();
+  const { id } = location.state;
   const { spotifyApi, setUri } = useContext(AppContext);
   const [tracks, setTracks] = useState([]);
   const [error, setError] = useState(false);
@@ -26,7 +29,10 @@ const CategoryShowLogic = (id) => {
     setUri(uris);
   };
 
-  return { handleClickPlay, tracks, error };
+  const bg =
+    "url(https://cdn.pixabay.com/photo/2013/07/12/18/17/equalizer-153212_960_720.png)";
+
+  return { handleClickPlay, tracks, error, bg, id };
 };
 
 export default CategoryShowLogic;

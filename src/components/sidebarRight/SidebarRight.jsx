@@ -1,15 +1,13 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import "./SidebarRight.scss";
 import Scrollbar from "react-smooth-scrollbar";
-import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import SidebarRightLogic from "./SidebarRightLogic";
 import SidebarRightCategoryWrapper from "../sidebarRightCategoryWrapper/SidebarRightCategoryWrapper";
 
 const SidebarRight = () => {
-  const { sidebarRightIsOpen } = useContext(AppContext);
-  const { dataConfig } = SidebarRightLogic();
+  const { dataConfig, sidebarRightIsOpen } = SidebarRightLogic();
   const sidebar = useRef(null);
 
   return (
