@@ -21,18 +21,18 @@ const BibliothequeItemHeader = ({
       {artist && <p className="bibliothequeItemHeader__artist">Artist</p>}
       {duration && (
         <p className="bibliothequeItemHeader__duration">
-          <BiTimer size={18} />
+          <BiTimer size={22} />
         </p>
       )}
       {owner && <p className="bibliothequeItemHeader__owner">Owner</p>}
       {play && (
         <p className="bibliothequeItemHeader__play">
-          <RiPlayCircleLine size={18} />
+          <RiPlayCircleLine size={20} />
         </p>
       )}
       {queu && (
         <p className="bibliothequeItemHeader__icon">
-          <MdQueueMusic size={18} />
+          <MdQueueMusic size={22} />
         </p>
       )}
       {year && <p className="bibliothequeItemHeader__years">Years</p>}

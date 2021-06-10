@@ -9,7 +9,8 @@
   p {
     z-index: 5000;
     color: white;
-    font-size: 14px;
+    @include openSans(600, 13px);
+
 
     @include respond(mobileS) {
       @include openSans(600, 12px)
@@ -41,11 +42,5 @@
     flex: 1;
     text-align: end;
     position: relative;
-
-    svg {
-      position: absolute;
-      top: -8px;
-      right: 3px;
-    }
   }
 }
