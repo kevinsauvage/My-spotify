@@ -26,7 +26,9 @@ const Card = ({ url, name, artist }) => {
         }}></div>
       <div className="card__detail">
         <h2 className="card__name">
-          {name.length > 18 ? name.substring(0, nameMaxLength) + "..." : name}
+          {name.length > nameMaxLength
+            ? name.substring(0, nameMaxLength) + "..."
+            : name}
         </h2>
         <p className="card__artist">{artist}</p>
       </div>
