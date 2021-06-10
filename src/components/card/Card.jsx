@@ -4,7 +4,7 @@ import "./Card.scss";
 const Card = ({ url, name, artist }) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.3 }}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}>
       <div

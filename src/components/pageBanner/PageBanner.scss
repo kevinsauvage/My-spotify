@@ -35,7 +35,7 @@
   }
 
   &__name {
-    @include poppins(800, 34px);
+    @include poppins(800, 28px);
     color: white;
   }
 
@@ -45,7 +45,7 @@
   }
 
   &__description {
-    @include raleway(600, 16px);
+    @include raleway(600, 14px);
     margin-top: 2rem;
 
   }
