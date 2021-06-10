@@ -82,14 +82,17 @@
   }
 
   &__queu-icon {
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
 
-    &:hover {
-      color: white;
-      @include openSans(500, 13px);
+    svg {
+      cursor: pointer;
 
+      &:hover {
+        color: white;
+        @include openSans(500, 13px);
+      }
     }
+
   }
 
   &__add-to-queu,

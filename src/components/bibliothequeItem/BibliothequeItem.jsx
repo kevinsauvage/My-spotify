@@ -123,11 +123,8 @@ const BibliothequeItem = ({
         </div>
       )}
       {trackId && (
-        <p
-          className="bibliotheque-item__queu-icon"
-          ref={iconMenu}
-          onClick={handleClickMenu}>
-          <CgPlayListAdd size={20} />
+        <p className="bibliotheque-item__queu-icon" ref={iconMenu}>
+          <CgPlayListAdd size={20} onClick={handleClickMenu} />
         </p>
       )}
       {displayPlaylistModal && (
