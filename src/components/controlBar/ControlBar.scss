@@ -3,6 +3,18 @@
 @import "../../assets/stylesheets/global.scss";
 
 
+.controlBar {
+  position: absolute;
+  left: 0;
+  bottom: 47px;
+  right: 0;
+  z-index: 5000;
+
+  * {
+    border-bottom: none !important;
+  }
+}
+
 .__1xc0f9k {
   background-color: $color-extra-dark;
 }
