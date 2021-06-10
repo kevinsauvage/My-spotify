@@ -1,3 +1,10 @@
+@import '../../assets/stylesheets/mixin';
+
 .artists {
   width: 30%;
+
+  @include respond(mobileS) {
+    width: 100%;
+    padding: 1rem;
+  }
 }

@@ -1,3 +1,5 @@
+@import "../../assets/stylesheets/mixin";
+
 .bibliothequeItemHeader {
   display: flex;
   justify-content: space-between;
@@ -6,9 +8,12 @@
 
   p {
     z-index: 5000;
-    font-size: 800;
     color: white;
     font-size: 14px;
+
+    @include respond(mobileS) {
+      @include openSans(600, 12px)
+    }
   }
 
   &__name {

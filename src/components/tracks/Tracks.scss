@@ -1,4 +1,11 @@
+@import '../../assets/stylesheets/mixin';
+
 .tracks {
   padding: 0 1rem;
   margin-bottom: 2rem;
+
+  @include respond(mobileS) {
+    margin-bottom: 3rem;
+  }
+
 }

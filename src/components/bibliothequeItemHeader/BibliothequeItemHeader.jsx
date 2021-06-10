@@ -1,5 +1,7 @@
 import "./BibliothequeItemHeader.scss";
 import { MdQueueMusic } from "react-icons/md";
+import { BiTimer } from "react-icons/bi";
+import { RiPlayCircleLine } from "react-icons/ri";
 
 const BibliothequeItemHeader = ({
   name,
@@ -17,9 +19,17 @@ const BibliothequeItemHeader = ({
       {name && <p className="bibliothequeItemHeader__name">Name</p>}
       {album && <p className="bibliothequeItemHeader__album">Album</p>}
       {artist && <p className="bibliothequeItemHeader__artist">Artist</p>}
-      {duration && <p className="bibliothequeItemHeader__duration">Duration</p>}
+      {duration && (
+        <p className="bibliothequeItemHeader__duration">
+          <BiTimer size={18} />
+        </p>
+      )}
       {owner && <p className="bibliothequeItemHeader__owner">Owner</p>}
-      {play && <p className="bibliothequeItemHeader__play">Play</p>}
+      {play && (
+        <p className="bibliothequeItemHeader__play">
+          <RiPlayCircleLine size={18} />
+        </p>
+      )}
       {queu && (
         <p className="bibliothequeItemHeader__icon">
           <MdQueueMusic size={18} />
