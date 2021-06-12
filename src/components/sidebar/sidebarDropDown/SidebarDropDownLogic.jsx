@@ -64,7 +64,7 @@ const SidebarRightLogic = () => {
     {
       id: 1,
       items: featuredPlaylists,
-      link: "/playlist",
+      link: "/Playlists",
       title: "Featured playlist",
     },
     {

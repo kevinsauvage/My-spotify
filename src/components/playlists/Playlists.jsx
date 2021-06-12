@@ -6,7 +6,7 @@ import "./Playlist.scss";
 
 const Playlists = ({ data }) => {
   const array = Array.from(Array(50).keys()); // Make an array to display 8 card loader carussel
-
+  console.log(data);
   return (
     <div className="playlists">
       <BibliothequeTitle title="Playlist" />

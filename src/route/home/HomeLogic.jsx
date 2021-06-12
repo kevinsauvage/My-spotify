@@ -59,7 +59,7 @@ const HomeLogic = () => {
     getFeaturedPlaylist();
   }, [spotifyApi]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     Promise.all(
       featuredPlaylists?.map((playlist) =>
         spotifyApi.getPlaylist(playlist.id, {
@@ -82,7 +82,7 @@ const HomeLogic = () => {
       .catch(() => {
         setError(true);
       });
-  }, [spotifyApi, featuredPlaylists]); // fetch playlists from category array and set tracks to display in carousel
+  }, [spotifyApi, featuredPlaylists]); //  */ //fetch playlists from category array and set tracks to display in carousel
 
   const dataConfig = [
     {

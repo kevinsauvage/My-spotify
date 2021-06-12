@@ -49,14 +49,15 @@ const BibliothequeItem = ({
       animate={{ y: "0", opacity: 1 }}
       transition={{ duration: 0.5 }}
       className={"bibliotheque-item"}>
-      <div className="bibliotheque-item__iconHeart">
-        {trackId &&
-          (trackIsSaved ? (
+      {trackId && (
+        <div className="bibliotheque-item__iconHeart">
+          {trackIsSaved ? (
             <RiHeartFill onClick={unSaveTrack} size={20} />
           ) : (
             <RiHeartLine onClick={saveTrack} size={20} />
-          ))}
-      </div>
+          )}
+        </div>
+      )}
       {name && (
         <Link
           className="bibliotheque-item__name"
@@ -73,7 +74,7 @@ const BibliothequeItem = ({
         <Link
           className="bibliotheque-item__name"
           to={{
-            pathname: `/playlist/${playlistId}`,
+            pathname: `/Playlists/${playlistId}`,
             state: {
               id: playlistId,
             },

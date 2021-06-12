@@ -69,11 +69,15 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
 
   const unSaveTrack = () => {
     spotifyApi.removeFromMySavedTracks([trackId]);
-    checkIfTrackIsSaved();
+    setTimeout(() => {
+      checkIfTrackIsSaved();
+    }, 500);
   };
   const saveTrack = () => {
     spotifyApi.addToMySavedTracks([trackId]);
-    checkIfTrackIsSaved();
+    setTimeout(() => {
+      checkIfTrackIsSaved();
+    }, 500);
   };
 
   return {

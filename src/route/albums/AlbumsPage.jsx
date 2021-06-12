@@ -5,6 +5,8 @@ import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 import WentWrong from "../../components/wentWrong/WentWrong";
 import Tracks from "../../components/tracks/Tracks";
 import ArtistsRelated from "../artists/artistsRelated/ArtistsRelated";
+import Albums from "../../components/albums/Albums";
+
 import "./AlbumsPage.scss";
 const CarouselAlbums = React.lazy(() =>
   import("./carouselAlbums/CarouselAlbums")
@@ -17,6 +19,9 @@ const AlbumsPage = () => {
   const [albumSelected, setAlbumSelected] = useState();
   const [error, setError] = useState(false);
   const [tracks, setTracks] = useState();
+  const [artistAlbums, setArtistAlbums] = useState();
+  const [showAlbums, setShowAlbums] = useState(false);
+  const [showTracks, setShowTracks] = useState(true);
 
   useEffect(() => {
     const fetchSavedAlbums = async () => {
@@ -48,12 +53,46 @@ const AlbumsPage = () => {
   }, [id, spotifyApi]);
 
   useEffect(() => {
+    const fetchArtistAlbums = async () => {
+      const artistAlbums = await spotifyApi.getArtistAlbums(
+        albumSelected?.artists[0].id
+      );
+      const unique = artistAlbums.items.filter(
+        (thing, index, self) =>
+          index ===
+          self.findIndex(
+            (t) => t.place === thing.place && t.name === thing.name
+          )
+      );
+      const sorted = unique.sort((a, b) => a.release_date > b.release_date);
+      setArtistAlbums(sorted);
+      console.log(sorted);
+    };
+    albumSelected && fetchArtistAlbums();
+  }, [albumSelected, spotifyApi]);
+
+  console.log(artistAlbums);
+
+  useEffect(() => {
     const getTracks = async () => {
-      const tracks = await spotifyApi.getAlbumTracks(id);
-      setTracks(tracks.items);
+      try {
+        const tracks = await spotifyApi.getAlbumTracks(id);
+        setTracks(tracks.items);
+      } catch (error) {
+        setError(true);
+      }
     };
     id && getTracks();
   }, [id, spotifyApi]);
+
+  const toggleShowTracks = () => {
+    setShowAlbums(false);
+    setShowTracks(true);
+  };
+  const toggleShowAlbums = () => {
+    setShowAlbums(true);
+    setShowTracks(false);
+  };
 
   return (
     <div className="albumsPage">
@@ -74,10 +113,20 @@ const AlbumsPage = () => {
           <section className="albumsPage__content">
             <div className="albumsPage__tracksContainer">
               <div className="albumsPage__menu">
-                <ClickableTitle title={`${albumSelected?.name} Tracks`} />
+                <ClickableTitle
+                  condition={showTracks}
+                  fn={toggleShowTracks}
+                  title={`${albumSelected?.name} Tracks`}
+                />
+                <ClickableTitle
+                  condition={showAlbums}
+                  fn={toggleShowAlbums}
+                  title={`${albumSelected?.artists[0].name} Albums`}
+                />
               </div>
               <div className="albumsPage__tracks">
-                <Tracks data={tracks && tracks} />
+                {showTracks && <Tracks data={tracks && tracks} />}
+                {showAlbums && <Albums data={artistAlbums} />}
               </div>
             </div>
             {

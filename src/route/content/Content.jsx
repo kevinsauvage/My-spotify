@@ -5,7 +5,7 @@ import TrackShow from "../trackShow/TrackShow";
 import Artistshow from "../artists/artistShow/ArtistShow";
 import SearchResult from "../searchResult/SearchResult";
 import NotFound from "../notFound/NotFound";
-import AlbumShow from "../albumShow/AlbumShow";
+import AlbumShow from "../albums/albumShow/AlbumShow";
 import PlaylistShow from "../playlistShow/PlaylistShow";
 import LibraryShow from "../libraryShow/LibraryShow";
 import CategoryShow from "../categoryShow/CategoryShow";
@@ -13,6 +13,7 @@ import { useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import Artists from "../artists/ArtistsPage";
 import AlbumsPage from "../albums/AlbumsPage";
+import PlaylistsPage from "../playlists/PlaylistsPage";
 
 const Content = ({ ref }) => {
   const location = useLocation();
@@ -32,7 +33,8 @@ const Content = ({ ref }) => {
       <Route exact path="/Artists" component={Artists} />
       <Route exact path="/Albums" component={AlbumsPage} />
       <Route path="/Albums/:id" component={AlbumShow} />
-      <Route path="/playlist/:id" component={PlaylistShow} />
+      <Route exact path="/Playlists" component={PlaylistsPage} />
+      <Route path="/Playlists/:id" component={PlaylistShow} />
       <Route path="/library/:id" component={LibraryShow} />
       <Route path="/category/:id" component={CategoryShow} />
       <Route path="/search" component={SearchResult} />

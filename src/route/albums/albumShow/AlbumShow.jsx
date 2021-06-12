@@ -1,7 +1,7 @@
-import Tracks from "../../components/tracks/Tracks";
+import Tracks from "../../../components/tracks/Tracks";
 import AlbumShowLogic from "./AlbumShowLogic";
-import PageBanner from "../../components/pageBanner/PageBanner";
-import WentWrong from "../../components/wentWrong/WentWrong";
+import PageBanner from "../../../components/pageBanner/PageBanner";
+import WentWrong from "../../../components/wentWrong/WentWrong";
 
 const AlbumShow = () => {
   const { setUri, album, tracks, error, bg } = AlbumShowLogic();
