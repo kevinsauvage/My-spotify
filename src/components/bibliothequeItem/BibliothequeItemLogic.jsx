@@ -5,6 +5,7 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
   const { spotifyApi, setUri } = useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
+  const [trackIsSaved, setTrackIsSaved] = useState();
 
   const handleClickOutside = useCallback(
     (event) => {
@@ -23,6 +24,16 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, [handleClickOutside]);
+
+  const checkIfTrackIsSaved = useCallback(async () => {
+    const saved = await spotifyApi.containsMySavedTracks([trackId]);
+    console.log(saved[0]);
+    setTrackIsSaved(saved[0]);
+  }, [spotifyApi, trackId]);
+
+  useEffect(() => {
+    trackId && checkIfTrackIsSaved();
+  }, [checkIfTrackIsSaved, trackId]);
 
   const handleClickMenu = (e) => {
     setShowMenu(!showMenu);
@@ -56,6 +67,15 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     spotifyApi.queue(track.uri);
   }; // Adding track to queue
 
+  const unSaveTrack = () => {
+    spotifyApi.removeFromMySavedTracks([trackId]);
+    checkIfTrackIsSaved();
+  };
+  const saveTrack = () => {
+    spotifyApi.addToMySavedTracks([trackId]);
+    checkIfTrackIsSaved();
+  };
+
   return {
     handleClickAddToPlaylist,
     displayPlaylistModal,
@@ -65,6 +85,9 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     addToQueu,
     getRecommendationsTrack,
     showMenu,
+    trackIsSaved,
+    unSaveTrack,
+    saveTrack,
   };
 };
 

@@ -2,6 +2,7 @@ import "./BibliothequeItemHeader.scss";
 import { MdQueueMusic } from "react-icons/md";
 import { BiTimer } from "react-icons/bi";
 import { RiPlayCircleLine } from "react-icons/ri";
+import { FaHeartBroken } from "react-icons/fa";
 
 const BibliothequeItemHeader = ({
   name,
@@ -16,6 +17,11 @@ const BibliothequeItemHeader = ({
 }) => {
   return (
     <div className="bibliothequeItemHeader">
+      {play && (
+        <p className="bibliothequeItemHeader__iconHeart">
+          <FaHeartBroken size={20} />
+        </p>
+      )}
       {name && <p className="bibliothequeItemHeader__name">Name</p>}
       {album && <p className="bibliothequeItemHeader__album">Album</p>}
       {artist && <p className="bibliothequeItemHeader__artist">Artist</p>}

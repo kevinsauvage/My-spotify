@@ -1,0 +1,70 @@
+@import "../../../assets/stylesheets/mixin";
+@import "../../../assets/stylesheets/variable";
+
+.artistCard {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+
+  @include respond(mobileS) {
+    height: 173px;
+  }
+
+  &__img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    transform-origin: right bottom;
+    transition: all 0.5s ease-in-out;
+
+    @include respond(mobileS) {
+      width: 110px;
+      height: 110px;
+    }
+  }
+
+  &__detail {
+
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    align-items: center;
+    color: white;
+
+    height: fit-content;
+    width: 100%;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    @include respond(mobileS) {
+      width: 110px;
+      height: 110px;
+    }
+  }
+
+  &__name {
+    color: white;
+    margin-right: 5px;
+    @include openSans(600, 13px);
+
+    @include respond(mobileS) {
+      @include openSans(600, 10px);
+
+    }
+  }
+
+  &__follow,
+  &__unfollow {
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    color: whitesmoke;
+
+  }
+
+}

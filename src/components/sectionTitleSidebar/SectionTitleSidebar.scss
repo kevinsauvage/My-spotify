@@ -1,9 +1,0 @@
-@import "../../assets/stylesheets/mixin";
-
-.sectionTitleSidebar {
-  &__title {
-    @include raleway(600, 14px);
-    color: whitesmoke;
-  }
-
-}

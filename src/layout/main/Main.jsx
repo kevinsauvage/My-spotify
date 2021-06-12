@@ -2,13 +2,23 @@ import "./Main.scss";
 import Content from "../../route/content/Content";
 import ControlBar from "../../components/controlBar/ControlBar";
 import NavbarMobile from "../../components/navbarMobile/NavbarMobile";
+import SearchBar from "../../components/searchBar/SearchBar";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 const Main = () => {
+  const main = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    main.current.scrollTo({ top: 0 });
+    console.log("eee");
+  }, [main, location]);
+
   return (
-    <div className="main">
-      <div id="my-scrollbar">
-        <Content />
-      </div>
+    <div ref={main} className="main">
+      <SearchBar />
+      <Content />
       <ControlBar />
       <NavbarMobile />
     </div>

@@ -5,7 +5,7 @@ import Card from "../card/Card";
 import responsive from "./responsive";
 import "./CarouselComponent.scss";
 
-const CarouselComponent = ({ data, link }) => {
+const CarouselComponent = ({ data, link, idSelectedArtist }) => {
   return (
     <div className="carousel">
       {data && (
@@ -21,6 +21,7 @@ const CarouselComponent = ({ data, link }) => {
                 }}
                 key={item.id}>
                 <Card
+                  idSelectedArtist={idSelectedArtist}
                   url={item?.images?.[1]?.url || item?.album?.images?.[1]?.url}
                   name={item.name}
                   id={item.id}

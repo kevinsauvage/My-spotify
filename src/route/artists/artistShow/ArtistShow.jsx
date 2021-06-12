@@ -1,11 +1,11 @@
 import "./ArtistShow.scss";
-import PlayBtn from "../../components/playBtn/PlayBtn";
+import PlayBtn from "../../../components/playBtn/PlayBtn";
 import ArtistShowLogic from "./ArtistShowLogic";
-import Artists from "../../components/artists/Artists";
-import Albums from "../../components/albums/Albums";
-import Tracks from "../../components/tracks/Tracks";
-import PageBanner from "../../components/pageBanner/PageBanner";
-import WentWrong from "../../components/wentWrong/WentWrong";
+import Artists from "../../../components/artists/Artists";
+import Albums from "../../../components/albums/Albums";
+import Tracks from "../../../components/tracks/Tracks";
+import PageBanner from "../../../components/pageBanner/PageBanner";
+import WentWrong from "../../../components/wentWrong/WentWrong";
 
 const ArtistShow = () => {
   const {

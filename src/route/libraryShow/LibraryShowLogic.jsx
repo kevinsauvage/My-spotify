@@ -37,7 +37,7 @@ const LibraryShowLogic = () => {
         setError(true);
       }
     };
-    if (id === "Liked Tracks") {
+    if (id === "Favorite") {
       getLikedTracks();
     }
   }, [spotifyApi, id]);
@@ -55,7 +55,7 @@ const LibraryShowLogic = () => {
         setError(true);
       }
     };
-    if (id === "Recently Played") {
+    if (id === "History") {
       getRecentlyPlayed();
     }
   }, [spotifyApi, id]);

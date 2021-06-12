@@ -2,12 +2,29 @@
 @import "../../assets/stylesheets/mixin";
 
 .main {
-  background-color: $color-extra-dark;
-  width: 100%;
-  height: 100vh;
+  background-color: $color-first;
+  width: calc(100vw - 250px);
+  height: calc(100vh - 25px);
+  scroll-behavior: smooth;
+  overflow: scroll;
 
   @include respond(tablet) {
     top: 0;
     right: 0;
+    width: 100%;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 15px 0 0 15px;
+    background-color: #21d5fda1;
+    width: 2px;
   }
 }

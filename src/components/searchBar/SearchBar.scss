@@ -3,8 +3,14 @@
 @import "../../assets/stylesheets/global";
 
 .searchBar {
+  position: absolute;
+  z-index: 50000;
   width: inherit;
   @include flex-center;
+  margin: 1.5rem 0 0rem 2.5rem;
+  width: 270px;
+  height: 40px;
+  border-radius: 8px;
 
   &__container {
     position: relative;
@@ -16,7 +22,7 @@
       left: 0.9rem;
       top: 50%;
       transform: translateY(-50%);
-      color: $color-light;
+      color: whitesmoke;
     }
   }
 
@@ -24,16 +30,18 @@
     height: 2.5rem;
     border: none;
     outline: none;
-    padding-left: 2.5rem;
+    padding-left: 3rem;
     padding-right: 1rem;
     font-size: 0.9rem;
     font-weight: 600;
-    color: $color-dark;
-    background-color: whitesmoke;
+    color: whitesmoke;
+    border-radius: 10px;
     width: 100%;
+    background-color: $color-secondary;
+
 
     &::placeholder {
-      color: $color-light;
+      color: whitesmoke;
       opacity: 0.5;
     }
   }

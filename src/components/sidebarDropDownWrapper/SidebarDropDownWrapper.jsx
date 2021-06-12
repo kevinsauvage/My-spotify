@@ -1,8 +1,8 @@
 import React from "react";
 import { IoMdArrowRoundDown } from "react-icons/io";
 import { Link } from "react-router-dom";
-import SectionTitleSidebar from "../sectionTitleSidebar/SectionTitleSidebar";
-import Subtitle from "../subtitle/Subtitle";
+import SidebarSectionTitle from "../sidebarSectionTitle/SidebarSectionTitle";
+import Subtitle from "../../subtitle/Subtitle";
 
 const SidebarRightCategoryWrapper = ({ data, link, title }) => {
   const handleClick = (e) => {
@@ -19,7 +19,7 @@ const SidebarRightCategoryWrapper = ({ data, link, title }) => {
   return (
     <div className="sidebarRight__categoriesWrapper">
       <div className="sidebarRight__categories" onClick={handleClick}>
-        <SectionTitleSidebar title={title} />
+        <SidebarSectionTitle title={title} />
         <IoMdArrowRoundDown size={25} />
       </div>
       <div className="sidebarRight__categoryItems ">

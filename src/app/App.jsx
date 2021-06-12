@@ -1,8 +1,7 @@
 import "./app.scss";
 import "react-spotify-auth/dist/index.css";
-import SidebarLeft from "../components/sidebarLeft/SidebarLeft";
+import Sidebar from "../components/sidebar/Sidebar";
 import Main from "../layout/main/Main";
-import SidebarRight from "../components/sidebarRight/SidebarRight";
 import Login from "../components/login/Login";
 import { AppProvider } from "../context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -15,9 +14,8 @@ const App = () => {
       {token ? (
         <AppProvider>
           <Router>
-            <SidebarLeft />
+            <Sidebar />
             <Main />
-            <SidebarRight />
           </Router>
         </AppProvider>
       ) : (

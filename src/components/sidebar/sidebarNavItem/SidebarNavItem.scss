@@ -1,0 +1,23 @@
+@import "../../../assets/stylesheets/mixin";
+
+.sidebarNavItem {
+  transform-origin: top center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+
+
+  &__title {
+    text-transform: capitalize;
+    @include openSans(400, 14px);
+    transition: all 0.2s ease-in-out;
+    max-width: 80%;
+    text-align: end;
+
+    &:hover {
+      color: white;
+    }
+  }
+}

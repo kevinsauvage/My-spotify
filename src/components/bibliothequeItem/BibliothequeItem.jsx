@@ -7,6 +7,8 @@ import "./BibliothequeItem.scss";
 import PlaylistModal from "../playlistModal/PlaylistModal";
 import BibliothequeItemLogic from "./BibliothequeItemLogic";
 import millisToMinutesAndSeconds from "../../helpers/millisToMinutesAndSeconds.js";
+import { motion } from "framer-motion";
+import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 
 const BibliothequeItem = ({
   name,
@@ -36,10 +38,25 @@ const BibliothequeItem = ({
     showMenu,
     getRecommendationsTrack,
     addToQueu,
+    trackIsSaved,
+    unSaveTrack,
+    saveTrack,
   } = BibliothequeItemLogic(menu, iconMenu, trackId);
 
   return (
-    <div className={"bibliotheque-item"}>
+    <motion.div
+      initial={{ y: "20%", opacity: 0 }}
+      animate={{ y: "0", opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className={"bibliotheque-item"}>
+      <div className="bibliotheque-item__iconHeart">
+        {trackId &&
+          (trackIsSaved ? (
+            <RiHeartFill onClick={unSaveTrack} size={20} />
+          ) : (
+            <RiHeartLine onClick={saveTrack} size={20} />
+          ))}
+      </div>
       {name && (
         <Link
           className="bibliotheque-item__name"
@@ -68,7 +85,7 @@ const BibliothequeItem = ({
         <Link
           className="bibliotheque-item__name"
           to={{
-            pathname: `/album/${albumId}`,
+            pathname: `/Albums/${albumId}`,
             state: {
               id: albumId,
             },
@@ -80,7 +97,7 @@ const BibliothequeItem = ({
         <Link
           className="bibliotheque-item__artist"
           to={{
-            pathname: `/artist/${artistId}`,
+            pathname: `/Artists/${artistId}`,
             state: {
               id: artistId,
             },
@@ -133,7 +150,7 @@ const BibliothequeItem = ({
           handleClickPlaylist={(e) => handleClickPlaylist(e, uri)}
         />
       )}
-    </div>
+    </motion.div>
   );
 };
 

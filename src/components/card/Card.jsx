@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import "./Card.scss";
 
-const Card = ({ url, name, artist }) => {
+const Card = ({ url, name, artist, idSelectedArtist, id }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
 
   useEffect(() => {
@@ -23,6 +23,7 @@ const Card = ({ url, name, artist }) => {
         className="card__img"
         style={{
           backgroundImage: "url(" + url + ")",
+          border: idSelectedArtist === id ? "8px solid red" : null,
         }}></div>
       <div className="card__detail">
         <h2 className="card__name">

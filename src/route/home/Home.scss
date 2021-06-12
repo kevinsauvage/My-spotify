@@ -1,9 +1,15 @@
 @import "../../assets/stylesheets/mixin";
 
 .home {
-  padding: 1rem;
+  padding-top: 100px;
 
   @include respond(tablet) {
     padding: 1rem 0 1.5rem 5px;
   }
+}
+
+.scroll {
+  width: calc(100vw - 250px);
+  height: calc(100vh - 48px);
+  overflow: auto;
 }

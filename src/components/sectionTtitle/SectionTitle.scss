@@ -9,7 +9,7 @@
   }
 
   &__title {
-    @include poppins(800, 20px);
+    @include poppins(800, 18px);
     color: whitesmoke;
 
     @include respond(mobileS) {

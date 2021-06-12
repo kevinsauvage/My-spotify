@@ -5,13 +5,13 @@
 }
 
 .react-multi-carousel-list {
-  padding: 3rem 0 3rem 1.1rem;
-  margin: -3rem 0;
-  padding-left: 60px;
-  margin-left: -36px;
+  margin: -60px 0;
+  padding: 60px 0;
 }
 
 .react-multi-carousel-track {
+  padding-left: 3rem;
+
   &:hover .react-multi-carousel-item {
     transform: translateX(-30px);
   }
@@ -26,6 +26,12 @@
 
     &:hover~.react-multi-carousel-item {
       transform: translateX(30px);
+    }
+  }
+
+  .react-multi-carousel-item {
+    &:hover {
+      transform: translateY(-20px);
     }
   }
 }

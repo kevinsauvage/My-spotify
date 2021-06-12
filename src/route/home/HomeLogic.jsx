@@ -89,7 +89,7 @@ const HomeLogic = () => {
       id: 1,
       items: newReleases,
       title: "New Release",
-      link: "/album",
+      link: "/Albums",
     },
     {
       id: 2,
@@ -101,13 +101,13 @@ const HomeLogic = () => {
       id: 3,
       items: topArtists,
       title: "Your Top Artists",
-      link: "/artist",
+      link: "/Artists",
     },
     {
       id: 4,
       items: savedAlbums,
       title: "Your Albums",
-      link: "/album",
+      link: "/Albums",
     },
   ];
 

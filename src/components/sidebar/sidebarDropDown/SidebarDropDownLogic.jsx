@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../context/AppContext";
+import { AppContext } from "../../../context/AppContext";
 
 const SidebarRightLogic = () => {
   const { spotifyApi, sidebarRightIsOpen } = useContext(AppContext);
@@ -82,7 +82,7 @@ const SidebarRightLogic = () => {
     {
       id: 4,
       items: savedAlbums,
-      link: "/album",
+      link: "/Albums",
       title: " Saved albums",
     },
     {

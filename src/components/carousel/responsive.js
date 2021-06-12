@@ -5,23 +5,23 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1580 },
-    items: 5,
+    items: 6,
   },
   bigTablet: {
     breakpoint: { max: 1580, min: 1354 },
-    items: 4,
+    items: 5,
   },
   tabletXl: {
     breakpoint: { max: 1354, min: 1144 },
-    items: 3,
+    items: 4,
   },
   tablet: {
     breakpoint: { max: 1144, min: 1057 },
-    items: 2,
+    items: 3,
   },
   tabletS: {
     breakpoint: { max: 1057, min: 860 },
-    items: 4,
+    items: 2,
   },
   mobileXl: {
     breakpoint: { max: 860, min: 630 },

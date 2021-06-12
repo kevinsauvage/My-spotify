@@ -1,10 +1,17 @@
 @import "../../assets/stylesheets/mixin";
+@import "../../assets/stylesheets/variable";
 
 .bibliothequeItemHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0;
+  margin: 0 0 15px 0;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: rgb(0,
+      0,
+      119);
+
 
   p {
     z-index: 5000;
@@ -15,6 +22,10 @@
     @include respond(mobileS) {
       @include openSans(600, 12px)
     }
+  }
+
+  &__iconHeart {
+    margin-right: 1rem;
   }
 
   &__name {
