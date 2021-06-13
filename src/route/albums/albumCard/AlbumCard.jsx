@@ -17,7 +17,8 @@ const AlbumCard = ({
 }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
   const [isFollowingAlbum, setIsFollowingAlbum] = useState();
-  const { spotifyApi } = useContext(AppContext);
+  const { unSaveAlbum, saveAlbum, fetchIsFollowingAlbum } =
+    useContext(AppContext);
 
   useEffect(() => {
     if (window.innerWidth <= 548) {
@@ -27,25 +28,26 @@ const AlbumCard = ({
     }
   }, []);
 
-  const fetchIsFollowingAlbum = useCallback(async () => {
-    const response = await spotifyApi.containsMySavedAlbums([id]);
-    setIsFollowingAlbum(response[0]);
-  }, [spotifyApi, id]);
+  const checkIfAlbumIsFollowed = useCallback(async () => {
+    const isFollowing = await fetchIsFollowingAlbum(id);
+    setIsFollowingAlbum(isFollowing);
+  }, [fetchIsFollowingAlbum, id]);
 
   useEffect(() => {
-    id && fetchIsFollowingAlbum();
-  }, [id, fetchIsFollowingAlbum]);
+    id && checkIfAlbumIsFollowed();
+  }, [checkIfAlbumIsFollowed, id]);
 
-  const unfollowAlbums = () => {
-    spotifyApi.removeFromMySavedAlbums([id]);
+  const followAlbum = () => {
+    saveAlbum(id);
     setTimeout(() => {
-      fetchIsFollowingAlbum();
+      checkIfAlbumIsFollowed();
     }, 500);
   };
-  const followAlbums = () => {
-    spotifyApi.addToMySavedAlbums([id]);
+
+  const unFollowAlbum = () => {
+    unSaveAlbum(id);
     setTimeout(() => {
-      fetchIsFollowingAlbum();
+      checkIfAlbumIsFollowed();
     }, 500);
   };
 
@@ -85,11 +87,11 @@ const AlbumCard = ({
           <HiExternalLink color="white" />
         </Link>
         {isFollowingAlbum ? (
-          <div onClick={() => unfollowAlbums()} className="albumCard__unfollow">
+          <div onClick={unFollowAlbum} className="albumCard__unfollow">
             <RiUserUnfollowLine />
           </div>
         ) : (
-          <div onClick={() => followAlbums()} className="albumCard__follow">
+          <div onClick={followAlbum} className="albumCard__follow">
             <RiUserFollowLine />
           </div>
         )}

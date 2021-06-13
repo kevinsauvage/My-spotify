@@ -41,10 +41,13 @@ const BibliothequeItemHeader = ({
           <MdQueueMusic size={22} />
         </p>
       )}
-      {year && <p className="bibliothequeItemHeader__years">Years</p>}
       {popularity && (
         <p className="bibliothequeItemHeader__popularity">Popularity</p>
       )}
+      <div style={{ display: "flex" }}>
+        {year && <p className="bibliothequeItemHeader__years">Years</p>}
+        {album && <p className="bibliothequeItemHeader__add">Add</p>}
+      </div>
     </div>
   );
 };

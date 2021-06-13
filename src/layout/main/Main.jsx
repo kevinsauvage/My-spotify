@@ -12,7 +12,6 @@ const Main = () => {
 
   useEffect(() => {
     main.current.scrollTo({ top: 0 });
-    console.log("eee");
   }, [main, location]);
 
   return (

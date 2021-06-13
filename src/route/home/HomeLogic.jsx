@@ -3,14 +3,13 @@ import { AppContext } from "../../context/AppContext";
 
 const HomeLogic = () => {
   const [topTracks, setTopTracks] = useState([]); // user top tracks
-  const [topArtists, setTopArtists] = useState([]);
   const [savedAlbums, setSavedAlbums] = useState([]); // user saved albums
   const [newReleases, setNewReleases] = useState();
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
   const [dataFetch, setDataFetch] = useState([]);
   const [error, setError] = useState(false);
 
-  const { spotifyApi } = useContext(AppContext);
+  const { spotifyApi, topArtists } = useContext(AppContext);
 
   useEffect(() => {
     const getTopTracks = async () => {
@@ -20,18 +19,6 @@ const HomeLogic = () => {
     };
     getTopTracks();
   }, [spotifyApi, setTopTracks]);
-
-  useEffect(() => {
-    const getTopArtist = async () => {
-      try {
-        const topArtist = await spotifyApi.getMyTopArtists();
-        setTopArtists(topArtist.items);
-      } catch (error) {
-        setError(true);
-      }
-    };
-    getTopArtist();
-  }, [setTopArtists, spotifyApi]);
 
   useEffect(() => {
     const getSavedAlbums = async () => {

@@ -1,7 +1,11 @@
 import { memo, useRef } from "react";
 import { CgPlayListAdd } from "react-icons/cg";
 import { BsFillTriangleFill } from "react-icons/bs";
-import { MdAddCircleOutline, MdPlayCircleFilled } from "react-icons/md";
+import {
+  MdAddCircleOutline,
+  MdDeleteSweep,
+  MdPlayCircleFilled,
+} from "react-icons/md";
 import { Link } from "react-router-dom";
 import "./BibliothequeItem.scss";
 import PlaylistModal from "../playlistModal/PlaylistModal";
@@ -9,6 +13,7 @@ import BibliothequeItemLogic from "./BibliothequeItemLogic";
 import millisToMinutesAndSeconds from "../../helpers/millisToMinutesAndSeconds.js";
 import { motion } from "framer-motion";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 const BibliothequeItem = ({
   name,
@@ -41,7 +46,10 @@ const BibliothequeItem = ({
     trackIsSaved,
     unSaveTrack,
     saveTrack,
-  } = BibliothequeItemLogic(menu, iconMenu, trackId);
+    isFollowingAlbum,
+    followAlbum,
+    unFollowAlbum,
+  } = BibliothequeItemLogic(menu, iconMenu, trackId, albumId);
 
   return (
     <motion.div
@@ -150,6 +158,15 @@ const BibliothequeItem = ({
           setDisplayPlaylistModal={setDisplayPlaylistModal}
           handleClickPlaylist={(e) => handleClickPlaylist(e, uri)}
         />
+      )}
+      {albumId && (
+        <div className="bibliotheque-item__addAlbum">
+          {isFollowingAlbum ? (
+            <MdDeleteSweep onClick={unFollowAlbum} size={20} />
+          ) : (
+            <IoMdAddCircleOutline onClick={followAlbum} size={20} />
+          )}
+        </div>
       )}
     </motion.div>
   );

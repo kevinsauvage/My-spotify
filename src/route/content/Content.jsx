@@ -6,7 +6,7 @@ import Artistshow from "../artists/artistShow/ArtistShow";
 import SearchResult from "../searchResult/SearchResult";
 import NotFound from "../notFound/NotFound";
 import AlbumShow from "../albums/albumShow/AlbumShow";
-import PlaylistShow from "../playlistShow/PlaylistShow";
+import PlaylistShow from "../../route/playlists/playlistShow/PlaylistShow";
 import LibraryShow from "../libraryShow/LibraryShow";
 import CategoryShow from "../categoryShow/CategoryShow";
 import { useContext, useEffect } from "react";

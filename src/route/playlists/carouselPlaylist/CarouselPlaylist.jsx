@@ -13,7 +13,7 @@ const CarouselPlaylist = ({ data, playlistSelected, setId }) => {
               <PlaylistCard
                 key={i}
                 idSelectedPlaylist={playlistSelected?.id}
-                url={item?.images?.[0]?.url}
+                url={item?.images?.[1]?.url || item?.images?.[0]?.url}
                 name={item.name}
                 id={item.id}
                 selectPlaylistFn={setId}

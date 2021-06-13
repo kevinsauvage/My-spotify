@@ -16,12 +16,11 @@ const ArtistCard = ({
 }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
   const [isFollowingArtist, setIsFollowingArtist] = useState();
-  const { spotifyApi } = useContext(AppContext);
+  const { spotifyApi, settingFollowedArtists } = useContext(AppContext);
 
   const checkIfArtistIsFollowed = useCallback(async () => {
     const isFollowing = await spotifyApi.isFollowingArtists([id]);
     id && setIsFollowingArtist(isFollowing[0]);
-    console.log("eee");
   }, [spotifyApi, id]);
 
   useEffect(() => {
@@ -30,15 +29,16 @@ const ArtistCard = ({
 
   useEffect(() => {
     if (window.innerWidth <= 548) {
-      setNameMaxLength(18);
+      setNameMaxLength(15);
     } else {
-      setNameMaxLength(30);
+      setNameMaxLength(18);
     }
   }, []);
 
   const followArtist = () => {
     spotifyApi.followArtists([id]);
     setTimeout(() => {
+      settingFollowedArtists();
       checkIfArtistIsFollowed();
     }, 500);
   };
@@ -46,12 +46,16 @@ const ArtistCard = ({
   const unfollowArtist = () => {
     spotifyApi.unfollowArtists([id]);
     setTimeout(() => {
+      settingFollowedArtists();
       checkIfArtistIsFollowed();
     }, 500);
   };
 
   return (
     <motion.div
+      style={{
+        width: width,
+      }}
       className="artistCard"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}>
@@ -83,17 +87,17 @@ const ArtistCard = ({
               ? name.substring(0, nameMaxLength) + "..."
               : name}
           </h2>
-          <HiExternalLink color="white" />
+          <HiExternalLink size={15} color="white" />
         </Link>
         {isFollowingArtist ? (
           <div
             onClick={() => unfollowArtist()}
             className="artistCard__unfollow">
-            <RiUserUnfollowLine />
+            <RiUserUnfollowLine size={15} />
           </div>
         ) : (
           <div onClick={() => followArtist()} className="artistCard__follow">
-            <RiUserFollowLine />
+            <RiUserFollowLine size={15} />
           </div>
         )}
       </div>

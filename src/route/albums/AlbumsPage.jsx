@@ -1,4 +1,10 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import CardLoader from "../../components/cardLoader/CardLoader";
 import { AppContext } from "../../context/AppContext";
 import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
@@ -13,32 +19,23 @@ const CarouselAlbums = React.lazy(() =>
 ); // Lazy-loaded
 
 const AlbumsPage = () => {
-  const { spotifyApi } = useContext(AppContext);
-  const [savedAlbums, setSavedAllbums] = useState();
+  const { spotifyApi, savedAlbums, topArtists } = useContext(AppContext);
   const [id, setId] = useState();
   const [albumSelected, setAlbumSelected] = useState();
+  const [recomendedTrack, setRecomendedTrack] = useState([]);
+  const [recommendedAlbums, setRecommendedAlbums] = useState([]);
   const [error, setError] = useState(false);
   const [tracks, setTracks] = useState();
   const [artistAlbums, setArtistAlbums] = useState();
   const [showAlbums, setShowAlbums] = useState(false);
   const [showTracks, setShowTracks] = useState(true);
+  const [showRecommendedTracks, setShowRecommendedTracks] = useState(false);
+  const [showRecommendedAlbums, setShowRecommendedAlbums] = useState(true);
+  const [showSavedAlbums, setShowSavedAlbums] = useState(false);
 
   useEffect(() => {
-    const fetchSavedAlbums = async () => {
-      try {
-        const response = await spotifyApi.getMySavedAlbums({ limit: 50 });
-        const savedAlbums = response.items.map((album) => album.album);
-        const onlyAlbums = savedAlbums.filter((item) => {
-          if (item.album_type !== "compilation") return item;
-        });
-        setSavedAllbums(onlyAlbums);
-        setId(savedAlbums[0].id);
-      } catch (error) {
-        setError(true);
-      }
-    };
-    fetchSavedAlbums();
-  }, [spotifyApi]);
+    setId(recommendedAlbums?.[0]?.id);
+  }, [recommendedAlbums]);
 
   useEffect(() => {
     const setAlbumShow = async () => {
@@ -55,7 +52,7 @@ const AlbumsPage = () => {
   useEffect(() => {
     const fetchArtistAlbums = async () => {
       const artistAlbums = await spotifyApi.getArtistAlbums(
-        albumSelected?.artists[0].id
+        albumSelected?.artists?.[0]?.id
       );
       const unique = artistAlbums.items.filter(
         (thing, index, self) =>
@@ -66,12 +63,9 @@ const AlbumsPage = () => {
       );
       const sorted = unique.sort((a, b) => a.release_date > b.release_date);
       setArtistAlbums(sorted);
-      console.log(sorted);
     };
     albumSelected && fetchArtistAlbums();
   }, [albumSelected, spotifyApi]);
-
-  console.log(artistAlbums);
 
   useEffect(() => {
     const getTracks = async () => {
@@ -85,13 +79,61 @@ const AlbumsPage = () => {
     id && getTracks();
   }, [id, spotifyApi]);
 
+  useEffect(() => {
+    const getRecommendationsTracks = async () => {
+      try {
+        const tracks = await spotifyApi.getRecommendations({
+          seed_artists: albumSelected?.artists?.[0]?.id,
+          limit: 10,
+        });
+        setRecomendedTrack(tracks.tracks);
+      } catch (error) {
+        setError(true);
+        console.log(error);
+      }
+    };
+    albumSelected && getRecommendationsTracks();
+  }, [spotifyApi, albumSelected]);
+
+  const getAlbumFromTopArtists = useCallback(() => {
+    Promise.all(
+      topArtists?.map((artist) =>
+        spotifyApi.getArtistAlbums(artist.id, {
+          limit: 1,
+        })
+      )
+    ).then((responses) => {
+      const albums = responses.map((res) => res.items[0]);
+      setRecommendedAlbums(albums);
+    });
+  }, [spotifyApi, topArtists]); //
+
+  useEffect(() => {
+    getAlbumFromTopArtists();
+  }, [getAlbumFromTopArtists]);
+
   const toggleShowTracks = () => {
     setShowAlbums(false);
     setShowTracks(true);
+    setShowRecommendedTracks(false);
   };
   const toggleShowAlbums = () => {
     setShowAlbums(true);
     setShowTracks(false);
+    setShowRecommendedTracks(false);
+  };
+  const toggleShowRecommendedTraks = () => {
+    setShowAlbums(false);
+    setShowTracks(false);
+    setShowRecommendedTracks(true);
+  };
+  const toggleShowSavedAlbums = () => {
+    setShowSavedAlbums(true);
+    setShowRecommendedAlbums(false);
+  };
+  const toggleShowRecommendedAlbums = () => {
+    setShowSavedAlbums(false);
+    setShowRecommendedAlbums(true);
   };
 
   return (
@@ -100,15 +142,40 @@ const AlbumsPage = () => {
         <>
           <div className="albumsPage__carousel">
             <div className="albumsPage__menu">
-              <ClickableTitle title={`Favorite Albums`} />
-            </div>
-            <Suspense fallback={<CardLoader />}>
-              <CarouselAlbums
-                albums={savedAlbums}
-                albumSelected={albumSelected}
-                setId={setId}
+              <ClickableTitle
+                fn={toggleShowRecommendedAlbums}
+                condition={showRecommendedAlbums}
+                title={`Albums You May Like`}
               />
-            </Suspense>
+              <ClickableTitle
+                fn={toggleShowSavedAlbums}
+                condition={showSavedAlbums}
+                title={`Your Favourite Albums`}
+              />
+            </div>
+
+            {showSavedAlbums && (
+              <Suspense fallback={<CardLoader />}>
+                {savedAlbums ? (
+                  <CarouselAlbums
+                    albums={savedAlbums}
+                    albumSelected={albumSelected}
+                    setId={setId}
+                  />
+                ) : (
+                  <h3>No albums saved yet...</h3>
+                )}
+              </Suspense>
+            )}
+            {showRecommendedAlbums && (
+              <Suspense fallback={<CardLoader />}>
+                <CarouselAlbums
+                  albums={recommendedAlbums}
+                  albumSelected={albumSelected}
+                  setId={setId}
+                />
+              </Suspense>
+            )}
           </div>
           <section className="albumsPage__content">
             <div className="albumsPage__tracksContainer">
@@ -119,20 +186,28 @@ const AlbumsPage = () => {
                   title={`${albumSelected?.name} Tracks`}
                 />
                 <ClickableTitle
+                  condition={showRecommendedTracks}
+                  fn={toggleShowRecommendedTraks}
+                  title={`${albumSelected?.artists?.[0]?.name} Recommended Tracks`}
+                />
+                <ClickableTitle
                   condition={showAlbums}
                   fn={toggleShowAlbums}
-                  title={`${albumSelected?.artists[0].name} Albums`}
+                  title={`${albumSelected?.artists?.[0]?.name} Albums`}
                 />
               </div>
               <div className="albumsPage__tracks">
                 {showTracks && <Tracks data={tracks && tracks} />}
+                {showRecommendedTracks && (
+                  <Tracks data={recomendedTrack && recomendedTrack} />
+                )}
                 {showAlbums && <Albums data={artistAlbums} />}
               </div>
             </div>
             {
               <div className="albumsPage__relatedArtists">
                 <ArtistsRelated
-                  id={albumSelected?.artists[0].id}
+                  id={albumSelected?.artists?.[0]?.id}
                   setError={setError}
                   artistSelected={albumSelected}
                 />

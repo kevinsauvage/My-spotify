@@ -6,26 +6,34 @@
   padding-top: 57px;
 
   &__carousel {
-    width: 100%;
-    margin-bottom: 3rem;
-  }
 
-  &__menu {
-    display: flex;
-    margin-left: 3rem;
+    .albumsPage__menu {
+      justify-content: start;
+      display: flex;
+      margin-left: 3rem;
+    }
   }
 
   &__content {
     display: flex;
+
+    .albumsPage__menu {
+      display: flex;
+      margin: 0 3rem;
+      justify-content: space-between;
+    }
   }
 
   &__tracks {
-    padding: 0 3rem;
+    padding: 0 2rem 0 3rem;
   }
 
-  &__tracksContainer,
+  &__tracksContainer {
+    flex: 3;
+  }
+
   &__relatedArtists {
-    flex: 1;
+    flex: 2;
   }
 
   .albums {

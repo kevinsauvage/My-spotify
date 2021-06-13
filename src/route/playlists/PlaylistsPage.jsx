@@ -3,7 +3,6 @@ import CardLoader from "../../components/cardLoader/CardLoader";
 import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 import WentWrong from "../../components/wentWrong/WentWrong";
 import { AppContext } from "../../context/AppContext";
-import Playlists from "../../components/playlists/Playlists";
 import "./PlaylistsPage.scss";
 import Tracks from "../../components/tracks/Tracks";
 const CarouselPlaylist = React.lazy(() =>
@@ -16,8 +15,10 @@ const PlaylistsPage = () => {
   const [playlistSelected, setPlaylistSelected] = useState();
   const [error, setError] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState();
+  const [showFeaturedPlaylist, setShowFeaturedPlaylist] = useState(true);
+  const [showUserPlaylits, setShowUserPlaylits] = useState(false);
 
-  const { spotifyApi } = useContext(AppContext);
+  const { spotifyApi, userPlaylists } = useContext(AppContext);
 
   useEffect(() => {
     const getFeaturedPlaylist = () => {
@@ -39,9 +40,8 @@ const PlaylistsPage = () => {
         setPlaylistSelected(playlist);
       } catch (error) {
         setError(true);
-        console.log(error);
       }
-    }; // Set Playlist to show on Playlist show page
+    }; // Set Playlist selected
     id && setPlaylistShow();
   }, [id, spotifyApi]);
 
@@ -49,33 +49,60 @@ const PlaylistsPage = () => {
     const getPlaylistTracks = async () => {
       try {
         const playlistTracks = await spotifyApi.getPlaylistTracks(id);
-        console.log(playlistTracks);
         const track = playlistTracks.items.map((item) => item.track);
         setPlaylistTracks(track);
       } catch (error) {
-        setError(true);
+        setError(error);
         console.log(error);
       }
     };
     id && getPlaylistTracks();
   }, [id, spotifyApi]);
 
-  console.log(featuredPlaylists);
+  const toggleFeaturedPlaylists = () => {
+    setShowFeaturedPlaylist(true);
+    setShowUserPlaylits(false);
+  };
+  const toggleUserPlaylists = () => {
+    setShowFeaturedPlaylist(false);
+    setShowUserPlaylits(true);
+  };
+
   return (
     <div className="playlistsPage">
       {!error ? (
         <>
           <div className="playlistsPage__carousel">
             <div className="playlistsPage__menu">
-              <ClickableTitle title={`Featured Playlists`} />
-            </div>
-            <Suspense fallback={<CardLoader />}>
-              <CarouselPlaylist
-                data={featuredPlaylists}
-                setId={setId}
-                playlistSelected={playlistSelected}
+              <ClickableTitle
+                fn={toggleFeaturedPlaylists}
+                condition={showFeaturedPlaylist}
+                title={`Featured Playlists`}
               />
-            </Suspense>
+              <ClickableTitle
+                fn={toggleUserPlaylists}
+                condition={showUserPlaylits}
+                title={`Your Playlists`}
+              />
+            </div>
+            {showFeaturedPlaylist && (
+              <Suspense fallback={<CardLoader />}>
+                <CarouselPlaylist
+                  data={featuredPlaylists}
+                  setId={setId}
+                  playlistSelected={playlistSelected}
+                />
+              </Suspense>
+            )}
+            {showUserPlaylits && (
+              <Suspense fallback={<CardLoader />}>
+                <CarouselPlaylist
+                  data={userPlaylists}
+                  setId={setId}
+                  playlistSelected={playlistSelected}
+                />
+              </Suspense>
+            )}
           </div>
           <section className="playlistsPage__content">
             <div className="playlistsPage__tracksContainer">

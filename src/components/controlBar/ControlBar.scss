@@ -40,5 +40,7 @@
 }
 
 .__mvqn38 {
-  max-width: 145px !important;
+  @include respond(mobileS) {
+    max-width: 145px !important;
+  }
 }

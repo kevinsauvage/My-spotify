@@ -1,16 +1,16 @@
 .artistRelated {
 
-  margin-left: 3rem;
+  margin-left: 1rem;
+  position: relative;
 
   &__cards {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
     margin-bottom: 2rem;
   }
 
   &__card {
-    width: 130px;
     position: relative;
 
 
@@ -23,5 +23,15 @@
 
       }
     }
+  }
+
+  .artistCard__follow,
+  .artistCard__unfollow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px;
+    background-color: rgba(4, 4, 43, 0.548);
+    border-radius: 0 0 5px 0;
   }
 }

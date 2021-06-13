@@ -5,7 +5,8 @@ import { AppContext } from "../../../context/AppContext";
 const ArtistShowLogic = () => {
   const location = useLocation();
   const { id } = location.state;
-  const { spotifyApi, setUri, setFollowedArtists } = useContext(AppContext);
+  const { spotifyApi, setUri, setFollowedArtists, followedArtists } =
+    useContext(AppContext);
 
   const [artistAlbums, setArtistAlbums] = useState();
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
@@ -92,21 +93,16 @@ const ArtistShowLogic = () => {
       spotifyApi.unfollowArtists([id]);
       setIsFollowing(false);
       setTimeout(() => {
-        settingFollowedArtists();
-      }, 1000); // fetch artist followed by user after user unfollow a new artist
+        setFollowedArtists();
+      }, 500); // fetch artist followed by user after user unfollow a new artist
     } else {
       spotifyApi.followArtists([id]);
       setIsFollowing(true);
       setTimeout(() => {
-        settingFollowedArtists();
-      }, 1000); // fetch artist followed by user after user follow a new artist
+        setFollowedArtists();
+      }, 500); // fetch artist followed by user after user follow a new artist
     }
   }; // Following || unfollowing artist
-
-  const settingFollowedArtists = async () => {
-    const response = await spotifyApi.getFollowedArtists({ limit: 50 });
-    setFollowedArtists(response.artists.items);
-  }; // Fetch followed artist from user
 
   const setUriFromArtistTopTracks = () => {
     const tracksq = artistTopTracks.map((res) => res.uri);

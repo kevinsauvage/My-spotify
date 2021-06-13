@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
@@ -8,24 +8,15 @@ import SidebarSectionTitle from "../sidebarSectionTitle/SidebarSectionTitle";
 import "./SidebarPlaylists.scss";
 
 const SidebarPlaylist = () => {
-  const [playlists, setPlaylists] = useState();
-  const { spotifyApi } = useContext(AppContext);
-
-  useEffect(() => {
-    const getUserPlaylists = async () => {
-      const userPlaylist = await spotifyApi.getUserPlaylists({ limit: 50 });
-      setPlaylists(userPlaylist.items);
-    };
-    getUserPlaylists();
-  }, [spotifyApi]);
+  const { userPlaylists } = useContext(AppContext);
 
   const array = Array.from(Array(50).keys());
 
   return (
     <div className="sidebarPlaylists">
       <SidebarSectionTitle title="My Playlists" />
-      {playlists
-        ? playlists.map((playlist) => {
+      {userPlaylists
+        ? userPlaylists.map((playlist) => {
             return (
               <Link
                 key={playlist.id}

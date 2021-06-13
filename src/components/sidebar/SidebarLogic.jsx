@@ -1,29 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 
-const SidebarLeftLogic = () => {
-  const { sidebarLeftIsOpen, setSidebarLeftIsOpen, spotifyApi } =
-    useContext(AppContext);
-  const [user, setUser] = useState(); // user info
+const SidebarLogic = () => {
+  const props = useContext(AppContext);
 
   const closeSidebar = () => {
-    if (sidebarLeftIsOpen) {
-      setSidebarLeftIsOpen(false);
+    if (props?.sidebarLeftIsOpen) {
+      props?.setSidebarLeftIsOpen(false);
     }
   };
 
-  useEffect(() => {
-    const getMe = async () => {
-      const user = await spotifyApi.getMe();
-      setUser(user);
-    };
-    getMe();
-  }, [spotifyApi]);
-
   return {
     closeSidebar,
-    sidebarLeftIsOpen,
   };
 };
 
-export default SidebarLeftLogic;
+export default SidebarLogic;

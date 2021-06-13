@@ -1,12 +1,12 @@
 @import "../../assets/stylesheets/mixin";
 
 .clickableTitle {
-  @include poppins(600, 16px);
+  @include poppins(600, 13px);
   padding: 0.5rem 0;
   color: whitesmoke;
   z-index: 20000;
   margin: 3rem 0;
-  margin-right: 3rem;
+  margin-right: 2rem;
 
   &:last-child {
     margin-right: 0;

@@ -1,6 +1,6 @@
-import PageBanner from "../../components/pageBanner/PageBanner";
-import Tracks from "../../components/tracks/Tracks";
-import WentWrong from "../../components/wentWrong/WentWrong";
+import PageBanner from "../../../components/pageBanner/PageBanner";
+import Tracks from "../../../components/tracks/Tracks";
+import WentWrong from "../../../components/wentWrong/WentWrong";
 import "./PlaylistShow.scss";
 import PlaylistShowLogic from "./PlaylistShowLogic";
 

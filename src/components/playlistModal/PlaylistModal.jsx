@@ -1,10 +1,11 @@
 import "./PlaylistModal.scss";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { MdAddCircleOutline } from "react-icons/md";
-import PlaylistModalLogic from "./PlaylistModalLogic";
+import { useContext } from "react";
+import { AppContext } from "../../context/AppContext";
 
 const PlaylistModal = ({ handleClickPlaylist, setDisplayPlaylistModal }) => {
-  const { userPlaylists } = PlaylistModalLogic();
+  const { userPlaylists } = useContext(AppContext);
 
   const handleClickClose = () => {
     setDisplayPlaylistModal(false);

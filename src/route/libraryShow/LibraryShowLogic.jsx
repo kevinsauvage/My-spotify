@@ -8,7 +8,7 @@ const LibraryShowLogic = () => {
   const [tracks, setTracks] = useState();
   const [error, setError] = useState(false);
 
-  const { spotifyApi, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri, savedTracks } = useContext(AppContext);
 
   useEffect(() => {
     const getTopTracks = async () => {
@@ -26,21 +26,10 @@ const LibraryShowLogic = () => {
   }, [spotifyApi, id]);
 
   useEffect(() => {
-    const getLikedTracks = async () => {
-      try {
-        const response = await spotifyApi.getMySavedTracks({
-          limit: 50,
-        });
-        const tracks = response.items.map((item) => item.track);
-        setTracks(tracks);
-      } catch (error) {
-        setError(true);
-      }
-    };
     if (id === "Favorite") {
-      getLikedTracks();
+      setTracks(savedTracks);
     }
-  }, [spotifyApi, id]);
+  }, []);
 
   useEffect(() => {
     const getRecentlyPlayed = async () => {

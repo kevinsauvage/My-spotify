@@ -1,11 +1,19 @@
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useContext, useEffect, useState, useCallback, useRef } from "react";
 import { AppContext } from "../../context/AppContext";
 
-const BibliothequeItemLogic = (ref1, ref2, trackId) => {
+const BibliothequeItemLogic = (ref1, ref2, trackId, albumId) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
-  const { spotifyApi, setUri } = useContext(AppContext);
+  const {
+    spotifyApi,
+    setUri,
+    saveAlbum,
+    unSaveAlbum,
+    fetchIsFollowingAlbum,
+    checkIfTrackIsSaved,
+  } = useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
   const [trackIsSaved, setTrackIsSaved] = useState();
+  const [isFollowingAlbum, setIsFollowingAlbum] = useState();
 
   const handleClickOutside = useCallback(
     (event) => {
@@ -25,15 +33,57 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     };
   }, [handleClickOutside]);
 
-  const checkIfTrackIsSaved = useCallback(async () => {
-    const saved = await spotifyApi.containsMySavedTracks([trackId]);
-    console.log(saved[0]);
-    setTrackIsSaved(saved[0]);
-  }, [spotifyApi, trackId]);
+  // Handling save and unsave track and check if track is liked === START
+  const trackiSaved = useCallback(async () => {
+    const response = await checkIfTrackIsSaved(trackId);
+    setTrackIsSaved(response);
+  }, [checkIfTrackIsSaved, trackId]); // fetch is the track is liked by user => return a bolean
 
   useEffect(() => {
-    trackId && checkIfTrackIsSaved();
-  }, [checkIfTrackIsSaved, trackId]);
+    trackId && trackiSaved();
+  }, [trackId, trackiSaved]);
+
+  const unSaveTrack = () => {
+    spotifyApi.removeFromMySavedTracks([trackId]);
+    setTimeout(() => {
+      trackiSaved();
+    }, 500);
+  }; // unsave track and update the view
+
+  const saveTrack = () => {
+    spotifyApi.addToMySavedTracks([trackId]);
+    setTimeout(() => {
+      trackiSaved();
+    }, 500);
+  }; // Save track and update the view
+  // Handling save and unsave track and check if track is liked === END
+
+  // Handling save and unsave album and check if album is linked === START
+  const checkIfAlbumIsFollowed = useCallback(async () => {
+    const isFollowing = await fetchIsFollowingAlbum(albumId);
+    console.log(isFollowing);
+    setIsFollowingAlbum(isFollowing);
+  }, [fetchIsFollowingAlbum, albumId]);
+
+  useEffect(() => {
+    albumId && checkIfAlbumIsFollowed();
+  }, [checkIfAlbumIsFollowed, albumId]);
+
+  const followAlbum = () => {
+    saveAlbum(albumId);
+    setTimeout(() => {
+      checkIfAlbumIsFollowed();
+    }, 500);
+  };
+
+  const unFollowAlbum = () => {
+    unSaveAlbum(albumId);
+    setTimeout(() => {
+      checkIfAlbumIsFollowed();
+    }, 500);
+  };
+
+  // Handling save and unsave album and check if album is linked === START
 
   const handleClickMenu = (e) => {
     setShowMenu(!showMenu);
@@ -67,19 +117,6 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     spotifyApi.queue(track.uri);
   }; // Adding track to queue
 
-  const unSaveTrack = () => {
-    spotifyApi.removeFromMySavedTracks([trackId]);
-    setTimeout(() => {
-      checkIfTrackIsSaved();
-    }, 500);
-  };
-  const saveTrack = () => {
-    spotifyApi.addToMySavedTracks([trackId]);
-    setTimeout(() => {
-      checkIfTrackIsSaved();
-    }, 500);
-  };
-
   return {
     handleClickAddToPlaylist,
     displayPlaylistModal,
@@ -92,6 +129,9 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     trackIsSaved,
     unSaveTrack,
     saveTrack,
+    followAlbum,
+    unFollowAlbum,
+    isFollowingAlbum,
   };
 };
 

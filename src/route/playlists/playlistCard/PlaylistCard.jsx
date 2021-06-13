@@ -16,20 +16,17 @@ const PlaylistCard = ({
 }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
   const [isFollowingPlaylist, setIsFollowingPlaylist] = useState();
-  const { spotifyApi } = useContext(AppContext);
+  const { spotifyApi, checkIfPlaylistIsFollowed, getUserPlaylists } =
+    useContext(AppContext);
 
-  const checkIfPlaylistIsFollowed = useCallback(async () => {
-    try {
-      const isFollowing = await spotifyApi.followPlaylist(id);
-      id && setIsFollowingPlaylist(isFollowing[0]);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }, [spotifyApi, id]);
+  const isFollowed = useCallback(async () => {
+    const response = await checkIfPlaylistIsFollowed(id);
+    setIsFollowingPlaylist(response);
+  }, [checkIfPlaylistIsFollowed, id]);
 
   useEffect(() => {
-    checkIfPlaylistIsFollowed();
-  }, [checkIfPlaylistIsFollowed]);
+    id && isFollowed();
+  }, [isFollowed, id]);
 
   useEffect(() => {
     if (window.innerWidth <= 548) {
@@ -39,8 +36,21 @@ const PlaylistCard = ({
     }
   }, []);
 
-  const followPlaylist = () => {};
-  const unfollowPlaylist = () => {};
+  const followPlaylist = () => {
+    spotifyApi.followPlaylist(id);
+    setTimeout(() => {
+      isFollowed();
+      getUserPlaylists();
+    }, 500);
+  };
+
+  const unfollowPlaylist = () => {
+    spotifyApi.unfollowPlaylist(id);
+    setTimeout(() => {
+      isFollowed();
+      getUserPlaylists();
+    }, 500);
+  };
 
   return (
     <motion.div

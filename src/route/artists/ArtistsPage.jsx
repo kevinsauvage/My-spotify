@@ -6,37 +6,30 @@ import ArtistsRelated from "./artistsRelated/ArtistsRelated";
 import WentWrong from "../../components/wentWrong/WentWrong";
 import CardLoader from "../../components/cardLoader/CardLoader";
 import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
+import Albums from "../../components/albums/Albums";
+
 const CarouselArtists = React.lazy(() =>
   import("./carouselArtists/CarouselArtists")
 ); // Lazy-loaded
 
 const ArtistsPage = () => {
-  const [topArtists, setTopArtists] = useState([]);
-  const [artistTopTracks, setArtistTopTracks] = useState(undefined); // array of artist top tracks
+  const [artistTopTracks, setArtistTopTracks] = useState([]); // array of artist top tracks
+  const [recomendedTracks, setRecomendedTracks] = useState([]);
   const [id, setId] = useState();
   const [artistSelected, setArtistSelected] = useState();
   const [carouselFav, setCarouselFav] = useState(true);
   const [carouselFoll, setCarouselFoll] = useState(false);
-  const [recomendedTrack, setRecomendedTrack] = useState();
   const [showRecomended, setShowRecomended] = useState(false);
   const [showTopTracks, setShowTopTracks] = useState(true);
   const [error, setError] = useState(false);
+  const [artistAlbums, setArtistAlbums] = useState([]);
+  const [showArtistAlbums, setShowArtistAlbums] = useState(false);
 
-  const { spotifyApi, setFollowedArtists, followedArtists } =
-    useContext(AppContext);
+  const { spotifyApi, followedArtists, topArtists } = useContext(AppContext);
 
   useEffect(() => {
-    const getTopArtist = async () => {
-      try {
-        const topArtist = await spotifyApi.getMyTopArtists();
-        setTopArtists(topArtist.items);
-        setId(topArtist.items[1].id || topArtist.items[0].id);
-      } catch (error) {
-        setError(true);
-      }
-    };
-    getTopArtist();
-  }, [setTopArtists, spotifyApi]);
+    topArtists && setId(topArtists[2].id);
+  }, [topArtists]);
 
   useEffect(() => {
     const setArtistShow = async () => {
@@ -45,24 +38,26 @@ const ArtistsPage = () => {
         setArtistSelected(artist);
       } catch (error) {
         setError(true);
+        console.log(error);
       }
     }; // Set artist to show on artist show page
     id && setArtistShow();
   }, [id, spotifyApi]);
 
   useEffect(() => {
-    const getRecommendationsTrack = async () => {
+    const getRecommendationsTracks = async () => {
       try {
         const tracks = await spotifyApi.getRecommendations({
           seed_artists: id,
           limit: 10,
         });
-        setRecomendedTrack(tracks);
+        setRecomendedTracks(tracks);
       } catch (error) {
         setError(true);
+        console.log(error);
       }
     };
-    id && getRecommendationsTrack();
+    id && getRecommendationsTracks();
   }, [spotifyApi, id]);
 
   useEffect(() => {
@@ -74,22 +69,27 @@ const ArtistsPage = () => {
         setArtistTopTracks({ tracks: topTracks.tracks, id: id });
       } catch (error) {
         setError(true);
+        console.log(error);
       }
     };
     id && getArtistTopTracks();
   }, [id, spotifyApi]);
 
   useEffect(() => {
-    const settingFollowedArtists = async () => {
-      try {
-        const response = await spotifyApi.getFollowedArtists({ limit: 50 });
-        setFollowedArtists(response.artists.items);
-      } catch (error) {
-        setError(true);
-      }
-    }; // Fetch followed artist from user
-    id && settingFollowedArtists();
-  }, [spotifyApi, setFollowedArtists, id]);
+    const fetchArtistAlbums = async () => {
+      const artistAlbums = await spotifyApi.getArtistAlbums(id);
+      const unique = artistAlbums.items.filter(
+        (thing, index, self) =>
+          index ===
+          self.findIndex(
+            (t) => t.place === thing.place && t.name === thing.name
+          )
+      );
+      const sorted = unique.sort((a, b) => a.release_date > b.release_date);
+      setArtistAlbums(sorted);
+    };
+    id && fetchArtistAlbums();
+  }, [spotifyApi, id]);
 
   const toggleCarouselFavorite = () => {
     setCarouselFav(true);
@@ -104,10 +104,18 @@ const ArtistsPage = () => {
   const toggleTopTracks = () => {
     setShowTopTracks(true);
     setShowRecomended(false);
+    setShowArtistAlbums(false);
   };
   const toggleRecommendedTracks = () => {
     setShowTopTracks(false);
     setShowRecomended(true);
+    setShowArtistAlbums(false);
+  };
+
+  const toggleArtistAlbums = () => {
+    setShowTopTracks(false);
+    setShowRecomended(false);
+    setShowArtistAlbums(true);
   };
 
   return (
@@ -119,7 +127,7 @@ const ArtistsPage = () => {
               <ClickableTitle
                 condition={carouselFav}
                 fn={toggleCarouselFavorite}
-                title={"Favorite Artists"}
+                title={"Recommended Artists"}
               />
               <ClickableTitle
                 condition={carouselFoll}
@@ -146,7 +154,6 @@ const ArtistsPage = () => {
               </Suspense>
             )}
           </div>
-
           <section className="artistsPage__content">
             <div className="artistsPage__tracksContainer">
               <div className="artistsPage__menu">
@@ -156,14 +163,20 @@ const ArtistsPage = () => {
                   title={`${artistSelected?.name} Top Tracks`}
                 />
                 <ClickableTitle
+                  condition={showArtistAlbums}
+                  fn={toggleArtistAlbums}
+                  title={`${artistSelected?.name} Albums`}
+                />
+                <ClickableTitle
                   condition={showRecomended}
                   fn={toggleRecommendedTracks}
                   title={`${artistSelected?.name} Recommended Tracks`}
                 />
               </div>
               <div className="artistsPage__tracks">
-                {showRecomended && <Tracks data={recomendedTrack?.tracks} />}
+                {showRecomended && <Tracks data={recomendedTracks?.tracks} />}
                 {showTopTracks && <Tracks data={artistTopTracks?.tracks} />}
+                {showArtistAlbums && <Albums data={artistAlbums} />}
               </div>
             </div>
             <div className="artistsPage__relatedArtists">

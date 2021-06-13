@@ -43,8 +43,8 @@ const ArtistsRelated = ({ id, setError, artistSelected }) => {
                 }
                 name={artist.name}
                 id={artist.id}
-                height="120px"
-                width="120px"
+                height="100px"
+                width="100px"
               />
             </div>
           );
