@@ -69,7 +69,17 @@ const AlbumCard = ({
           height: height,
           width: width,
           cursor: selectAlbumFn ? "pointer" : "default",
-        }}></div>
+        }}>
+        {isFollowingAlbum ? (
+          <div onClick={unFollowAlbum} className="albumCard__unfollow">
+            <RiUserUnfollowLine />
+          </div>
+        ) : (
+          <div onClick={followAlbum} className="albumCard__follow">
+            <RiUserFollowLine />
+          </div>
+        )}
+      </div>
       <div className="albumCard__detail">
         <Link
           to={{
@@ -86,15 +96,6 @@ const AlbumCard = ({
           </h2>
           <HiExternalLink color="white" />
         </Link>
-        {isFollowingAlbum ? (
-          <div onClick={unFollowAlbum} className="albumCard__unfollow">
-            <RiUserUnfollowLine />
-          </div>
-        ) : (
-          <div onClick={followAlbum} className="albumCard__follow">
-            <RiUserFollowLine />
-          </div>
-        )}
       </div>
     </motion.div>
   );

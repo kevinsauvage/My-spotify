@@ -18,7 +18,7 @@ const CarouselArtists = ({ artists, artistSelected, setId }) => {
                 id={item.id}
                 artist={item.artists?.[0].name}
                 selectArtistFn={setId}
-                height="150px"
+                height="185px"
               />
             );
           })}

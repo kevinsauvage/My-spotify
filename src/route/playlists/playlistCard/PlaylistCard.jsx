@@ -61,16 +61,28 @@ const PlaylistCard = ({
         onClick={selectPlaylistFn ? () => selectPlaylistFn(id) : null}
         className="artistCard__img"
         style={{
-          backgroundImage: "url(" + url + ")",
           transform: idSelectedPlaylist === id ? "translateY(-20px)" : null,
+
+          backgroundImage: "url(" + url + ")",
           boxShadow:
             idSelectedPlaylist === id
               ? "0px 50px 50px -6px rgba(195,184,255,0.2)"
               : null,
           height: height,
-          width: width,
           cursor: selectPlaylistFn ? "pointer" : "default",
-        }}></div>
+        }}>
+        {isFollowingPlaylist ? (
+          <div
+            onClick={() => unfollowPlaylist()}
+            className="artistCard__unfollow">
+            <RiUserUnfollowLine />
+          </div>
+        ) : (
+          <div onClick={() => followPlaylist()} className="artistCard__follow">
+            <RiUserFollowLine />
+          </div>
+        )}
+      </div>
       <div className="artistCard__detail">
         <Link
           to={{
@@ -87,17 +99,6 @@ const PlaylistCard = ({
           </h2>
           <HiExternalLink color="white" />
         </Link>
-        {isFollowingPlaylist ? (
-          <div
-            onClick={() => unfollowPlaylist()}
-            className="artistCard__unfollow">
-            <RiUserUnfollowLine />
-          </div>
-        ) : (
-          <div onClick={() => followPlaylist()} className="artistCard__follow">
-            <RiUserFollowLine />
-          </div>
-        )}
       </div>
     </motion.div>
   );

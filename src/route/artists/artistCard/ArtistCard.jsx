@@ -72,7 +72,19 @@ const ArtistCard = ({
           height: height,
           width: width,
           cursor: selectArtistFn ? "pointer" : "default",
-        }}></div>
+        }}>
+        {isFollowingArtist ? (
+          <div
+            onClick={() => unfollowArtist()}
+            className="artistCard__unfollow">
+            <RiUserUnfollowLine size={15} />
+          </div>
+        ) : (
+          <div onClick={() => followArtist()} className="artistCard__follow">
+            <RiUserFollowLine size={15} />
+          </div>
+        )}
+      </div>
       <div className="artistCard__detail">
         <Link
           to={{
@@ -89,17 +101,6 @@ const ArtistCard = ({
           </h2>
           <HiExternalLink size={15} color="white" />
         </Link>
-        {isFollowingArtist ? (
-          <div
-            onClick={() => unfollowArtist()}
-            className="artistCard__unfollow">
-            <RiUserUnfollowLine size={15} />
-          </div>
-        ) : (
-          <div onClick={() => followArtist()} className="artistCard__follow">
-            <RiUserFollowLine size={15} />
-          </div>
-        )}
       </div>
     </motion.div>
   );

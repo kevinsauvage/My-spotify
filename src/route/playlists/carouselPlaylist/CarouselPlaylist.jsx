@@ -17,7 +17,7 @@ const CarouselPlaylist = ({ data, playlistSelected, setId }) => {
                 name={item.name}
                 id={item.id}
                 selectPlaylistFn={setId}
-                height="200px"
+                height="185px"
               />
             );
           })}
