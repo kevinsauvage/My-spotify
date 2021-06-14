@@ -104,7 +104,7 @@ const ArtistsPage = () => {
     const sorted = unique.sort((a, b) => a.release_date > b.release_date);
     const albumWithFollow = await checkIfAlbumsAreFollowed(sorted);
     setArtistAlbums(albumWithFollow);
-  }, [savedAlbums, checkIfAlbumsAreFollowed, id, spotifyApi]);
+  }, [savedAlbums, checkIfAlbumsAreFollowed, id, spotifyApi]); // saved album can't be removed as it update album of artist page when user save/unsave album
 
   useEffect(() => {
     id && fetchArtistAlbums();
