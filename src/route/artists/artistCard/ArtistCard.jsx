@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./ArtistCard.scss";
 import { HiExternalLink } from "react-icons/hi";
@@ -13,19 +13,10 @@ const ArtistCard = ({
   selectArtistFn,
   height,
   width,
+  followed,
 }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
-  const [isFollowingArtist, setIsFollowingArtist] = useState();
-  const { spotifyApi, settingFollowedArtists } = useContext(AppContext);
-
-  const checkIfArtistIsFollowed = useCallback(async () => {
-    const isFollowing = await spotifyApi.isFollowingArtists([id]);
-    id && setIsFollowingArtist(isFollowing[0]);
-  }, [spotifyApi, id]);
-
-  useEffect(() => {
-    checkIfArtistIsFollowed();
-  }, [checkIfArtistIsFollowed]);
+  const { followArtist, unfollowArtist } = useContext(AppContext);
 
   useEffect(() => {
     if (window.innerWidth <= 548) {
@@ -35,56 +26,28 @@ const ArtistCard = ({
     }
   }, []);
 
-  const followArtist = () => {
-    spotifyApi.followArtists([id]);
-    setTimeout(() => {
-      settingFollowedArtists();
-      checkIfArtistIsFollowed();
-    }, 500);
-  };
-
-  const unfollowArtist = () => {
-    spotifyApi.unfollowArtists([id]);
-    setTimeout(() => {
-      settingFollowedArtists();
-      checkIfArtistIsFollowed();
-    }, 500);
-  };
-
   return (
     <motion.div
       style={{
         width: width,
+        transform: idSelectedArtist === id ? "translateY(-20px)" : null,
+        boxShadow:
+          idSelectedArtist === id
+            ? "0px 50px 50px -6px rgba(195,184,255,0.2)"
+            : null,
       }}
       className="artistCard"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}>
       <div
-        onClick={selectArtistFn ? () => selectArtistFn(id) : null}
+        onClick={() => selectArtistFn && selectArtistFn(id)}
         className="artistCard__img"
         style={{
           backgroundImage: "url(" + url + ")",
-          transform: idSelectedArtist === id ? "translateY(-20px)" : null,
-          boxShadow:
-            idSelectedArtist === id
-              ? "0px 50px 50px -6px rgba(195,184,255,0.2)"
-              : null,
           height: height,
           width: width,
           cursor: selectArtistFn ? "pointer" : "default",
-        }}>
-        {isFollowingArtist ? (
-          <div
-            onClick={() => unfollowArtist()}
-            className="artistCard__unfollow">
-            <RiUserUnfollowLine size={15} />
-          </div>
-        ) : (
-          <div onClick={() => followArtist()} className="artistCard__follow">
-            <RiUserFollowLine size={15} />
-          </div>
-        )}
-      </div>
+        }}></div>
       <div className="artistCard__detail">
         <Link
           to={{
@@ -101,6 +64,17 @@ const ArtistCard = ({
           </h2>
           <HiExternalLink size={15} color="white" />
         </Link>
+        {followed ? (
+          <div
+            onClick={() => unfollowArtist(id)}
+            className="artistCard__unfollow">
+            <RiUserUnfollowLine size={15} />
+          </div>
+        ) : (
+          <div onClick={() => followArtist(id)} className="artistCard__follow">
+            <RiUserFollowLine size={15} />
+          </div>
+        )}
       </div>
     </motion.div>
   );

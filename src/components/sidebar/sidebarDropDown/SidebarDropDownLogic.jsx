@@ -17,15 +17,6 @@ const SidebarRightLogic = () => {
   }, [spotifyApi]);
 
   useEffect(() => {
-    const getFeaturedPlaylist = () => {
-      spotifyApi.getFeaturedPlaylists({ limit: 20 }).then((data) => {
-        setFeaturedPlaylists(data.playlists.items);
-      });
-    }; // Fetching featured playlist
-    getFeaturedPlaylist();
-  }, [spotifyApi]);
-
-  useEffect(() => {
     const getTopTracks = async () => {
       const response = await spotifyApi.getMyTopTracks({ limit: 50 });
       const tracks = response.items;
@@ -64,12 +55,12 @@ const SidebarRightLogic = () => {
       link: "/track",
       title: "Top tracks",
     },
-    {
+    /*     {
       id: 3,
       items: topArtists,
       link: "/artist",
       title: "Top artists",
-    },
+    }, */
     {
       id: 4,
       items: savedAlbums,

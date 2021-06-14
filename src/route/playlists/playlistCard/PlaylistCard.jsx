@@ -12,7 +12,6 @@ const PlaylistCard = ({
   id,
   idSelectedPlaylist,
   height,
-  width,
 }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
   const [isFollowingPlaylist, setIsFollowingPlaylist] = useState();

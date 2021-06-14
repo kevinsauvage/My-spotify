@@ -30,6 +30,7 @@ const BibliothequeItem = ({
   albumName,
   year,
   play,
+  followedAlbum,
 }) => {
   const menu = useRef();
   const iconMenu = useRef();
@@ -46,9 +47,8 @@ const BibliothequeItem = ({
     trackIsSaved,
     unSaveTrack,
     saveTrack,
-    isFollowingAlbum,
-    followAlbum,
-    unFollowAlbum,
+    unSaveAlbum,
+    saveAlbum,
   } = BibliothequeItemLogic(menu, iconMenu, trackId, albumId);
 
   return (
@@ -161,10 +161,13 @@ const BibliothequeItem = ({
       )}
       {albumId && (
         <div className="bibliotheque-item__addAlbum">
-          {isFollowingAlbum ? (
-            <MdDeleteSweep onClick={unFollowAlbum} size={20} />
+          {followedAlbum ? (
+            <MdDeleteSweep onClick={() => unSaveAlbum(albumId)} size={20} />
           ) : (
-            <IoMdAddCircleOutline onClick={followAlbum} size={20} />
+            <IoMdAddCircleOutline
+              onClick={() => saveAlbum(albumId)}
+              size={20}
+            />
           )}
         </div>
       )}

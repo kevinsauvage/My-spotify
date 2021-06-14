@@ -7,13 +7,14 @@ const ArtistAlbums = ({ data }) => {
     <div className="albums">
       <BibliothequeItemHeader album year />
       {data &&
-        data.map((album, i) => {
+        data?.map((album, i) => {
           return (
             <BibliothequeItem
-              key={i}
-              albumName={album.name}
-              year={album.release_date.split("-")[0]}
-              albumId={album.id}
+              key={album.album.name}
+              albumName={album.album.name}
+              year={album.album.release_date.split("-")[0]}
+              albumId={album.album.id}
+              followedAlbum={album.follow}
             />
           );
         })}

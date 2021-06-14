@@ -1,19 +1,12 @@
-import { useContext, useEffect, useState, useCallback, useRef } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { AppContext } from "../../context/AppContext";
 
-const BibliothequeItemLogic = (ref1, ref2, trackId, albumId) => {
+const BibliothequeItemLogic = (ref1, ref2, trackId) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
-  const {
-    spotifyApi,
-    setUri,
-    saveAlbum,
-    unSaveAlbum,
-    fetchIsFollowingAlbum,
-    checkIfTrackIsSaved,
-  } = useContext(AppContext);
+  const { spotifyApi, setUri, saveAlbum, unSaveAlbum, checkIfTrackIsSaved } =
+    useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
   const [trackIsSaved, setTrackIsSaved] = useState();
-  const [isFollowingAlbum, setIsFollowingAlbum] = useState();
 
   const handleClickOutside = useCallback(
     (event) => {
@@ -59,29 +52,6 @@ const BibliothequeItemLogic = (ref1, ref2, trackId, albumId) => {
   // Handling save and unsave track and check if track is liked === END
 
   // Handling save and unsave album and check if album is linked === START
-  const checkIfAlbumIsFollowed = useCallback(async () => {
-    const isFollowing = await fetchIsFollowingAlbum(albumId);
-    console.log(isFollowing);
-    setIsFollowingAlbum(isFollowing);
-  }, [fetchIsFollowingAlbum, albumId]);
-
-  useEffect(() => {
-    albumId && checkIfAlbumIsFollowed();
-  }, [checkIfAlbumIsFollowed, albumId]);
-
-  const followAlbum = () => {
-    saveAlbum(albumId);
-    setTimeout(() => {
-      checkIfAlbumIsFollowed();
-    }, 500);
-  };
-
-  const unFollowAlbum = () => {
-    unSaveAlbum(albumId);
-    setTimeout(() => {
-      checkIfAlbumIsFollowed();
-    }, 500);
-  };
 
   // Handling save and unsave album and check if album is linked === START
 
@@ -129,9 +99,8 @@ const BibliothequeItemLogic = (ref1, ref2, trackId, albumId) => {
     trackIsSaved,
     unSaveTrack,
     saveTrack,
-    followAlbum,
-    unFollowAlbum,
-    isFollowingAlbum,
+    saveAlbum,
+    unSaveAlbum,
   };
 };
 

@@ -1,4 +1,10 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { AppContext } from "../../context/AppContext";
 import "./ArtistsPage.scss";
 import Tracks from "../../components/tracks/Tracks";
@@ -24,12 +30,25 @@ const ArtistsPage = () => {
   const [error, setError] = useState(false);
   const [artistAlbums, setArtistAlbums] = useState([]);
   const [showArtistAlbums, setShowArtistAlbums] = useState(false);
-
-  const { spotifyApi, followedArtists, topArtists } = useContext(AppContext);
+  const [savedArtists, setSavedArtists] = useState([]);
+  const {
+    spotifyApi,
+    followedArtists,
+    topArtists,
+    checkIfAlbumsAreFollowed,
+    savedAlbums,
+  } = useContext(AppContext);
 
   useEffect(() => {
-    topArtists && setId(topArtists[2].id);
-  }, [topArtists]);
+    topArtists && !id && setId(topArtists?.[2]?.artist?.id);
+  }, [topArtists, id]);
+
+  useEffect(() => {
+    const savedArtists = followedArtists.map((artist) => {
+      return { artist: artist, follow: true };
+    });
+    setSavedArtists(savedArtists);
+  }, [followedArtists]);
 
   useEffect(() => {
     const setArtistShow = async () => {
@@ -75,21 +94,21 @@ const ArtistsPage = () => {
     id && getArtistTopTracks();
   }, [id, spotifyApi]);
 
+  const fetchArtistAlbums = useCallback(async () => {
+    const artistAlbums = await spotifyApi.getArtistAlbums(id);
+    const unique = artistAlbums.items.filter(
+      (thing, index, self) =>
+        index ===
+        self.findIndex((t) => t.place === thing.place && t.name === thing.name)
+    );
+    const sorted = unique.sort((a, b) => a.release_date > b.release_date);
+    const albumWithFollow = await checkIfAlbumsAreFollowed(sorted);
+    setArtistAlbums(albumWithFollow);
+  }, [savedAlbums, checkIfAlbumsAreFollowed, id, spotifyApi]);
+
   useEffect(() => {
-    const fetchArtistAlbums = async () => {
-      const artistAlbums = await spotifyApi.getArtistAlbums(id);
-      const unique = artistAlbums.items.filter(
-        (thing, index, self) =>
-          index ===
-          self.findIndex(
-            (t) => t.place === thing.place && t.name === thing.name
-          )
-      );
-      const sorted = unique.sort((a, b) => a.release_date > b.release_date);
-      setArtistAlbums(sorted);
-    };
     id && fetchArtistAlbums();
-  }, [spotifyApi, id]);
+  }, [id, fetchArtistAlbums]);
 
   const toggleCarouselFavorite = () => {
     setCarouselFav(true);
@@ -147,7 +166,7 @@ const ArtistsPage = () => {
             {carouselFoll && (
               <Suspense fallback={<CardLoader />}>
                 <CarouselArtists
-                  artists={followedArtists}
+                  artists={savedArtists}
                   artistSelected={artistSelected}
                   setId={setId}
                 />

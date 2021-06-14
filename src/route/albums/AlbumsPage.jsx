@@ -19,23 +19,23 @@ const CarouselAlbums = React.lazy(() =>
 ); // Lazy-loaded
 
 const AlbumsPage = () => {
-  const { spotifyApi, savedAlbums, topArtists } = useContext(AppContext);
+  const { spotifyApi, savedAlbums, recommendedAlbums, fetchArtistAlbums } =
+    useContext(AppContext);
   const [id, setId] = useState();
   const [albumSelected, setAlbumSelected] = useState();
   const [recomendedTrack, setRecomendedTrack] = useState([]);
-  const [recommendedAlbums, setRecommendedAlbums] = useState([]);
   const [error, setError] = useState(false);
   const [tracks, setTracks] = useState();
-  const [artistAlbums, setArtistAlbums] = useState();
   const [showAlbums, setShowAlbums] = useState(false);
   const [showTracks, setShowTracks] = useState(true);
   const [showRecommendedTracks, setShowRecommendedTracks] = useState(false);
   const [showRecommendedAlbums, setShowRecommendedAlbums] = useState(true);
   const [showSavedAlbums, setShowSavedAlbums] = useState(false);
+  const [artistAlbums, setArtistAlbums] = useState([]);
 
   useEffect(() => {
-    setId(recommendedAlbums?.[0]?.id);
-  }, [recommendedAlbums]);
+    recommendedAlbums && !id && setId(recommendedAlbums?.[0].album?.id);
+  }, [recommendedAlbums, id]);
 
   useEffect(() => {
     const setAlbumShow = async () => {
@@ -49,23 +49,15 @@ const AlbumsPage = () => {
     id && setAlbumShow();
   }, [id, spotifyApi]);
 
+  const getArtistAlbums = useCallback(async () => {
+    const artistAlbums =
+      albumSelected && (await fetchArtistAlbums(albumSelected));
+    setArtistAlbums(artistAlbums);
+  }, [fetchArtistAlbums, albumSelected]);
+
   useEffect(() => {
-    const fetchArtistAlbums = async () => {
-      const artistAlbums = await spotifyApi.getArtistAlbums(
-        albumSelected?.artists?.[0]?.id
-      );
-      const unique = artistAlbums.items.filter(
-        (thing, index, self) =>
-          index ===
-          self.findIndex(
-            (t) => t.place === thing.place && t.name === thing.name
-          )
-      );
-      const sorted = unique.sort((a, b) => a.release_date > b.release_date);
-      setArtistAlbums(sorted);
-    };
-    albumSelected && fetchArtistAlbums();
-  }, [albumSelected, spotifyApi]);
+    getArtistAlbums();
+  }, [getArtistAlbums]);
 
   useEffect(() => {
     const getTracks = async () => {
@@ -94,23 +86,6 @@ const AlbumsPage = () => {
     };
     albumSelected && getRecommendationsTracks();
   }, [spotifyApi, albumSelected]);
-
-  const getAlbumFromTopArtists = useCallback(() => {
-    Promise.all(
-      topArtists?.map((artist) =>
-        spotifyApi.getArtistAlbums(artist.id, {
-          limit: 1,
-        })
-      )
-    ).then((responses) => {
-      const albums = responses.map((res) => res.items[0]);
-      setRecommendedAlbums(albums);
-    });
-  }, [spotifyApi, topArtists]); //
-
-  useEffect(() => {
-    getAlbumFromTopArtists();
-  }, [getAlbumFromTopArtists]);
 
   const toggleShowTracks = () => {
     setShowAlbums(false);
@@ -153,7 +128,6 @@ const AlbumsPage = () => {
                 title={`Your Favourite Albums`}
               />
             </div>
-
             {showSavedAlbums && (
               <Suspense fallback={<CardLoader />}>
                 {savedAlbums ? (

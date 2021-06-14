@@ -11,14 +11,16 @@ const CarouselArtists = ({ artists, artistSelected, setId }) => {
           {artists?.map((item, i) => {
             return (
               <ArtistCard
-                key={item.name}
+                key={item.artist.name}
                 idSelectedArtist={artistSelected?.id}
-                url={item?.images?.[2]?.url || item?.images?.[1]?.url}
-                name={item.name}
-                id={item.id}
-                artist={item.artists?.[0].name}
+                url={
+                  item?.artist.images?.[2]?.url || item?.artist.images?.[1]?.url
+                }
+                name={item.artist.name}
+                id={item.artist.id}
                 selectArtistFn={setId}
                 height="185px"
+                followed={item.follow}
               />
             );
           })}

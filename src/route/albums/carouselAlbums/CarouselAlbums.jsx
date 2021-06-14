@@ -11,14 +11,17 @@ const CarouselAlbums = ({ albums, albumSelected, setId }) => {
           {albums.map((item, i) => {
             return (
               <AlbumCard
-                key={i}
+                key={item.album.id}
                 idSelectedAlbum={albumSelected?.id}
-                url={item?.images?.[1]?.url || item?.images?.[0]?.url}
-                name={item.name}
-                id={item.id}
-                artist={item.artists?.[0].name}
+                url={
+                  item?.album.images?.[1]?.url || item?.album.images?.[0]?.url
+                }
+                name={item.album.name}
+                id={item.album.id}
+                artist={item.album.artists?.[0].name}
                 selectAlbumFn={setId}
                 height="185px"
+                followed={item.follow}
               />
             );
           })}

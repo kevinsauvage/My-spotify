@@ -10,7 +10,6 @@ const CarouselPlaylist = React.lazy(() =>
 ); // Lazy-loaded
 
 const PlaylistsPage = () => {
-  const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
   const [id, setId] = useState();
   const [playlistSelected, setPlaylistSelected] = useState();
   const [error, setError] = useState(false);
@@ -18,20 +17,12 @@ const PlaylistsPage = () => {
   const [showFeaturedPlaylist, setShowFeaturedPlaylist] = useState(true);
   const [showUserPlaylits, setShowUserPlaylits] = useState(false);
 
-  const { spotifyApi, userPlaylists } = useContext(AppContext);
+  const { spotifyApi, userPlaylists, featuredPlaylists } =
+    useContext(AppContext);
 
   useEffect(() => {
-    const getFeaturedPlaylist = () => {
-      spotifyApi
-        .getFeaturedPlaylists({ limit: 20 })
-        .then((data) => {
-          setFeaturedPlaylists(data.playlists.items);
-          setId(data.playlists.items[0].id);
-        })
-        .catch((error) => console.log(error));
-    }; // Fetching featured playlist
-    getFeaturedPlaylist();
-  }, [spotifyApi]);
+    featuredPlaylists && setId(featuredPlaylists?.[0]?.id);
+  }, [featuredPlaylists]);
 
   useEffect(() => {
     const setPlaylistShow = async () => {

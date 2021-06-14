@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HiExternalLink } from "react-icons/hi";
 import { RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -14,11 +14,10 @@ const AlbumCard = ({
   height,
   width,
   name,
+  followed,
 }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
-  const [isFollowingAlbum, setIsFollowingAlbum] = useState();
-  const { unSaveAlbum, saveAlbum, fetchIsFollowingAlbum } =
-    useContext(AppContext);
+  const { unSaveAlbum, saveAlbum } = useContext(AppContext);
 
   useEffect(() => {
     if (window.innerWidth <= 548) {
@@ -28,32 +27,16 @@ const AlbumCard = ({
     }
   }, []);
 
-  const checkIfAlbumIsFollowed = useCallback(async () => {
-    const isFollowing = await fetchIsFollowingAlbum(id);
-    setIsFollowingAlbum(isFollowing);
-  }, [fetchIsFollowingAlbum, id]);
-
-  useEffect(() => {
-    id && checkIfAlbumIsFollowed();
-  }, [checkIfAlbumIsFollowed, id]);
-
-  const followAlbum = () => {
-    saveAlbum(id);
-    setTimeout(() => {
-      checkIfAlbumIsFollowed();
-    }, 500);
-  };
-
-  const unFollowAlbum = () => {
-    unSaveAlbum(id);
-    setTimeout(() => {
-      checkIfAlbumIsFollowed();
-    }, 500);
-  };
-
   return (
     <motion.div
       className="albumCard"
+      style={{
+        transform: idSelectedAlbum === id ? "translateY(-20px)" : null,
+        boxShadow:
+          idSelectedAlbum === id
+            ? "0px 50px 50px -6px rgba(195,184,255,0.2)"
+            : null,
+      }}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}>
       <div
@@ -61,25 +44,10 @@ const AlbumCard = ({
         className="albumCard__img"
         style={{
           backgroundImage: "url(" + url + ")",
-          transform: idSelectedAlbum === id ? "translateY(-20px)" : null,
-          boxShadow:
-            idSelectedAlbum === id
-              ? "0px 50px 50px -6px rgba(195,184,255,0.2)"
-              : null,
           height: height,
           width: width,
           cursor: selectAlbumFn ? "pointer" : "default",
-        }}>
-        {isFollowingAlbum ? (
-          <div onClick={unFollowAlbum} className="albumCard__unfollow">
-            <RiUserUnfollowLine />
-          </div>
-        ) : (
-          <div onClick={followAlbum} className="albumCard__follow">
-            <RiUserFollowLine />
-          </div>
-        )}
-      </div>
+        }}></div>
       <div className="albumCard__detail">
         <Link
           to={{
@@ -97,6 +65,15 @@ const AlbumCard = ({
           <HiExternalLink color="white" />
         </Link>
       </div>
+      {followed ? (
+        <div onClick={() => unSaveAlbum(id)} className="albumCard__unfollow">
+          <RiUserUnfollowLine />
+        </div>
+      ) : (
+        <div onClick={() => saveAlbum(id)} className="albumCard__follow">
+          <RiUserFollowLine />
+        </div>
+      )}
     </motion.div>
   );
 };

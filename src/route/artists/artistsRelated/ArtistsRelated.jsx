@@ -7,7 +7,7 @@ import "./ArtistsRelated.scss";
 const ArtistsRelated = ({ id, setError, artistSelected }) => {
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
 
-  const { spotifyApi } = useContext(AppContext);
+  const { spotifyApi, checkIfArtistsAreFollowed } = useContext(AppContext);
 
   useEffect(() => {
     const getArtistRelatedArtists = async () => {
@@ -16,13 +16,17 @@ const ArtistsRelated = ({ id, setError, artistSelected }) => {
         const sortedArtists = relatedArtists.artists.sort((a, b) => {
           return b.popularity - a.popularity;
         });
-        setRelatedArtists(sortedArtists);
+        const ArtistsWithFollow = await checkIfArtistsAreFollowed(
+          sortedArtists
+        );
+        setRelatedArtists(ArtistsWithFollow);
       } catch (error) {
+        console.log(error);
         setError(true);
       }
     };
     id && getArtistRelatedArtists();
-  }, [spotifyApi, id, setError]); // Get the artists related to artist
+  }, [spotifyApi, id, setError, checkIfArtistsAreFollowed]); // Get the artists related to artist
 
   return (
     <div className="artistRelated">
@@ -37,14 +41,15 @@ const ArtistsRelated = ({ id, setError, artistSelected }) => {
             <div key={i} className="artistRelated__card">
               <ArtistCard
                 url={
-                  artist?.images?.[2]?.url ||
-                  artist?.images?.[1]?.url ||
-                  artist?.images?.[0]?.url
+                  artist?.artist.images?.[2]?.url ||
+                  artist?.artist.images?.[1]?.url ||
+                  artist?.artist.images?.[0]?.url
                 }
-                name={artist.name}
-                id={artist.id}
+                name={artist.artist.name}
+                id={artist.artist.id}
                 height="100px"
                 width="100px"
+                followed={artist.follow}
               />
             </div>
           );

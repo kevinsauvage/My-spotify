@@ -5,11 +5,10 @@ const HomeLogic = () => {
   const [topTracks, setTopTracks] = useState([]); // user top tracks
   const [savedAlbums, setSavedAlbums] = useState([]); // user saved albums
   const [newReleases, setNewReleases] = useState();
-  const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
   const [dataFetch, setDataFetch] = useState([]);
   const [error, setError] = useState(false);
 
-  const { spotifyApi, topArtists } = useContext(AppContext);
+  const { spotifyApi, topArtists, featuredPlaylists } = useContext(AppContext);
 
   useEffect(() => {
     const getTopTracks = async () => {
@@ -35,15 +34,6 @@ const HomeLogic = () => {
       setNewReleases(response.albums.items);
     };
     getNewReleases();
-  }, [spotifyApi]);
-
-  useEffect(() => {
-    const getFeaturedPlaylist = () => {
-      spotifyApi.getFeaturedPlaylists({ limit: 20 }).then((data) => {
-        setFeaturedPlaylists(data.playlists.items);
-      });
-    }; // Fetching featured playlist
-    getFeaturedPlaylist();
   }, [spotifyApi]);
 
   /*   useEffect(() => {
@@ -84,12 +74,12 @@ const HomeLogic = () => {
       title: "Your Top Tracks",
       link: "/track",
     },
-    {
+    /*     {
       id: 3,
       items: topArtists,
       title: "Your Top Artists",
       link: "/Artists",
-    },
+    }, */
     {
       id: 4,
       items: savedAlbums,
