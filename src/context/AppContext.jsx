@@ -196,7 +196,6 @@ export const AppProvider = (props) => {
   }, [getLikedTracks]);
 
   const checkIfTrackIsSaved = async (tracks) => {
-    console.log(tracks);
     const ids = tracks.map((track) => track?.id);
     const response = await spotifyApi.containsMySavedTracks([ids]);
     return tracks.map((track, i) => {

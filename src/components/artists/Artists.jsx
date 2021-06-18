@@ -13,9 +13,9 @@ const Artists = ({ data }) => {
           return (
             <BibliothequeItem
               key={i}
-              artist={item.artist.name}
-              popularity={item.artist.popularity}
-              artistId={item.artist.id}
+              artist={item.item.name}
+              popularity={item.item.popularity}
+              artistId={item.item.id}
               followed={item.follow}
             />
           );

@@ -8,6 +8,7 @@
   text-align: center;
   padding: 2rem;
   background-color: #0b0d17;
+  padding-top: 6rem;
 
   @include respond(mobile) {
     padding: 0;

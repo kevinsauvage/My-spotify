@@ -35,9 +35,10 @@ const TrackCard = ({
         width: width,
         transform: selected === id ? "translateY(-20px)" : null,
         boxShadow:
-          selected === id ? "0px 50px 50px -6px rgba(195,184,255,0.2)" : null,
+          selected === id ? "0px 30px 30px -10px rgba(195,184,255,0.2)" : null,
       }}
       className="card"
+      whileHover={{ scale: 1.2 }}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}>
       <div

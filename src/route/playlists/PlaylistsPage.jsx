@@ -111,7 +111,6 @@ const PlaylistsPage = () => {
                 <Tracks data={playlistTracks} />
               </div>
             </div>
-            {<div className="playlistsPage__relatedArtists"></div>}
           </section>
         </>
       ) : (

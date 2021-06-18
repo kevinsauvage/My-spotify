@@ -12,7 +12,6 @@
 
   &__img {
     height: 200px;
-    width: 200px;
     background-size: cover;
     background-position: center;
     border-radius: 5px;
@@ -34,6 +33,7 @@
     color: white;
     height: fit-content;
     width: 100%;
+    justify-content: center;
 
     a {
       display: flex;
@@ -48,6 +48,7 @@
 
   &__name {
     color: white;
+    text-align: center;
     margin-right: 5px;
     @include openSans(600, 13px);
 

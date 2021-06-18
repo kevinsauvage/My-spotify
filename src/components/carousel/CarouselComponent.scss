@@ -18,6 +18,7 @@
     &:hover {
       z-index: 5000;
       transform: translateX(0);
+
     }
 
     &:hover~.react-multi-carousel-item {
@@ -28,6 +29,7 @@
   .react-multi-carousel-item {
     &:hover {
       transform: translateY(-20px);
+
     }
   }
 }
