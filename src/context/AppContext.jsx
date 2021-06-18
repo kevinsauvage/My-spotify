@@ -148,7 +148,7 @@ export const AppProvider = (props) => {
       setNewReleasesAlbums(albumWithFollow);
     };
     getNewReleases();
-  }, []);
+  }, [checkIfAlbumsAreFollowed]);
 
   useEffect(() => {
     getAlbumFromTopArtists();

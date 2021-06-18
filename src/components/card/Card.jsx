@@ -66,15 +66,17 @@ const TrackCard = ({
         </Link>
       </div>
       {artistName && <p className="card__artistName">{artistName}</p>}
-      {followed ? (
-        <div onClick={() => unSave(id)} className="card__save">
-          <RiUserUnfollowLine size={15} />
-        </div>
-      ) : (
-        <div onClick={() => save(id)} className="card__unSave">
-          <RiUserFollowLine size={15} />
-        </div>
-      )}
+
+      {link !== "Playlists" &&
+        (followed ? (
+          <div onClick={() => unSave(id)} className="card__save">
+            <RiUserUnfollowLine size={15} />
+          </div>
+        ) : (
+          <div onClick={() => save(id)} className="card__unSave">
+            <RiUserFollowLine size={15} />
+          </div>
+        ))}
     </motion.div>
   );
 };
