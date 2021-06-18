@@ -5,8 +5,15 @@ import { AppContext } from "../../../context/AppContext";
 const ArtistShowLogic = () => {
   const location = useLocation();
   const { id } = location.state;
-  const { spotifyApi, setUri, setFollowedArtists, followedArtists } =
-    useContext(AppContext);
+  const {
+    spotifyApi,
+    setUri,
+    setFollowedArtists,
+    checkIfAlbumsAreFollowed,
+    checkIfTrackIsSaved,
+    savedAlbums,
+    checkIfArtistsAreFollowed,
+  } = useContext(AppContext);
 
   const [artistAlbums, setArtistAlbums] = useState();
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
@@ -41,10 +48,11 @@ const ArtistShowLogic = () => {
           )
       );
       const sorted = unique.sort((a, b) => a.release_date > b.release_date);
-      setArtistAlbums(sorted);
+      const albumsWithFollow = await checkIfAlbumsAreFollowed(sorted);
+      setArtistAlbums(albumsWithFollow);
     };
     fetchArtistAlbums();
-  }, [id, spotifyApi]);
+  }, [id, spotifyApi, checkIfAlbumsAreFollowed, savedAlbums]);
 
   useEffect(() => {
     const getRecommendedTrackFromArtist = async () => {
@@ -52,10 +60,11 @@ const ArtistShowLogic = () => {
         seed_artists: id,
         limit: 50,
       });
-      setRecomendedTracks(tracks.tracks);
+      const tracksWithFollow = await checkIfTrackIsSaved(tracks.tracks);
+      setRecomendedTracks(tracksWithFollow);
     };
     getRecommendedTrackFromArtist();
-  }, [id, spotifyApi]); // get Recommendation tracks for a artist
+  }, [id, spotifyApi, checkIfTrackIsSaved]); // get Recommendation tracks for a artist
 
   useEffect(() => {
     const getArtistRelatedArtists = async () => {
@@ -63,18 +72,23 @@ const ArtistShowLogic = () => {
       const sortedArtists = relatedArtists.artists.sort((a, b) => {
         return b.popularity - a.popularity;
       });
-      setRelatedArtists(sortedArtists);
+      const sortedArtistsWithFollow = await checkIfArtistsAreFollowed(
+        sortedArtists
+      );
+      setRelatedArtists(sortedArtistsWithFollow);
     };
     getArtistRelatedArtists();
-  }, [spotifyApi, id]); // Get the artists related to artis in artist show page
+  }, [spotifyApi, id, checkIfArtistsAreFollowed]); // Get the artists related to artis in artist show page
 
   useEffect(() => {
     const getArtistTopTracks = async () => {
       const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", 100);
-      setArtistTopTracks(topTracks.tracks);
+      const tracksWithFollow = await checkIfTrackIsSaved(topTracks.tracks);
+
+      setArtistTopTracks(tracksWithFollow);
     };
     getArtistTopTracks();
-  }, [spotifyApi, id]); // get artist top tracks
+  }, [spotifyApi, id, checkIfTrackIsSaved]); // get artist top tracks
 
   useEffect(() => {
     const isFollowingArtist = async () => {

@@ -3,10 +3,9 @@ import { AppContext } from "../../context/AppContext";
 
 const BibliothequeItemLogic = (ref1, ref2, trackId) => {
   const [displayPlaylistModal, setDisplayPlaylistModal] = useState(false);
-  const { spotifyApi, setUri, saveAlbum, unSaveAlbum, checkIfTrackIsSaved } =
+  const { spotifyApi, setUri, saveAlbum, unSaveAlbum, saveTrack, unSaveTrack } =
     useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
-  const [trackIsSaved, setTrackIsSaved] = useState();
 
   const handleClickOutside = useCallback(
     (event) => {
@@ -27,28 +26,7 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
   }, [handleClickOutside]);
 
   // Handling save and unsave track and check if track is liked === START
-  const trackiSaved = useCallback(async () => {
-    const response = await checkIfTrackIsSaved(trackId);
-    setTrackIsSaved(response);
-  }, [checkIfTrackIsSaved, trackId]); // fetch is the track is liked by user => return a bolean
 
-  useEffect(() => {
-    trackId && trackiSaved();
-  }, [trackId, trackiSaved]);
-
-  const unSaveTrack = () => {
-    spotifyApi.removeFromMySavedTracks([trackId]);
-    setTimeout(() => {
-      trackiSaved();
-    }, 500);
-  }; // unsave track and update the view
-
-  const saveTrack = () => {
-    spotifyApi.addToMySavedTracks([trackId]);
-    setTimeout(() => {
-      trackiSaved();
-    }, 500);
-  }; // Save track and update the view
   // Handling save and unsave track and check if track is liked === END
 
   // Handling save and unsave album and check if album is linked === START
@@ -96,7 +74,6 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     addToQueu,
     getRecommendationsTrack,
     showMenu,
-    trackIsSaved,
     unSaveTrack,
     saveTrack,
     saveAlbum,

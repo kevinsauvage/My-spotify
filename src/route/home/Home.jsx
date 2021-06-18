@@ -1,47 +1,85 @@
 import "./Home.scss";
-import CarouselContainer from "../../components/carouselContainer/CarouselContainer";
 import CardLoader from "../../components/cardLoader/CardLoader";
-import WentWrong from "../../components/wentWrong/WentWrong";
-import HomeLogic from "./HomeLogic";
+import { lazy, Suspense, useContext } from "react";
+import { AppContext } from "../../context/AppContext";
+import SectionTitle from "../../components/sectionTtitle/SectionTitle";
+
+const CarouselComponent = lazy(() =>
+  import("../../components/carousel/CarouselComponent")
+); // Lazy-loaded
 
 const Home = () => {
   const {
-    array,
-    dataConfig,
-    dataFetch,
-    error,
-    savedAlbums,
     topArtists,
+    featuredPlaylists,
+    followArtist,
+    unfollowArtist,
     topTracks,
-    newReleases,
-  } = HomeLogic();
+    saveTrack,
+    unSaveTrack,
+    newReleasesAlbums,
+    saveAlbum,
+    unSaveAlbum,
+    recommendedAlbums,
+    followedArtists,
+    userPlaylists,
+  } = useContext(AppContext);
 
   return (
     <div className="home">
-      {error && <WentWrong title="Oups... Something went wrong!" btn />}
-      {savedAlbums && topArtists && topTracks && newReleases
-        ? dataConfig.map((data) => {
-            return (
-              <div className="space" key={data.id}>
-                <CarouselContainer data={data} />
-              </div>
-            );
-          })
-        : array.map((e) => {
-            return <CardLoader key={e} />;
-          })}
-
-      {dataFetch
-        ? dataFetch.map((data) => {
-            return (
-              <div className="space" key={data.id}>
-                <CarouselContainer data={data} />
-              </div>
-            );
-          })
-        : array.map((e) => {
-            return <CardLoader key={e} />;
-          })}
+      <Suspense fallback={<CardLoader />}>
+        <SectionTitle title="Your Top Artists" padding="1rem 0" />
+        <CarouselComponent
+          data={topArtists}
+          save={followArtist}
+          unSave={unfollowArtist}
+          link="Artists"
+        />
+      </Suspense>
+      <Suspense fallback={<CardLoader />}>
+        <SectionTitle title="Your Followed Artists" padding="1rem 0" />
+        <CarouselComponent
+          data={followedArtists}
+          save={followArtist}
+          unSave={unfollowArtist}
+          link="Artists"
+        />
+      </Suspense>
+      <Suspense fallback={<CardLoader />}>
+        <SectionTitle title="Your Top Tracks" padding="1rem 0" />
+        <CarouselComponent
+          data={topTracks}
+          save={saveTrack}
+          unSave={unSaveTrack}
+          link="Tracks"
+        />
+      </Suspense>
+      <Suspense fallback={<CardLoader />}>
+        <SectionTitle title="New Release Albums" padding="1rem 0" />
+        <CarouselComponent
+          data={newReleasesAlbums}
+          save={saveAlbum}
+          unSave={unSaveAlbum}
+          link="Albums"
+        />
+      </Suspense>
+      <Suspense fallback={<CardLoader />}>
+        <SectionTitle title="Recommended Albums" padding="1rem 0" />
+        <CarouselComponent
+          data={recommendedAlbums}
+          save={saveAlbum}
+          unSave={unSaveAlbum}
+          link="Albums"
+        />
+      </Suspense>
+      <Suspense fallback={<CardLoader />}>
+        <SectionTitle title="Featured Playlists" padding="1rem 0" />
+        <CarouselComponent data={featuredPlaylists} link="Playlists" />
+      </Suspense>
+      <Suspense fallback={<CardLoader />}>
+        <SectionTitle title="Your Playlists" padding="1rem 0" />
+        <CarouselComponent data={userPlaylists} link="Playlists" />
+      </Suspense>
     </div>
   );
 };

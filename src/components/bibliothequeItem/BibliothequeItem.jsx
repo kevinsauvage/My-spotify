@@ -31,6 +31,7 @@ const BibliothequeItem = ({
   year,
   play,
   followedAlbum,
+  followed,
 }) => {
   const menu = useRef();
   const iconMenu = useRef();
@@ -44,7 +45,6 @@ const BibliothequeItem = ({
     showMenu,
     getRecommendationsTrack,
     addToQueu,
-    trackIsSaved,
     unSaveTrack,
     saveTrack,
     unSaveAlbum,
@@ -59,10 +59,10 @@ const BibliothequeItem = ({
       className={"bibliotheque-item"}>
       {trackId && (
         <div className="bibliotheque-item__iconHeart">
-          {trackIsSaved ? (
-            <RiHeartFill onClick={unSaveTrack} size={20} />
+          {followed ? (
+            <RiHeartFill onClick={() => unSaveTrack(trackId)} size={20} />
           ) : (
-            <RiHeartLine onClick={saveTrack} size={20} />
+            <RiHeartLine onClick={() => saveTrack(trackId)} size={20} />
           )}
         </div>
       )}

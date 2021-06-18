@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { AppContext } from "../../context/AppContext";
+import { AppContext } from "../../../context/AppContext";
 
 const TrackShowLogic = () => {
   const location = useLocation();
@@ -8,7 +8,7 @@ const TrackShowLogic = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
   const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
   const [error, setError] = useState(false);
-  const { spotifyApi, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri, checkIfTrackIsSaved } = useContext(AppContext);
 
   useEffect(() => {
     const setTrackShow = async (e) => {
@@ -28,10 +28,11 @@ const TrackShowLogic = () => {
         seed_tracks: id,
         limit: 50,
       });
-      setRecomendedTracks(tracks.tracks);
+      const trackWithFollow = await checkIfTrackIsSaved(tracks.tracks);
+      setRecomendedTracks(trackWithFollow);
     };
     getRecommendationsTrack();
-  }, [spotifyApi, id]);
+  }, [spotifyApi, id, checkIfTrackIsSaved]);
 
   const handlePlay = () => {
     const uris = recomendedTracks.map((track) => track.uri);

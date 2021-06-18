@@ -17,6 +17,8 @@ export const AppProvider = (props) => {
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
   const [user, setUser] = useState();
   const [recommendedAlbums, setRecommendedAlbums] = useState(null);
+  const [topTracks, setTopTracks] = useState([]); // user top tracks
+  const [newReleasesAlbums, setNewReleasesAlbums] = useState();
 
   // Getting token from hash ==============================================================
   window.location.hash !== "" &&
@@ -30,8 +32,15 @@ export const AppProvider = (props) => {
   // Handle fetch Artists === Start =========================================================
   // Handle fetch Artists === Start =========================================================
   const settingFollowedArtists = useCallback(async () => {
-    const response = await spotifyApi.getFollowedArtists({ limit: 50 });
-    setFollowedArtists(response.artists.items);
+    try {
+      const response = await spotifyApi.getFollowedArtists({ limit: 50 });
+      const artists = response.artists.items.map((artist) => {
+        return { item: artist, follow: true };
+      });
+      setFollowedArtists(artists);
+    } catch (error) {
+      console.log(error);
+    }
   }, []); // Fetch followed artist from user
 
   useEffect(() => {
@@ -46,7 +55,11 @@ export const AppProvider = (props) => {
   };
 
   const unfollowArtist = (id) => {
-    spotifyApi.unfollowArtists([id]);
+    try {
+      spotifyApi.unfollowArtists([id]);
+    } catch (error) {
+      console.log(error);
+    }
     setTimeout(() => {
       settingFollowedArtists();
     }, 500);
@@ -56,7 +69,7 @@ export const AppProvider = (props) => {
     const ids = artists.map((artist) => artist.id);
     const isFollowing = await spotifyApi.isFollowingArtists([ids]);
     return artists.map((artist, i) => {
-      return { artist: artist, follow: isFollowing[i] };
+      return { item: artist, follow: isFollowing[i] };
     });
   };
 
@@ -83,7 +96,7 @@ export const AppProvider = (props) => {
     const ids = albums.map((album) => album.id);
     const isFollowing = await spotifyApi.containsMySavedAlbums([ids]);
     return albums.map((album, i) => {
-      return { album: album, follow: isFollowing[i] };
+      return { item: album, follow: isFollowing[i] };
     });
   }, []);
 
@@ -96,7 +109,6 @@ export const AppProvider = (props) => {
       });
       const albumsWithFollow = await checkIfAlbumsAreFollowed(onlyAlbums);
       setSavedAlbums(albumsWithFollow);
-      console.log(albumsWithFollow);
     } catch (error) {
       console.log(error);
     }
@@ -105,7 +117,7 @@ export const AppProvider = (props) => {
   const getAlbumFromTopArtists = useCallback(() => {
     Promise.all(
       topArtists?.map((artist) =>
-        spotifyApi.getArtistAlbums(artist.artist.id, {
+        spotifyApi.getArtistAlbums(artist.item.id, {
           limit: 1,
         })
       )
@@ -116,10 +128,8 @@ export const AppProvider = (props) => {
     });
   }, [topArtists, checkIfAlbumsAreFollowed]);
 
-  const fetchArtistAlbums = async (albumSelected) => {
-    const artistAlbums = await spotifyApi.getArtistAlbums(
-      albumSelected?.artists?.[0]?.id
-    );
+  const fetchArtistAlbums = async (id) => {
+    const artistAlbums = await spotifyApi.getArtistAlbums(id);
     const unique = artistAlbums.items.filter(
       (thing, index, self) =>
         index ===
@@ -129,6 +139,16 @@ export const AppProvider = (props) => {
     const albumsWithFollow = await checkIfAlbumsAreFollowed(sorted);
     return albumsWithFollow;
   };
+  useEffect(() => {
+    const getNewReleases = async () => {
+      const response = await spotifyApi.getNewReleases({ limit: 50 });
+      const albumWithFollow = await checkIfAlbumsAreFollowed(
+        response.albums.items
+      );
+      setNewReleasesAlbums(albumWithFollow);
+    };
+    getNewReleases();
+  }, []);
 
   useEffect(() => {
     getAlbumFromTopArtists();
@@ -158,25 +178,54 @@ export const AppProvider = (props) => {
 
   // Handling fetch saved tracks and save and unsave tracks === START =====================
   // Handling fetch saved tracks and save and unsave tracks === START =====================
-  useEffect(() => {
-    const getLikedTracks = async () => {
-      try {
-        const response = await spotifyApi.getMySavedTracks({
-          limit: 50,
-        });
-        const tracks = response.items.map((item) => item.track);
-        setSavedTracks(tracks);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getLikedTracks();
+  const getLikedTracks = useCallback(async () => {
+    try {
+      const response = await spotifyApi.getMySavedTracks({
+        limit: 50,
+      });
+      const tracks = response.items.map((item) => item.track);
+      const tracksWithFollow = await checkIfTrackIsSaved(tracks);
+      setSavedTracks(tracksWithFollow);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
-  const checkIfTrackIsSaved = useCallback(async (id) => {
-    const response = await spotifyApi.containsMySavedTracks([id]);
-    return response[0];
-  }, []);
+  useEffect(() => {
+    getLikedTracks();
+  }, [getLikedTracks]);
+
+  const checkIfTrackIsSaved = async (tracks) => {
+    console.log(tracks);
+    const ids = tracks.map((track) => track?.id);
+    const response = await spotifyApi.containsMySavedTracks([ids]);
+    return tracks.map((track, i) => {
+      return { item: track, follow: response[i] };
+    });
+  };
+
+  const unSaveTrack = (id) => {
+    spotifyApi.removeFromMySavedTracks([id]);
+    setTimeout(() => {
+      getLikedTracks();
+    }, 500);
+  }; // unsave track and update the view
+
+  const saveTrack = (id) => {
+    spotifyApi.addToMySavedTracks([id]);
+    setTimeout(() => {
+      getLikedTracks();
+    }, 500);
+  }; // Save track and update the view
+
+  useEffect(() => {
+    const getTopTracks = async () => {
+      const response = await spotifyApi.getMyTopTracks({ limit: 50 });
+      const trackWithFollow = await checkIfTrackIsSaved(response.items);
+      setTopTracks(trackWithFollow);
+    };
+    getTopTracks();
+  }, [setTopTracks]);
   // Handling fetch saved tracks and save and unsave tracks === END ==========================
   // Handling fetch saved tracks and save and unsave tracks === END ==========================
 
@@ -192,7 +241,10 @@ export const AppProvider = (props) => {
   };
   const getUserPlaylists = useCallback(async () => {
     const response = await spotifyApi.getUserPlaylists({ limit: 50 });
-    setUserPlaylists(response.items);
+    const playlists = response.items.map((item) => {
+      return { item: item };
+    });
+    setUserPlaylists(playlists);
   }, []);
 
   useEffect(() => {
@@ -204,18 +256,23 @@ export const AppProvider = (props) => {
       spotifyApi
         .getFeaturedPlaylists({ limit: 20 })
         .then((data) => {
-          setFeaturedPlaylists(data.playlists.items);
+          const playlists = data.playlists.items.map((item) => {
+            return { item: item };
+          });
+          setFeaturedPlaylists(playlists);
         })
         .catch((error) => console.log(error));
     }; // Fetching featured playlist
     getFeaturedPlaylist();
   }, []);
+
   // Handling fetch playlist and save and unsave playlist === END ==========================
   // Handling fetch playlist and save and unsave playlist === END ==========================
 
   return (
     <Provider
       value={{
+        topTracks,
         fetchArtistAlbums,
         checkIfArtistsAreFollowed,
         recommendedAlbums,
@@ -225,6 +282,8 @@ export const AppProvider = (props) => {
         checkIfTrackIsSaved,
         checkIfAlbumsAreFollowed,
         user,
+        unSaveTrack,
+        saveTrack,
         saveAlbum,
         unSaveAlbum,
         savedTracks,
@@ -242,6 +301,7 @@ export const AppProvider = (props) => {
         unfollowArtist,
         topArtists,
         savedAlbums,
+        newReleasesAlbums,
       }}>
       {props.children}
     </Provider>

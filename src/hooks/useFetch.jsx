@@ -18,7 +18,6 @@ const useFetch = (url) => {
           signal: controller.signal,
         });
         setData(data);
-        console.log(data);
         setIsLoading(false);
         controller = null;
       } catch (error) {

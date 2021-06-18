@@ -1,12 +1,13 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { lazy, Suspense, useContext, useEffect, useState } from "react";
 import CardLoader from "../../components/cardLoader/CardLoader";
 import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 import WentWrong from "../../components/wentWrong/WentWrong";
 import { AppContext } from "../../context/AppContext";
 import "./PlaylistsPage.scss";
 import Tracks from "../../components/tracks/Tracks";
-const CarouselPlaylist = React.lazy(() =>
-  import("./carouselPlaylist/CarouselPlaylist")
+
+const CarouselComponent = lazy(() =>
+  import("../../components/carousel/CarouselComponent")
 ); // Lazy-loaded
 
 const PlaylistsPage = () => {
@@ -17,11 +18,11 @@ const PlaylistsPage = () => {
   const [showFeaturedPlaylist, setShowFeaturedPlaylist] = useState(true);
   const [showUserPlaylits, setShowUserPlaylits] = useState(false);
 
-  const { spotifyApi, userPlaylists, featuredPlaylists } =
+  const { spotifyApi, userPlaylists, featuredPlaylists, checkIfTrackIsSaved } =
     useContext(AppContext);
 
   useEffect(() => {
-    featuredPlaylists && setId(featuredPlaylists?.[0]?.id);
+    featuredPlaylists && setId(featuredPlaylists?.[0]?.item?.id);
   }, [featuredPlaylists]);
 
   useEffect(() => {
@@ -39,16 +40,20 @@ const PlaylistsPage = () => {
   useEffect(() => {
     const getPlaylistTracks = async () => {
       try {
-        const playlistTracks = await spotifyApi.getPlaylistTracks(id);
-        const track = playlistTracks.items.map((item) => item.track);
-        setPlaylistTracks(track);
+        const playlistTracks = await spotifyApi.getPlaylistTracks(id, {
+          limit: 50,
+        });
+        console.log(playlistTracks);
+        const tracks = playlistTracks.items.map((item) => item.track);
+        const trackWithFollow = await checkIfTrackIsSaved(tracks);
+        setPlaylistTracks(trackWithFollow);
       } catch (error) {
-        setError(error);
         console.log(error);
+        setError(error);
       }
     };
     id && getPlaylistTracks();
-  }, [id, spotifyApi]);
+  }, [id, spotifyApi, checkIfTrackIsSaved]);
 
   const toggleFeaturedPlaylists = () => {
     setShowFeaturedPlaylist(true);
@@ -78,19 +83,21 @@ const PlaylistsPage = () => {
             </div>
             {showFeaturedPlaylist && (
               <Suspense fallback={<CardLoader />}>
-                <CarouselPlaylist
+                <CarouselComponent
                   data={featuredPlaylists}
+                  selected={playlistSelected?.id}
                   setId={setId}
-                  playlistSelected={playlistSelected}
+                  link="Playlists"
                 />
               </Suspense>
             )}
             {showUserPlaylits && (
               <Suspense fallback={<CardLoader />}>
-                <CarouselPlaylist
+                <CarouselComponent
                   data={userPlaylists}
+                  selected={playlistSelected?.id}
                   setId={setId}
-                  playlistSelected={playlistSelected}
+                  link="Playlists"
                 />
               </Suspense>
             )}

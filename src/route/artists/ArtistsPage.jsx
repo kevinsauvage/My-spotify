@@ -4,18 +4,19 @@ import React, {
   useContext,
   useEffect,
   useState,
+  lazy,
 } from "react";
 import { AppContext } from "../../context/AppContext";
 import "./ArtistsPage.scss";
 import Tracks from "../../components/tracks/Tracks";
-import ArtistsRelated from "./artistsRelated/ArtistsRelated";
+import ArtistsRelated from "../../components/artistsRelated/ArtistsRelated";
 import WentWrong from "../../components/wentWrong/WentWrong";
 import CardLoader from "../../components/cardLoader/CardLoader";
 import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 import Albums from "../../components/albums/Albums";
 
-const CarouselArtists = React.lazy(() =>
-  import("./carouselArtists/CarouselArtists")
+const CarouselComponent = lazy(() =>
+  import("../../components/carousel/CarouselComponent")
 ); // Lazy-loaded
 
 const ArtistsPage = () => {
@@ -30,25 +31,21 @@ const ArtistsPage = () => {
   const [error, setError] = useState(false);
   const [artistAlbums, setArtistAlbums] = useState([]);
   const [showArtistAlbums, setShowArtistAlbums] = useState(false);
-  const [savedArtists, setSavedArtists] = useState([]);
   const {
     spotifyApi,
     followedArtists,
     topArtists,
     checkIfAlbumsAreFollowed,
     savedAlbums,
+    checkIfTrackIsSaved,
+    savedTracks,
+    followArtist,
+    unfollowArtist,
   } = useContext(AppContext);
 
   useEffect(() => {
-    topArtists && !id && setId(topArtists?.[2]?.artist?.id);
+    topArtists && !id && setId(topArtists?.[2]?.item?.id);
   }, [topArtists, id]);
-
-  useEffect(() => {
-    const savedArtists = followedArtists.map((artist) => {
-      return { artist: artist, follow: true };
-    });
-    setSavedArtists(savedArtists);
-  }, [followedArtists]);
 
   useEffect(() => {
     const setArtistShow = async () => {
@@ -70,14 +67,15 @@ const ArtistsPage = () => {
           seed_artists: id,
           limit: 10,
         });
-        setRecomendedTracks(tracks);
+        const tracksWithFollow = await checkIfTrackIsSaved(tracks.tracks);
+        setRecomendedTracks(tracksWithFollow);
       } catch (error) {
         setError(true);
         console.log(error);
       }
     };
     id && getRecommendationsTracks();
-  }, [spotifyApi, id]);
+  }, [spotifyApi, id, checkIfTrackIsSaved, savedTracks]);
 
   useEffect(() => {
     const getArtistTopTracks = async () => {
@@ -85,14 +83,15 @@ const ArtistsPage = () => {
         const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", {
           limit: 20,
         });
-        setArtistTopTracks({ tracks: topTracks.tracks, id: id });
+        const tracksWithFollow = await checkIfTrackIsSaved(topTracks.tracks);
+        setArtistTopTracks(tracksWithFollow);
       } catch (error) {
         setError(true);
         console.log(error);
       }
     };
     id && getArtistTopTracks();
-  }, [id, spotifyApi]);
+  }, [id, spotifyApi, checkIfTrackIsSaved, savedTracks]);
 
   const fetchArtistAlbums = useCallback(async () => {
     const artistAlbums = await spotifyApi.getArtistAlbums(id);
@@ -156,19 +155,25 @@ const ArtistsPage = () => {
             </div>
             {carouselFav && (
               <Suspense fallback={<CardLoader />}>
-                <CarouselArtists
-                  artists={topArtists}
-                  artistSelected={artistSelected}
+                <CarouselComponent
+                  data={topArtists}
+                  selected={artistSelected?.id}
                   setId={setId}
+                  save={followArtist}
+                  unSave={unfollowArtist}
+                  link="Artists"
                 />
               </Suspense>
             )}
             {carouselFoll && (
               <Suspense fallback={<CardLoader />}>
-                <CarouselArtists
-                  artists={savedArtists}
-                  artistSelected={artistSelected}
+                <CarouselComponent
+                  data={followedArtists}
+                  selected={artistSelected?.id}
                   setId={setId}
+                  save={followArtist}
+                  unSave={unfollowArtist}
+                  link="Artists"
                 />
               </Suspense>
             )}
@@ -193,8 +198,8 @@ const ArtistsPage = () => {
                 />
               </div>
               <div className="artistsPage__tracks">
-                {showRecomended && <Tracks data={recomendedTracks?.tracks} />}
-                {showTopTracks && <Tracks data={artistTopTracks?.tracks} />}
+                {showRecomended && <Tracks data={recomendedTracks} />}
+                {showTopTracks && <Tracks data={artistTopTracks} />}
                 {showArtistAlbums && <Albums data={artistAlbums} />}
               </div>
             </div>

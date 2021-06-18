@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../../context/AppContext";
-import ArtistCard from "../artistCard/ArtistCard";
-import ClickableTitle from "../../../components/clickableTitle/ClickableTitle";
+import Card from "../card/Card";
+import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 import "./ArtistsRelated.scss";
+import { AppContext } from "../../context/AppContext";
 
 const ArtistsRelated = ({ id, setError, artistSelected }) => {
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
@@ -39,14 +39,14 @@ const ArtistsRelated = ({ id, setError, artistSelected }) => {
         {relatedArtists?.map((artist, i) => {
           return (
             <div key={i} className="artistRelated__card">
-              <ArtistCard
+              <Card
                 url={
-                  artist?.artist.images?.[2]?.url ||
-                  artist?.artist.images?.[1]?.url ||
-                  artist?.artist.images?.[0]?.url
+                  artist?.item.images?.[2]?.url ||
+                  artist?.item.images?.[1]?.url ||
+                  artist?.item.images?.[0]?.url
                 }
-                name={artist.artist.name}
-                id={artist.artist.id}
+                name={artist.item.name}
+                id={artist.item.id}
                 height="100px"
                 width="100px"
                 followed={artist.follow}

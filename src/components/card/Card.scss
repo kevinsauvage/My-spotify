@@ -4,17 +4,20 @@
 .card {
   cursor: pointer;
   border-radius: 4px;
+  margin-right: 0.5rem;
 
   @include respond(mobileS) {
     height: 173px;
   }
 
   &__img {
-    width: 150px;
-    height: 150px;
+    height: 200px;
+    width: 200px;
     background-size: cover;
     background-position: center;
     border-radius: 5px;
+    transform-origin: right bottom;
+    transition: all 0.5s ease-in-out;
 
     @include respond(mobileS) {
       width: 110px;
@@ -23,11 +26,19 @@
   }
 
   &__detail {
-    width: 200px;
     height: 100%;
     display: flex;
-    flex-direction: column;
-    padding: 0.5rem 0;
+    justify-content: space-between;
+    padding: 0.5rem;
+    align-items: center;
+    color: white;
+    height: fit-content;
+    width: 100%;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
 
     @include respond(mobileS) {
       width: 110px;
@@ -37,18 +48,36 @@
 
   &__name {
     color: white;
+    margin-right: 5px;
     @include openSans(600, 13px);
 
     @include respond(mobileS) {
       @include openSans(600, 10px);
-
     }
   }
 
   &__artist {
-    color: white;
-    opacity: 0.8;
-    margin-top: 5px;
-    @include poppins(300, 12px)
+    font-size: 11px;
+    margin-top: 8px;
+  }
+
+  &__save,
+  &__unSave {
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    color: whitesmoke;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px;
+    background-color: rgba(4, 4, 43, 0.548);
+    border-radius: 0 0 5px 0;
+  }
+
+  &__artistName {
+    font-size: 12px;
+    text-align: center;
+    padding-bottom: 5px;
   }
 }

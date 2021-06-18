@@ -10,11 +10,11 @@ const ArtistAlbums = ({ data }) => {
         data?.map((album, i) => {
           return (
             <BibliothequeItem
-              key={album.album.name}
-              albumName={album.album.name}
-              year={album.album.release_date.split("-")[0]}
-              albumId={album.album.id}
-              followedAlbum={album.follow}
+              key={album?.item?.name}
+              albumName={album?.item?.name}
+              year={album?.item?.release_date?.split("-")[0]}
+              albumId={album?.item?.id}
+              followedAlbum={album?.follow}
             />
           );
         })}

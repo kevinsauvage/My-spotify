@@ -9,20 +9,21 @@ const AlbumShowLogic = () => {
   const [tracks, setTracks] = useState();
   const [error, setError] = useState(false);
 
-  const { spotifyApi, setUri } = useContext(AppContext);
+  const { spotifyApi, setUri, checkIfTrackIsSaved } = useContext(AppContext);
 
   useEffect(() => {
     const settingAlbum = async () => {
       try {
         const album = await spotifyApi.getAlbum(id);
-        setTracks(album.tracks.items);
+        const tracksWithFollow = await checkIfTrackIsSaved(album.tracks.items);
+        setTracks(tracksWithFollow);
         setAlbum(album);
       } catch (error) {
         setError(true);
       }
     };
     settingAlbum();
-  }, [spotifyApi, id, setTracks, setAlbum]);
+  }, [spotifyApi, id, setTracks, setAlbum, checkIfTrackIsSaved]);
 
   const bg = "url(" + album?.images[0].url + ")";
 

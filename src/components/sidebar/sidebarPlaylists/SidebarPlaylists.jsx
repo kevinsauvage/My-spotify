@@ -19,15 +19,15 @@ const SidebarPlaylist = () => {
         ? userPlaylists.map((playlist) => {
             return (
               <Link
-                key={playlist.id}
+                key={playlist.item.id}
                 to={{
-                  pathname: `/Playlists/${playlist.id}`,
+                  pathname: `/Playlists/${playlist.item.id}`,
                   state: {
-                    id: playlist.id,
+                    id: playlist.item.id,
                   },
                 }}>
                 <SidebarNavItem
-                  title={playlist.name}
+                  title={playlist.item.name}
                   icon={<BsMusicNoteBeamed size={24} />}
                 />
               </Link>

@@ -1,33 +1,36 @@
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Link } from "react-router-dom";
-import Card from "../card/Card";
+import Carousel from "react-multi-carousel";
 import responsive from "./responsive";
+import Card from "../card/Card";
 import "./CarouselComponent.scss";
 
-const CarouselComponent = ({ data, link, idSelectedArtist }) => {
+const CarouselComponent = ({ data, selected, setId, save, unSave, link }) => {
   return (
-    <div className="carousel">
+    <div>
       {data && (
         <Carousel responsive={responsive} slidesToSlide={3}>
-          {data.map((item) => {
+          {data.map((item, i) => {
             return (
-              <Link
-                to={{
-                  pathname: link + `/${item.id}`,
-                  state: {
-                    id: item.id,
-                  },
-                }}
-                key={item.id}>
-                <Card
-                  idSelectedArtist={idSelectedArtist}
-                  url={item?.images?.[1]?.url || item?.album?.images?.[1]?.url}
-                  name={item.name}
-                  id={item.id}
-                  artist={item.artists?.[0].name}
-                />
-              </Link>
+              <Card
+                key={i}
+                selected={selected}
+                url={
+                  item.item?.album?.images?.[1]?.url ||
+                  item.item?.images?.[1]?.url ||
+                  item.item?.images?.[0]?.url
+                }
+                name={item.item?.name}
+                artistName={
+                  item.item?.artists?.[0].name || item?.artists?.[0].name
+                }
+                id={item.item?.id}
+                setId={setId}
+                height="185px"
+                followed={item.follow}
+                save={save}
+                unSave={unSave}
+                link={link}
+              />
             );
           })}
         </Carousel>

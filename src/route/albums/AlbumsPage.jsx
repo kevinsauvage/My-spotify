@@ -1,26 +1,35 @@
-import React, {
+import {
   Suspense,
   useCallback,
   useContext,
   useEffect,
   useState,
+  lazy,
 } from "react";
 import CardLoader from "../../components/cardLoader/CardLoader";
 import { AppContext } from "../../context/AppContext";
 import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 import WentWrong from "../../components/wentWrong/WentWrong";
 import Tracks from "../../components/tracks/Tracks";
-import ArtistsRelated from "../artists/artistsRelated/ArtistsRelated";
+import ArtistsRelated from "../../components/artistsRelated/ArtistsRelated";
 import Albums from "../../components/albums/Albums";
-
 import "./AlbumsPage.scss";
-const CarouselAlbums = React.lazy(() =>
-  import("./carouselAlbums/CarouselAlbums")
+
+const CarouselComponent = lazy(() =>
+  import("../../components/carousel/CarouselComponent")
 ); // Lazy-loaded
 
 const AlbumsPage = () => {
-  const { spotifyApi, savedAlbums, recommendedAlbums, fetchArtistAlbums } =
-    useContext(AppContext);
+  const {
+    spotifyApi,
+    savedAlbums,
+    recommendedAlbums,
+    fetchArtistAlbums,
+    checkIfTrackIsSaved,
+    saveAlbum,
+    unSaveAlbum,
+  } = useContext(AppContext);
+
   const [id, setId] = useState();
   const [albumSelected, setAlbumSelected] = useState();
   const [recomendedTrack, setRecomendedTrack] = useState([]);
@@ -34,7 +43,7 @@ const AlbumsPage = () => {
   const [artistAlbums, setArtistAlbums] = useState([]);
 
   useEffect(() => {
-    recommendedAlbums && !id && setId(recommendedAlbums?.[0].album?.id);
+    recommendedAlbums && !id && setId(recommendedAlbums?.[0].item?.id);
   }, [recommendedAlbums, id]);
 
   useEffect(() => {
@@ -51,7 +60,8 @@ const AlbumsPage = () => {
 
   const getArtistAlbums = useCallback(async () => {
     const artistAlbums =
-      albumSelected && (await fetchArtistAlbums(albumSelected));
+      albumSelected &&
+      (await fetchArtistAlbums(albumSelected?.artists?.[0]?.id));
     setArtistAlbums(artistAlbums);
   }, [fetchArtistAlbums, albumSelected]);
 
@@ -63,13 +73,14 @@ const AlbumsPage = () => {
     const getTracks = async () => {
       try {
         const tracks = await spotifyApi.getAlbumTracks(id);
-        setTracks(tracks.items);
+        const trackWithFollow = await checkIfTrackIsSaved(tracks.items);
+        setTracks(trackWithFollow);
       } catch (error) {
         setError(true);
       }
     };
     id && getTracks();
-  }, [id, spotifyApi]);
+  }, [id, spotifyApi, checkIfTrackIsSaved]);
 
   useEffect(() => {
     const getRecommendationsTracks = async () => {
@@ -78,14 +89,16 @@ const AlbumsPage = () => {
           seed_artists: albumSelected?.artists?.[0]?.id,
           limit: 10,
         });
-        setRecomendedTrack(tracks.tracks);
+        const trackWithFollow = await checkIfTrackIsSaved(tracks.tracks);
+        setRecomendedTrack(trackWithFollow);
       } catch (error) {
         setError(true);
         console.log(error);
       }
     };
     albumSelected && getRecommendationsTracks();
-  }, [spotifyApi, albumSelected]);
+  }, [spotifyApi, albumSelected, checkIfTrackIsSaved]);
+  console.dir(savedAlbums);
 
   const toggleShowTracks = () => {
     setShowAlbums(false);
@@ -131,10 +144,13 @@ const AlbumsPage = () => {
             {showSavedAlbums && (
               <Suspense fallback={<CardLoader />}>
                 {savedAlbums ? (
-                  <CarouselAlbums
-                    albums={savedAlbums}
-                    albumSelected={albumSelected}
+                  <CarouselComponent
+                    data={savedAlbums}
+                    selected={albumSelected?.id}
                     setId={setId}
+                    save={saveAlbum}
+                    unSave={unSaveAlbum}
+                    link="Albums"
                   />
                 ) : (
                   <h3>No albums saved yet...</h3>
@@ -143,10 +159,13 @@ const AlbumsPage = () => {
             )}
             {showRecommendedAlbums && (
               <Suspense fallback={<CardLoader />}>
-                <CarouselAlbums
-                  albums={recommendedAlbums}
-                  albumSelected={albumSelected}
+                <CarouselComponent
+                  data={recommendedAlbums}
+                  selected={albumSelected?.id}
                   setId={setId}
+                  save={saveAlbum}
+                  unSave={unSaveAlbum}
+                  link="Albums"
                 />
               </Suspense>
             )}
@@ -178,15 +197,13 @@ const AlbumsPage = () => {
                 {showAlbums && <Albums data={artistAlbums} />}
               </div>
             </div>
-            {
-              <div className="albumsPage__relatedArtists">
-                <ArtistsRelated
-                  id={albumSelected?.artists?.[0]?.id}
-                  setError={setError}
-                  artistSelected={albumSelected}
-                />
-              </div>
-            }
+            <div className="albumsPage__relatedArtists">
+              <ArtistsRelated
+                id={albumSelected?.artists?.[0]?.id}
+                setError={setError}
+                artistSelected={albumSelected}
+              />
+            </div>
           </section>
         </>
       ) : (

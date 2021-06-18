@@ -1,7 +1,7 @@
 import "./Content.scss";
 import { Route, Switch, useLocation } from "react-router-dom";
 import Home from "../home/Home";
-import TrackShow from "../trackShow/TrackShow";
+import TrackShow from "../tracks/trackShow/TrackShow";
 import Artistshow from "../artists/artistShow/ArtistShow";
 import SearchResult from "../searchResult/SearchResult";
 import NotFound from "../notFound/NotFound";
@@ -14,6 +14,7 @@ import { AppContext } from "../../context/AppContext";
 import Artists from "../artists/ArtistsPage";
 import AlbumsPage from "../albums/AlbumsPage";
 import PlaylistsPage from "../playlists/PlaylistsPage";
+import TracksPage from "../tracks/TracksPage";
 
 const Content = ({ ref }) => {
   const location = useLocation();
@@ -28,7 +29,8 @@ const Content = ({ ref }) => {
   return (
     <Switch className="switch-wrapper">
       <Route exact path="/" component={Home} />
-      <Route path="/track/:id" component={TrackShow} />
+      <Route path="/Tracks/:id" component={TrackShow} />
+      <Route path="/Tracks" component={TracksPage} />
       <Route path="/Artists/:id" component={Artistshow} />
       <Route exact path="/Artists" component={Artists} />
       <Route exact path="/Albums" component={AlbumsPage} />

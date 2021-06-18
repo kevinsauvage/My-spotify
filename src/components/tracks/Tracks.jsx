@@ -15,13 +15,16 @@ const Tracks = ({ data, title }) => {
             return (
               <BibliothequeItem
                 key={i}
-                name={track.name}
-                trackId={track.id}
-                artistId={track.artists?.[0].id}
-                artist={track.artists?.[0].name}
-                duration={track.duration_ms}
-                uri={track.track?.uri || track.uri}
+                name={track?.item?.name || track?.name}
+                trackId={track?.item?.id || track?.id}
+                artistId={track?.item?.artists?.[0]?.id || track?.item?.[0]?.id}
+                artist={
+                  track?.item?.artists?.[0]?.name || track?.item?.[0]?.name
+                }
+                duration={track?.item?.duration_ms || track?.duration_ms}
+                uri={track?.item?.uri || track?.uri}
                 play
+                followed={track?.follow}
               />
             );
           })

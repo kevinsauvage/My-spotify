@@ -1,6 +1,6 @@
-import Tracks from "../../components/tracks/Tracks";
-import PageBanner from "../../components/pageBanner/PageBanner";
-import WentWrong from "../../components/wentWrong/WentWrong";
+import Tracks from "../../../components/tracks/Tracks";
+import PageBanner from "../../../components/pageBanner/PageBanner";
+import WentWrong from "../../../components/wentWrong/WentWrong";
 import TrackShowLogic from "./TrackShowLogic";
 
 const TrackShow = () => {
