@@ -6,7 +6,7 @@ import "./CarouselComponent.scss";
 
 const CarouselComponent = ({ data, selected, setId, save, unSave, link }) => {
   return (
-    <div>
+    <div className="carousel">
       {data && (
         <Carousel responsive={responsive} slidesToSlide={3}>
           {data.map((item, i) => {
@@ -17,15 +17,17 @@ const CarouselComponent = ({ data, selected, setId, save, unSave, link }) => {
                 url={
                   item.item?.album?.images?.[1]?.url ||
                   item.item?.images?.[1]?.url ||
-                  item.item?.images?.[0]?.url
+                  item.item?.images?.[0]?.url ||
+                  item.icons?.[0]?.url ||
+                  item.images?.[0].url
                 }
-                name={item.item?.name}
+                name={item?.name || item?.item?.name}
                 artistName={
                   item.item?.artists?.[0].name || item?.artists?.[0].name
                 }
-                id={item.item?.id}
+                id={item.item?.id || item?.id}
                 setId={setId}
-                height="185px"
+                height="220px"
                 followed={item.follow}
                 save={save}
                 unSave={unSave}

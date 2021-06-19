@@ -8,7 +8,6 @@ import NotFound from "../notFound/NotFound";
 import AlbumShow from "../albums/albumShow/AlbumShow";
 import PlaylistShow from "../../route/playlists/playlistShow/PlaylistShow";
 import LibraryShow from "../libraryShow/LibraryShow";
-import CategoryShow from "../categoryShow/CategoryShow";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import Artists from "../artists/ArtistsPage";
@@ -38,7 +37,6 @@ const Content = ({ ref }) => {
       <Route exact path="/Playlists" component={PlaylistsPage} />
       <Route path="/Playlists/:id" component={PlaylistShow} />
       <Route path="/library/:id" component={LibraryShow} />
-      <Route path="/category/:id" component={CategoryShow} />
       <Route path="/search" component={SearchResult} />
       <Route component={NotFound} />
     </Switch>

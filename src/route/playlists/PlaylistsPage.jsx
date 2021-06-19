@@ -12,11 +12,15 @@ const CarouselComponent = lazy(() =>
 
 const PlaylistsPage = () => {
   const [id, setId] = useState();
+  const [categorySelected, setCategorySelected] = useState();
   const [playlistSelected, setPlaylistSelected] = useState();
   const [error, setError] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState();
   const [showFeaturedPlaylist, setShowFeaturedPlaylist] = useState(true);
   const [showUserPlaylits, setShowUserPlaylits] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
+  const [playlistsFromCategory, setPlaylistsFromCategory] = useState();
+  const [categories, setCategories] = useState();
 
   const { spotifyApi, userPlaylists, featuredPlaylists, checkIfTrackIsSaved } =
     useContext(AppContext);
@@ -55,13 +59,38 @@ const PlaylistsPage = () => {
     id && getPlaylistTracks();
   }, [id, spotifyApi, checkIfTrackIsSaved]);
 
+  useEffect(() => {
+    const getCategories = async () => {
+      const response = await spotifyApi.getCategories();
+      setCategories(response.categories.items);
+      console.log(response.categories.items);
+    };
+    getCategories();
+  }, [spotifyApi]);
+
+  useEffect(() => {
+    const getPlaylistsFromCategory = async () => {
+      const response = await spotifyApi.getCategoryPlaylists(categorySelected);
+      console.log(response.playlists.items);
+      setPlaylistsFromCategory(response.playlists.items);
+    };
+    categorySelected && getPlaylistsFromCategory();
+  }, [spotifyApi, categorySelected]);
+
   const toggleFeaturedPlaylists = () => {
     setShowFeaturedPlaylist(true);
     setShowUserPlaylits(false);
+    setShowCategories(false);
   };
   const toggleUserPlaylists = () => {
     setShowFeaturedPlaylist(false);
     setShowUserPlaylits(true);
+    setShowCategories(false);
+  };
+  const toggleCategories = () => {
+    setShowFeaturedPlaylist(false);
+    setShowUserPlaylits(false);
+    setShowCategories(true);
   };
 
   return (
@@ -79,6 +108,11 @@ const PlaylistsPage = () => {
                 fn={toggleUserPlaylists}
                 condition={showUserPlaylits}
                 title={`Your Playlists`}
+              />
+              <ClickableTitle
+                fn={toggleCategories}
+                condition={showCategories}
+                title={`Playlists Categories`}
               />
             </div>
             {showFeaturedPlaylist && (
@@ -100,6 +134,28 @@ const PlaylistsPage = () => {
                   link="Playlists"
                 />
               </Suspense>
+            )}
+            {showCategories && (
+              <>
+                <Suspense fallback={<CardLoader />}>
+                  <CarouselComponent
+                    data={categories}
+                    selected={categorySelected}
+                    setId={setCategorySelected}
+                    link="Playlists"
+                  />
+                </Suspense>
+                {playlistsFromCategory && (
+                  <Suspense fallback={<CardLoader />}>
+                    <CarouselComponent
+                      data={playlistsFromCategory}
+                      selected={playlistSelected?.id}
+                      setId={setId}
+                      link="Playlists"
+                    />
+                  </Suspense>
+                )}
+              </>
             )}
           </div>
           <section className="playlistsPage__content">

@@ -5,7 +5,7 @@ import LibraryShowLogic from "./LibraryShowLogic";
 
 const LibraryShow = () => {
   const { bg, handleClickPlay, error, tracks, id } = LibraryShowLogic();
-
+  console.log(tracks);
   return (
     <div className="bibliotheque">
       {!error ? (

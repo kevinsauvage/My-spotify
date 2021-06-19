@@ -17,7 +17,6 @@ const sidebarBrowseSection = () => {
     { title: "Albums", icon: <GiCompactDisc size={24} /> },
     { title: "Playlists", icon: <BsMusicNoteBeamed size={24} /> },
     { title: "Tracks", icon: <BsMusicNoteList size={24} /> },
-    { title: "Categories", icon: <BsGrid3X3Gap size={24} /> },
   ];
 
   return (

@@ -4,6 +4,7 @@ import { HiExternalLink } from "react-icons/hi";
 import { RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import "./Card.scss";
+import Colors from "./colorsArray";
 
 const TrackCard = ({
   url,
@@ -29,6 +30,19 @@ const TrackCard = ({
     }
   }, []);
 
+  const styleWithImage = {
+    backgroundImage: "url(" + url + ")",
+    height: height,
+    width: width,
+    cursor: setId ? "pointer" : "default",
+  };
+  const styleWithoutImage = {
+    background: Colors[Math.ceil(Math.random() * 250)],
+    height: height,
+    width: width,
+    cursor: setId ? "pointer" : "default",
+  };
+
   return (
     <motion.div
       style={{
@@ -44,31 +58,30 @@ const TrackCard = ({
       <div
         onClick={() => setId && setId(id)}
         className="card__img"
-        style={{
-          backgroundImage: "url(" + url + ")",
-          height: height,
-          width: width,
-          cursor: setId ? "pointer" : "default",
-        }}></div>
-      <div className="card__detail">
-        <Link
-          to={{
-            pathname: `/${link}/${id}`,
-            state: {
-              id: id,
-            },
-          }}>
-          <h2 className="card__name">
-            {name?.length > nameMaxLength
-              ? name?.substring(0, nameMaxLength) + "..."
-              : name}
-          </h2>
-          <HiExternalLink size={15} color="white" />
-        </Link>
-      </div>
+        style={url ? styleWithImage : styleWithoutImage}></div>
+      {link && (
+        <div className="card__detail">
+          <Link
+            to={{
+              pathname: `/${link}/${id}`,
+              state: {
+                id: id,
+              },
+            }}>
+            <h2 className="card__name">
+              {name?.length > nameMaxLength
+                ? name?.substring(0, nameMaxLength) + "..."
+                : name}
+            </h2>
+            <HiExternalLink size={15} color="white" />
+          </Link>
+        </div>
+      )}
       {artistName && <p className="card__artistName">{artistName}</p>}
 
       {link !== "Playlists" &&
+        link !== "Categories" &&
+        link &&
         (followed ? (
           <div onClick={() => unSave(id)} className="card__save">
             <RiUserUnfollowLine size={15} />

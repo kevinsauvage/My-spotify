@@ -8,28 +8,23 @@ const LibraryShowLogic = () => {
   const [tracks, setTracks] = useState();
   const [error, setError] = useState(false);
 
-  const { spotifyApi, setUri, savedTracks } = useContext(AppContext);
+  const { spotifyApi, setUri, savedTracks, topTracks, checkIfTrackIsSaved } =
+    useContext(AppContext);
 
   useEffect(() => {
-    const getTopTracks = async () => {
-      try {
-        const response = await spotifyApi.getMyTopTracks({ limit: 50 });
-        const tracks = response.items;
-        setTracks(tracks);
-      } catch (error) {
-        setError(true);
-      }
+    const getTopTracks = () => {
+      setTracks(topTracks);
     };
     if (id === "Top Tracks") {
       getTopTracks();
     }
-  }, [spotifyApi, id]);
+  }, [id, topTracks]);
 
   useEffect(() => {
     if (id === "Favorite") {
       setTracks(savedTracks);
     }
-  }, []);
+  }, [savedTracks, id]);
 
   useEffect(() => {
     const getRecentlyPlayed = async () => {
@@ -39,7 +34,8 @@ const LibraryShowLogic = () => {
           limit: 50,
         });
         const tracks = response.items.map((item) => item.track);
-        setTracks(tracks);
+        const tracksWithFollow = await checkIfTrackIsSaved(tracks);
+        setTracks(tracksWithFollow);
       } catch (error) {
         setError(true);
       }
@@ -47,7 +43,7 @@ const LibraryShowLogic = () => {
     if (id === "History") {
       getRecentlyPlayed();
     }
-  }, [spotifyApi, id]);
+  }, [spotifyApi, id, checkIfTrackIsSaved]);
 
   const handleClickPlay = useCallback(() => {
     const uris = tracks.map((track) => track.uri);
