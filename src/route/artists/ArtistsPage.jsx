@@ -21,12 +21,10 @@ const CarouselComponent = lazy(() =>
 
 const ArtistsPage = () => {
   const [artistTopTracks, setArtistTopTracks] = useState([]); // array of artist top tracks
-  const [recomendedTracks, setRecomendedTracks] = useState([]);
   const [id, setId] = useState();
   const [artistSelected, setArtistSelected] = useState();
   const [carouselFav, setCarouselFav] = useState(true);
   const [carouselFoll, setCarouselFoll] = useState(false);
-  const [showRecomended, setShowRecomended] = useState(false);
   const [showTopTracks, setShowTopTracks] = useState(true);
   const [error, setError] = useState(false);
   const [artistAlbums, setArtistAlbums] = useState([]);
@@ -61,23 +59,6 @@ const ArtistsPage = () => {
   }, [id, spotifyApi]);
 
   useEffect(() => {
-    const getRecommendationsTracks = async () => {
-      try {
-        const tracks = await spotifyApi.getRecommendations({
-          seed_artists: id,
-          limit: 10,
-        });
-        const tracksWithFollow = await checkIfTrackIsSaved(tracks.tracks);
-        setRecomendedTracks(tracksWithFollow);
-      } catch (error) {
-        setError(true);
-        console.log(error);
-      }
-    };
-    id && getRecommendationsTracks();
-  }, [spotifyApi, id, checkIfTrackIsSaved, savedTracks]);
-
-  useEffect(() => {
     const getArtistTopTracks = async () => {
       try {
         const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", {
@@ -103,6 +84,7 @@ const ArtistsPage = () => {
     const sorted = unique.sort((a, b) => a.release_date > b.release_date);
     const albumWithFollow = await checkIfAlbumsAreFollowed(sorted);
     setArtistAlbums(albumWithFollow);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedAlbums, checkIfAlbumsAreFollowed, id, spotifyApi]); // saved album can't be removed as it update album of artist page when user save/unsave album
 
   useEffect(() => {
@@ -121,18 +103,11 @@ const ArtistsPage = () => {
 
   const toggleTopTracks = () => {
     setShowTopTracks(true);
-    setShowRecomended(false);
-    setShowArtistAlbums(false);
-  };
-  const toggleRecommendedTracks = () => {
-    setShowTopTracks(false);
-    setShowRecomended(true);
     setShowArtistAlbums(false);
   };
 
   const toggleArtistAlbums = () => {
     setShowTopTracks(false);
-    setShowRecomended(false);
     setShowArtistAlbums(true);
   };
 
@@ -191,14 +166,8 @@ const ArtistsPage = () => {
                   fn={toggleArtistAlbums}
                   title={`${artistSelected?.name} Albums`}
                 />
-                <ClickableTitle
-                  condition={showRecomended}
-                  fn={toggleRecommendedTracks}
-                  title={`${artistSelected?.name} Recommended Tracks`}
-                />
               </div>
               <div className="artistsPage__tracks">
-                {showRecomended && <Tracks data={recomendedTracks} />}
                 {showTopTracks && <Tracks data={artistTopTracks} />}
                 {showArtistAlbums && <Albums data={artistAlbums} />}
               </div>
@@ -208,6 +177,7 @@ const ArtistsPage = () => {
                 id={id}
                 setError={setError}
                 artistSelected={artistSelected}
+                link={"Artists"}
               />
             </div>
           </section>

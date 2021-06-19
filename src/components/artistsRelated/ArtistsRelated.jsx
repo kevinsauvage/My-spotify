@@ -7,7 +7,12 @@ import { AppContext } from "../../context/AppContext";
 const ArtistsRelated = ({ id, setError, artistSelected, link }) => {
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
 
-  const { spotifyApi, checkIfArtistsAreFollowed } = useContext(AppContext);
+  const {
+    spotifyApi,
+    checkIfArtistsAreFollowed,
+    unfollowArtist,
+    followArtist,
+  } = useContext(AppContext);
 
   useEffect(() => {
     const getArtistRelatedArtists = async () => {
@@ -51,6 +56,8 @@ const ArtistsRelated = ({ id, setError, artistSelected, link }) => {
                 width="100px"
                 followed={artist.follow}
                 link={link}
+                save={followArtist}
+                unSave={unfollowArtist}
               />
             </div>
           );

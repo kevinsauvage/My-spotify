@@ -4,13 +4,12 @@
 .bibliotheque-item {
   width: 100%;
   position: relative;
-  padding: 3px 0;
   @include flex-sp-b-ai-c;
   @include openSans(500, 12px);
   background-color: #12172C;
   margin-bottom: 3px;
   border-radius: 15px;
-  padding: 15px;
+  padding: 10px;
 
   @include respond(mobileS) {
     @include openSans(500, 10px);
@@ -66,8 +65,6 @@
 
     &:hover {
       color: white;
-      @include openSans(500, 13px);
-
     }
   }
 

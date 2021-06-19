@@ -93,6 +93,8 @@ const PlaylistsPage = () => {
     setShowCategories(true);
   };
 
+  console.log(categorySelected);
+
   return (
     <div className="playlistsPage">
       {!error ? (
@@ -146,6 +148,9 @@ const PlaylistsPage = () => {
                 </Suspense>
                 {playlistsFromCategory && (
                   <Suspense fallback={<CardLoader />}>
+                    <div className="playlistsPage__menu">
+                      <ClickableTitle title={"Playlists " + categorySelected} />
+                    </div>
                     <CarouselComponent
                       data={playlistsFromCategory}
                       selected={playlistSelected?.id}

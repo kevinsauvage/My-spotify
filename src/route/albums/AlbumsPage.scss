@@ -20,7 +20,6 @@
     .albumsPage__menu {
       display: flex;
       margin: 0 3rem;
-      justify-content: space-between;
     }
   }
 
@@ -29,11 +28,11 @@
   }
 
   &__tracksContainer {
-    flex: 3;
+    flex: 1;
   }
 
   &__relatedArtists {
-    flex: 2;
+    flex: 1;
   }
 
   .albums {

@@ -32,12 +32,10 @@ const AlbumsPage = () => {
 
   const [id, setId] = useState();
   const [albumSelected, setAlbumSelected] = useState();
-  const [recomendedTrack, setRecomendedTrack] = useState([]);
   const [error, setError] = useState(false);
   const [tracks, setTracks] = useState();
   const [showAlbums, setShowAlbums] = useState(false);
   const [showTracks, setShowTracks] = useState(true);
-  const [showRecommendedTracks, setShowRecommendedTracks] = useState(false);
   const [showRecommendedAlbums, setShowRecommendedAlbums] = useState(true);
   const [showSavedAlbums, setShowSavedAlbums] = useState(false);
   const [artistAlbums, setArtistAlbums] = useState([]);
@@ -82,38 +80,13 @@ const AlbumsPage = () => {
     id && getTracks();
   }, [id, spotifyApi, checkIfTrackIsSaved]);
 
-  useEffect(() => {
-    const getRecommendationsTracks = async () => {
-      try {
-        const tracks = await spotifyApi.getRecommendations({
-          seed_artists: albumSelected?.artists?.[0]?.id,
-          limit: 10,
-        });
-        const trackWithFollow = await checkIfTrackIsSaved(tracks.tracks);
-        setRecomendedTrack(trackWithFollow);
-      } catch (error) {
-        setError(true);
-        console.log(error);
-      }
-    };
-    albumSelected && getRecommendationsTracks();
-  }, [spotifyApi, albumSelected, checkIfTrackIsSaved]);
-  console.dir(savedAlbums);
-
   const toggleShowTracks = () => {
     setShowAlbums(false);
     setShowTracks(true);
-    setShowRecommendedTracks(false);
   };
   const toggleShowAlbums = () => {
     setShowAlbums(true);
     setShowTracks(false);
-    setShowRecommendedTracks(false);
-  };
-  const toggleShowRecommendedTraks = () => {
-    setShowAlbums(false);
-    setShowTracks(false);
-    setShowRecommendedTracks(true);
   };
   const toggleShowSavedAlbums = () => {
     setShowSavedAlbums(true);
@@ -179,11 +152,6 @@ const AlbumsPage = () => {
                   title={`${albumSelected?.name} Tracks`}
                 />
                 <ClickableTitle
-                  condition={showRecommendedTracks}
-                  fn={toggleShowRecommendedTraks}
-                  title={`${albumSelected?.artists?.[0]?.name} Recommended Tracks`}
-                />
-                <ClickableTitle
                   condition={showAlbums}
                   fn={toggleShowAlbums}
                   title={`${albumSelected?.artists?.[0]?.name} Albums`}
@@ -191,9 +159,6 @@ const AlbumsPage = () => {
               </div>
               <div className="albumsPage__tracks">
                 {showTracks && <Tracks data={tracks && tracks} />}
-                {showRecommendedTracks && (
-                  <Tracks data={recomendedTrack && recomendedTrack} />
-                )}
                 {showAlbums && <Albums data={artistAlbums} />}
               </div>
             </div>
@@ -202,6 +167,7 @@ const AlbumsPage = () => {
                 id={albumSelected?.artists?.[0]?.id}
                 setError={setError}
                 artistSelected={albumSelected}
+                link={"Artists"}
               />
             </div>
           </section>

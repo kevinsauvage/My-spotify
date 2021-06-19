@@ -2,17 +2,17 @@
 @import "../../../assets/stylesheets/variable";
 
 .artist-show {
-  padding: 0 0 0 3rem;
+  padding: 0 3rem;
 
   &__banner {
     display: flex;
     justify-content: center;
-    padding-top: 4rem;
+    padding-top: 6rem;
   }
 
   &__banner-Wrapper {
     background-color: $color-extra-dark;
-    width: 60%;
+    width: fit-content;
     display: flex;
     align-items: flex-end;
     border-radius: 15px;
@@ -27,8 +27,8 @@
   }
 
   &__img {
-    width: 400px;
-    height: 400px;
+    width: 250px;
+    height: 250px;
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 15px
@@ -36,12 +36,12 @@
 
   &__title {
     h1 {
-      @include poppins(800, 32px);
+      @include poppins(800, 25px);
       color: white;
     }
 
     p {
-      @include openSans(600, 16px);
+      @include openSans(600, 14px);
       padding: 1rem 0;
     }
   }
@@ -54,7 +54,7 @@
     padding: 1rem 2rem;
     background-color: $color-light;
     color: white;
-    @include openSans(600, 16px);
+    @include openSans(600, 13px);
     border-radius: 5px;
     margin-right: 1rem;
     cursor: pointer;
@@ -70,12 +70,12 @@
     }
 
     &__1 {
-      flex: 3;
+      flex: 1;
       padding-right: 3rem;
     }
 
     &__2 {
-      flex: 2;
+      flex: 1;
     }
   }
 
