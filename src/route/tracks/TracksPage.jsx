@@ -126,6 +126,7 @@ const TracksPage = () => {
           <ArtistsRelated
             id={trackSelected?.artists?.[0]?.id}
             artistSelected={trackSelected}
+            link="Artists"
           />
         </div>
       </section>
