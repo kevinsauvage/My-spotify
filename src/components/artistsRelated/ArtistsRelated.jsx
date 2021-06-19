@@ -4,7 +4,7 @@ import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 import "./ArtistsRelated.scss";
 import { AppContext } from "../../context/AppContext";
 
-const ArtistsRelated = ({ id, setError, artistSelected }) => {
+const ArtistsRelated = ({ id, setError, artistSelected, link }) => {
   const [relatedArtists, setRelatedArtists] = useState([]); // array of related artist
 
   const { spotifyApi, checkIfArtistsAreFollowed } = useContext(AppContext);
@@ -50,6 +50,7 @@ const ArtistsRelated = ({ id, setError, artistSelected }) => {
                 height="100px"
                 width="100px"
                 followed={artist.follow}
+                link={link}
               />
             </div>
           );

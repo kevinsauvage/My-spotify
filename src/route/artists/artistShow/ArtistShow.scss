@@ -2,6 +2,64 @@
 @import "../../../assets/stylesheets/variable";
 
 .artist-show {
+  padding: 0 0 0 3rem;
+
+  &__banner {
+    display: flex;
+    justify-content: center;
+    padding-top: 4rem;
+  }
+
+  &__banner-Wrapper {
+    background-color: $color-extra-dark;
+    width: 60%;
+    display: flex;
+    align-items: flex-end;
+    border-radius: 15px;
+  }
+
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 250px;
+    padding: 2rem;
+  }
+
+  &__img {
+    width: 400px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 15px
+  }
+
+  &__title {
+    h1 {
+      @include poppins(800, 32px);
+      color: white;
+    }
+
+    p {
+      @include openSans(600, 16px);
+      padding: 1rem 0;
+    }
+  }
+
+  &__btns {
+    display: flex;
+  }
+
+  &__btn {
+    padding: 1rem 2rem;
+    background-color: $color-light;
+    color: white;
+    @include openSans(600, 16px);
+    border-radius: 5px;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
   &__bottom {
     display: flex;
     justify-content: space-around;
@@ -9,6 +67,15 @@
 
     @include respond(mobileS) {
       flex-direction: column;
+    }
+
+    &__1 {
+      flex: 3;
+      padding-right: 3rem;
+    }
+
+    &__2 {
+      flex: 2;
     }
   }
 

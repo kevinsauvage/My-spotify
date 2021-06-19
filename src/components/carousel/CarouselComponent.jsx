@@ -21,10 +21,11 @@ const CarouselComponent = ({ data, selected, setId, save, unSave, link }) => {
                   item.icons?.[0]?.url ||
                   item.images?.[0].url
                 }
-                name={item?.name || item?.item?.name}
+                name={item?.item?.name}
                 artistName={
                   item.item?.artists?.[0].name || item?.artists?.[0].name
                 }
+                playlistName={item.name}
                 id={item.item?.id || item?.id}
                 setId={setId}
                 height="220px"

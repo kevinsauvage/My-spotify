@@ -1,11 +1,9 @@
 import {
-  BsGrid3X3Gap,
   BsMusicNoteBeamed,
   BsMusicNoteList,
   BsPeopleFill,
 } from "react-icons/bs";
 import { GiCompactDisc } from "react-icons/gi";
-import { RiPlayListLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import SidebarLeftNavItem from "../sidebarNavItem/SidebarNavItem";
 import SidebarSectionTitle from "../sidebarSectionTitle/SidebarSectionTitle";

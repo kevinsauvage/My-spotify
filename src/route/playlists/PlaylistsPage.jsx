@@ -142,7 +142,6 @@ const PlaylistsPage = () => {
                     data={categories}
                     selected={categorySelected}
                     setId={setCategorySelected}
-                    link="Playlists"
                   />
                 </Suspense>
                 {playlistsFromCategory && (

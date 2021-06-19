@@ -1,4 +1,3 @@
-import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import PlayBtn from "../playBtn/PlayBtn";
 import "./PageBanner.scss";
@@ -22,17 +21,6 @@ const PageBanner = ({
         <h1 className="pageBanner__name">
           {data?.name}
           {title}
-          {handleFollow ? (
-            isFollowing ? (
-              <span onClick={handleFollow} className="follow-btn">
-                <RiUserUnfollowFill size={21} />
-              </span>
-            ) : (
-              <span onClick={handleFollow} className="follow-btn">
-                <RiUserFollowFill size={21} />
-              </span>
-            )
-          ) : null}
         </h1>
         {subtitle && (
           <Link
@@ -52,10 +40,22 @@ const PageBanner = ({
         {followers !== undefined && (
           <p className="pageBanner__followers">{followers} followers</p>
         )}
+
+        <p className="pageBanner__description">{data?.description}</p>
         <div className="pageBanner__btn">
+          {handleFollow ? (
+            isFollowing ? (
+              <div onClick={handleFollow} className="follow-btn">
+                UnFollow
+              </div>
+            ) : (
+              <div onClick={handleFollow} className="follow-btn">
+                Follow
+              </div>
+            )
+          ) : null}
           <PlayBtn onClick={onClick} />
         </div>
-        <p className="pageBanner__description">{data?.description}</p>
       </div>
     </div>
   );

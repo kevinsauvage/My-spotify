@@ -19,6 +19,7 @@ const TrackCard = ({
   save,
   unSave,
   link,
+  playlistName,
 }) => {
   const [nameMaxLength, setNameMaxLength] = useState();
 
@@ -59,7 +60,7 @@ const TrackCard = ({
         onClick={() => setId && setId(id)}
         className="card__img"
         style={url ? styleWithImage : styleWithoutImage}></div>
-      {link && (
+      {link && name && (
         <div className="card__detail">
           <Link
             to={{
@@ -77,20 +78,36 @@ const TrackCard = ({
           </Link>
         </div>
       )}
-      {artistName && <p className="card__artistName">{artistName}</p>}
-
-      {link !== "Playlists" &&
-        link !== "Categories" &&
-        link &&
-        (followed ? (
-          <div onClick={() => unSave(id)} className="card__save">
-            <RiUserUnfollowLine size={15} />
-          </div>
-        ) : (
-          <div onClick={() => save(id)} className="card__unSave">
-            <RiUserFollowLine size={15} />
-          </div>
-        ))}
+      <div className="card__detail">
+        {link && playlistName && (
+          <Link
+            to={{
+              pathname: `/${link}/${id}`,
+              state: {
+                id: id,
+              },
+            }}>
+            <h2 className="card__playlist-name">{playlistName}</h2>
+            <HiExternalLink size={15} color="white" />
+          </Link>
+        )}
+        {!link && playlistName && (
+          <h2 className="card__playlist-name">{playlistName}</h2>
+        )}
+        {artistName && <p className="card__artistName">{artistName}</p>}
+        {link !== "Playlists" &&
+          link !== "Categories" &&
+          link &&
+          (followed ? (
+            <div onClick={() => unSave(id)} className="card__save">
+              <RiUserUnfollowLine size={15} />
+            </div>
+          ) : (
+            <div onClick={() => save(id)} className="card__unSave">
+              <RiUserFollowLine size={15} />
+            </div>
+          ))}
+      </div>
     </motion.div>
   );
 };
