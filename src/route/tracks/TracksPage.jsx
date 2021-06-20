@@ -32,6 +32,7 @@ const TracksPage = () => {
   const [artistAlbums, setArtistAlbums] = useState();
   const [showRecomended, setShowRecomended] = useState(true);
   const [id, setId] = useState();
+  const [tracks, setTracks] = useState();
 
   useEffect(() => {
     savedTracks && !id && setId(savedTracks?.[2]?.item?.id);
@@ -56,14 +57,25 @@ const TracksPage = () => {
           seed_tracks: trackSelected.id,
           limit: 10,
         });
-        const tracksWithFollow = await checkIfTrackIsSaved(tracks.tracks);
-        setRecomendedTracks(tracksWithFollow);
+        setTracks(tracks);
       } catch (error) {
         console.log(error);
       }
     };
     trackSelected && getRecommendationsTracks();
-  }, [spotifyApi, trackSelected, checkIfTrackIsSaved]);
+  }, [spotifyApi, trackSelected]);
+
+  const checkIfSaved = useCallback(
+    async (tracks) => {
+      const tracksWithFollow = await checkIfTrackIsSaved(tracks);
+      setRecomendedTracks(tracksWithFollow);
+    },
+    [checkIfTrackIsSaved]
+  );
+
+  useEffect(() => {
+    tracks && checkIfSaved(tracks.tracks);
+  }, [tracks, checkIfSaved]);
 
   const getArtistAlbums = useCallback(async () => {
     const artistAlbums =
