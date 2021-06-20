@@ -104,6 +104,7 @@ export const AppProvider = (props) => {
     try {
       const response = await spotifyApi.getMySavedAlbums({ limit: 50 });
       const savedAlbumsA = response.items.map((album) => album.album);
+      // eslint-disable-next-line array-callback-return
       const onlyAlbums = savedAlbumsA.filter((item) => {
         if (item.album_type !== "compilation") return item;
       });
@@ -179,7 +180,6 @@ export const AppProvider = (props) => {
   // Handling fetch saved tracks and save and unsave tracks === START =====================
   // Handling fetch saved tracks and save and unsave tracks === START =====================
   const getLikedTracks = useCallback(async () => {
-    console.log("liked tracks fetch");
     try {
       const response = await spotifyApi.getMySavedTracks({
         limit: 50,
@@ -205,8 +205,6 @@ export const AppProvider = (props) => {
   };
 
   const unSaveTrack = (id) => {
-    console.log(id, "tracks unsave");
-
     spotifyApi.removeFromMySavedTracks([id]);
     setTimeout(() => {
       getLikedTracks();
@@ -214,7 +212,6 @@ export const AppProvider = (props) => {
   }; // unsave track and update the view
 
   const saveTrack = (id) => {
-    console.log(id, "tracks save");
     spotifyApi.addToMySavedTracks([id]);
     setTimeout(() => {
       getLikedTracks();

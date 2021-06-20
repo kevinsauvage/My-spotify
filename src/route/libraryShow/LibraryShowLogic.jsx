@@ -46,7 +46,7 @@ const LibraryShowLogic = () => {
   }, [spotifyApi, id, checkIfTrackIsSaved]);
 
   const handleClickPlay = useCallback(() => {
-    const uris = tracks.map((track) => track.uri);
+    const uris = tracks.map((track) => track.item.uri);
     setUri(uris);
   }, [setUri, tracks]);
 

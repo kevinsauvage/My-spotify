@@ -2,52 +2,9 @@
 
 .playlistShow {
   margin-left: 3rem;
+  margin-right: 2rem;
 
-  &__banner {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    background-color: #0b0d17;
-    margin-bottom: -24px;
-  }
-
-  &__detail {
-    width: 50%;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__btn {
-    width: fit-content;
-  }
-
-  &__name {
-    @include openSans(800, 25px);
-    color: white;
-  }
-
-  &__description {
+  .tracks {
     margin-top: 2rem;
-    @include openSans(600, 12px);
-
-  }
-
-
-  &__img {
-    display: flex;
-    justify-content: center;
-
-    div {
-      border-radius: 5px;
-      width: 320px;
-      height: 320px;
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
   }
 }

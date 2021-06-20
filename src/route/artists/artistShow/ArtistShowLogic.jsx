@@ -47,7 +47,7 @@ const ArtistShowLogic = () => {
       const albumsWithFollow = await checkIfAlbumsAreFollowed(sorted);
       setArtistAlbums(albumsWithFollow);
     };
-    fetchArtistAlbums();
+    id && fetchArtistAlbums();
   }, [id, spotifyApi, checkIfAlbumsAreFollowed, savedAlbums]);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const ArtistShowLogic = () => {
       const tracksWithFollow = await checkIfTrackIsSaved(topTracks.tracks);
       setArtistTopTracks(tracksWithFollow);
     };
-    getArtistTopTracks();
+    id && getArtistTopTracks();
   }, [spotifyApi, id, checkIfTrackIsSaved]); // get artist top tracks
 
   const isFollowingArtist = useCallback(async () => {
@@ -86,7 +86,6 @@ const ArtistShowLogic = () => {
     }
   }; // Following || unfollowing artist
 
-  console.log(artistTopTracks);
   const setUriFromArtistTopTracks = () => {
     const tracksq = artistTopTracks.map((res) => res.item.uri);
 

@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import { CgPlayListAdd } from "react-icons/cg";
 import { HiExternalLink } from "react-icons/hi";
-import { RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
+import { TiDeleteOutline } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import "./Card.scss";
 import Colors from "./colorsArray";
@@ -60,8 +61,8 @@ const Card = ({
         onClick={() => setId && setId(id)}
         className="card__img"
         style={url ? styleWithImage : styleWithoutImage}></div>
-      <div className="card__detail">
-        {link && name && (
+      {link && name && (
+        <div className="card__detail">
           <Link
             to={{
               pathname: `/${link}/${id}`,
@@ -76,34 +77,39 @@ const Card = ({
             </h2>
             <HiExternalLink size={15} color="white" />
           </Link>
-        )}
-      </div>
-      {link && playlistName && (
-        <Link
-          to={{
-            pathname: `/${link}/${id}`,
-            state: {
-              id: id,
-            },
-          }}>
-          <h2 className="card__playlist-name">{playlistName}</h2>
-          <HiExternalLink size={15} color="white" />
-        </Link>
-      )}
-      {!link && playlistName && (
-        <h2 className="card__playlist-name">{playlistName}</h2>
+        </div>
       )}
       {artistName && <p className="card__artistName">{artistName}</p>}
+      {link && playlistName && (
+        <div className="card__detail">
+          <Link
+            to={{
+              pathname: `/${link}/${id}`,
+              state: {
+                id: id,
+              },
+            }}>
+            <h2 className="card__playlist-name">{playlistName}</h2>
+            <HiExternalLink size={15} color="white" />
+          </Link>
+        </div>
+      )}
+      {!link && playlistName && (
+        <div className="card__detail">
+          <h2 className="card__playlist-name">{playlistName}</h2>
+        </div>
+      )}
+
       {link !== "Playlists" &&
         link !== "Categories" &&
         link &&
         (followed ? (
           <div onClick={() => unSave(id)} className="card__save">
-            <RiUserUnfollowLine size={15} />
+            <TiDeleteOutline size={15} />
           </div>
         ) : (
           <div onClick={() => save(id)} className="card__unSave">
-            <RiUserFollowLine size={15} />
+            <CgPlayListAdd size={15} />
           </div>
         ))}
     </motion.div>

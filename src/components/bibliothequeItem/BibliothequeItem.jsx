@@ -70,7 +70,7 @@ const BibliothequeItem = ({
         <Link
           className="bibliotheque-item__name"
           to={{
-            pathname: `/track/${trackId}`,
+            pathname: `/Tracks/${trackId}`,
             state: {
               id: trackId,
             },

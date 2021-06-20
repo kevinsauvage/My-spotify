@@ -5,19 +5,22 @@ import Playlists from "../../components/playlists/Playlists";
 import PageBanner from "../../components/pageBanner/PageBanner";
 import WentWrong from "../../components/wentWrong/WentWrong";
 import SearchResultLogic from "./SearchResultLogic";
+import ClickableTitle from "../../components/clickableTitle/ClickableTitle";
 
 const SearchResult = () => {
-  const { bg, handlePlay, error, items } = SearchResultLogic();
+  const { bg, handlePlay, error, tracks, artists, playlists } =
+    SearchResultLogic();
 
   return (
     <div className="search-result">
       {!error ? (
         <>
           <PageBanner onClick={handlePlay} title="Search result" bg={bg} />
-          <Tracks data={items?.tracks.items} />
+          <ClickableTitle title={"Tracks"} />
+          <Tracks data={tracks} />
           <div className="search-result__wrapper">
-            <Playlists data={items?.playlists.items} />
-            <Artists data={items?.artists.items} />
+            <Playlists data={playlists} />
+            <Artists data={artists} />
           </div>
         </>
       ) : (

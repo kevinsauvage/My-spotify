@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { AppContext } from "../../../context/AppContext";
 
@@ -8,7 +8,11 @@ const TrackShowLogic = () => {
   const [recomendedTracks, setRecomendedTracks] = useState(); // array of recommendation tracks
   const [trackToShow, setTrackToShow] = useState(); // track to show in track show page
   const [error, setError] = useState(false);
-  const { spotifyApi, setUri, checkIfTrackIsSaved } = useContext(AppContext);
+  const [isFollowed, setIsFollowed] = useState();
+  const [tracks, setTracks] = useState();
+
+  const { spotifyApi, setUri, checkIfTrackIsSaved, unSaveTrack, saveTrack } =
+    useContext(AppContext);
 
   useEffect(() => {
     const setTrackShow = async (e) => {
@@ -28,20 +32,56 @@ const TrackShowLogic = () => {
         seed_tracks: id,
         limit: 50,
       });
-      const trackWithFollow = await checkIfTrackIsSaved(tracks.tracks);
-      setRecomendedTracks(trackWithFollow);
+      setTracks(tracks);
     };
-    getRecommendationsTrack();
-  }, [spotifyApi, id, checkIfTrackIsSaved]);
+    id && getRecommendationsTrack();
+  }, [spotifyApi, id]);
+
+  const checkIfSaved = useCallback(
+    async (tracks) => {
+      const trackWithFollow = await checkIfTrackIsSaved(tracks);
+      setRecomendedTracks(trackWithFollow);
+    },
+    [checkIfTrackIsSaved]
+  );
+
+  useEffect(() => {
+    tracks && checkIfSaved(tracks.tracks);
+  }, [tracks, checkIfSaved]);
 
   const handlePlay = () => {
-    const uris = recomendedTracks.map((track) => track.uri);
+    const uris = recomendedTracks.map((track) => track.item.uri);
     setUri([trackToShow.uri, ...uris]);
   };
 
+  const checkIfSingleTrackIsSaved = useCallback(async () => {
+    const response = await spotifyApi.containsMySavedTracks([id]);
+    setIsFollowed(response[0]);
+  }, [id, spotifyApi]);
+
+  const handleSave = () => {
+    if (isFollowed) {
+      unSaveTrack(id);
+    } else {
+      saveTrack(id);
+    }
+  };
+
+  useEffect(() => {
+    id && checkIfSingleTrackIsSaved();
+  }, [checkIfSingleTrackIsSaved, id]);
+
   const bg = "url(" + trackToShow?.album.images[1].url + ")";
 
-  return { error, handlePlay, trackToShow, bg, recomendedTracks };
+  return {
+    error,
+    handlePlay,
+    trackToShow,
+    bg,
+    recomendedTracks,
+    isFollowed,
+    handleSave,
+  };
 };
 
 export default TrackShowLogic;

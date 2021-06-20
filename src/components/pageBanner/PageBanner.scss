@@ -2,9 +2,17 @@
 @import "../../assets/stylesheets/variable";
 
 .pageBanner {
-
   display: flex;
-  background-color: #0b0d17;
+  justify-content: center;
+  padding-top: 6rem;
+
+  &__wrapper {
+    background-color: $color-extra-dark;
+    width: fit-content;
+    display: flex;
+    align-items: flex-end;
+    border-radius: 15px;
+  }
 
   @include respond(mobile) {
     padding: 0;
@@ -12,16 +20,18 @@
   }
 
   &__detail {
-    width: 50%;
-    padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-
-    @include respond(mobile) {
-      width: 100%;
-    }
+    justify-content: space-between;
+    height: 250px;
+    padding: 2rem;
+    min-width: 250px;
   }
+
+  @include respond(mobile) {
+    width: 100%;
+  }
+
 
   &__btn {
     width: fit-content;
@@ -36,13 +46,12 @@
 
     &:hover {
       color: white;
-      @include openSans(600, 17px);
 
     }
   }
 
   &__name {
-    @include poppins(800, 32px);
+    @include poppins(800, 25px);
     color: white;
   }
 
@@ -71,12 +80,12 @@
     justify-content: center;
 
     div {
-      border-radius: 5px;
-      width: 500px;
-      height: 500px;
-      background-position: center;
-      background-size: cover;
+      width: 250px;
+      height: 250px;
       background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 15px;
+      background-position: center;
 
       @include respond(mobileS) {
         width: 100vw;
@@ -87,22 +96,17 @@
     }
   }
 
-  .follow-btn {
-    padding: 0.8rem 2rem;
-    border-radius: 20px;
-    height: 35px;
-    cursor: pointer;
-    font-weight: 700;
-    background-color: #21d4fd;
-    background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
-    width: fit-content;
-    transition: all 0.2s ease-in;
-    margin: 1rem auto;
-    margin-bottom: 0;
-    box-shadow: 0px 1px 5px -1px #21d4fd;
-    @include flex-center;
-    position: relative;
-    margin-right: 1rem;
+  &__btns {
+    display: flex;
+  }
+
+  &__btn {
+    padding: 1rem 2rem;
+    background-color: $color-light;
     color: white;
+    @include openSans(600, 13px);
+    border-radius: 5px;
+    margin-right: 1rem;
+    cursor: pointer;
   }
 }

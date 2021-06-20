@@ -47,7 +47,6 @@ const PlaylistsPage = () => {
         const playlistTracks = await spotifyApi.getPlaylistTracks(id, {
           limit: 50,
         });
-        console.log(playlistTracks);
         const tracks = playlistTracks.items.map((item) => item.track);
         const trackWithFollow = await checkIfTrackIsSaved(tracks);
         setPlaylistTracks(trackWithFollow);
@@ -63,7 +62,6 @@ const PlaylistsPage = () => {
     const getCategories = async () => {
       const response = await spotifyApi.getCategories();
       setCategories(response.categories.items);
-      console.log(response.categories.items);
     };
     getCategories();
   }, [spotifyApi]);
@@ -71,7 +69,6 @@ const PlaylistsPage = () => {
   useEffect(() => {
     const getPlaylistsFromCategory = async () => {
       const response = await spotifyApi.getCategoryPlaylists(categorySelected);
-      console.log(response.playlists.items);
       setPlaylistsFromCategory(response.playlists.items);
     };
     categorySelected && getPlaylistsFromCategory();
@@ -92,8 +89,6 @@ const PlaylistsPage = () => {
     setShowUserPlaylits(false);
     setShowCategories(true);
   };
-
-  console.log(categorySelected);
 
   return (
     <div className="playlistsPage">

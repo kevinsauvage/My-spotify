@@ -1,6 +1,12 @@
-@import "../../assets/stylesheets/mixin";
+@import "../../../assets/stylesheets/mixin";
 
 .albumShow {
+  margin: 0 2rem 0 3rem;
+
+  .tracks {
+    margin-top: 2rem;
+  }
+
   @include respond(tablet) {
     margin-bottom: 2rem;
   }
