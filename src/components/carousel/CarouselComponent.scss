@@ -8,6 +8,8 @@
 }
 
 .react-multi-carousel-track {
+  padding-left: 3rem;
+
   &:hover .react-multi-carousel-item {
     transform: translateX(-30px);
   }
