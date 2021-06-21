@@ -29,7 +29,7 @@ const CarouselComponent = ({ data, selected, setId, save, unSave, link }) => {
                 id={item.item?.id || item?.id}
                 setId={setId}
                 height="190px"
-                width="190px"
+                width="200px"
                 followed={item.follow}
                 save={save}
                 unSave={unSave}

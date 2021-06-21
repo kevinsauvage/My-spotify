@@ -9,11 +9,11 @@ const responsive = {
   },
   bigTablet: {
     breakpoint: { max: 1580, min: 1354 },
-    items: 6,
+    items: 5,
   },
   tabletXl: {
     breakpoint: { max: 1354, min: 1144 },
-    items: 6,
+    items: 5,
   },
   tablet: {
     breakpoint: { max: 1144, min: 1057 },
