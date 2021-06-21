@@ -4,7 +4,6 @@
 .card {
   cursor: pointer;
   border-radius: 4px;
-  margin-right: 0.5rem;
 
   @include respond(mobileS) {
     height: 173px;

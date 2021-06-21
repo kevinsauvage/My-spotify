@@ -1,14 +1,15 @@
 .carousel {
   min-height: 230px;
+  overflow: hidden;
+  margin: -60px;
+  padding: 60px;
 }
 
 .react-multi-carousel-list {
-  margin: -60px 0;
-  padding: 60px 0;
+  overflow: visible;
 }
 
 .react-multi-carousel-track {
-  padding-left: 3rem;
 
   &:hover .react-multi-carousel-item {
     transform: translateX(-30px);

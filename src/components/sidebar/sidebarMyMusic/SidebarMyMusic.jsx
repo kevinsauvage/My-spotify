@@ -9,13 +9,13 @@ import "./SidebarMyMusic.scss";
 
 const SidebarMyMusic = () => {
   const data = [
-    { text: "History", link: "/library", icon: <AiOutlineHistory size={24} /> },
+    { text: "History", link: "/library", icon: <AiOutlineHistory size={18} /> },
     {
       text: "Favorite",
       link: "/library",
-      icon: <MdFavoriteBorder size={24} />,
+      icon: <MdFavoriteBorder size={18} />,
     },
-    { text: "Top Tracks", link: "/library", icon: <BsMusicNote size={24} /> },
+    { text: "Top Tracks", link: "/library", icon: <BsMusicNote size={18} /> },
   ];
   return (
     <div className="sidebarMyMusic">

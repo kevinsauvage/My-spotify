@@ -28,7 +28,8 @@ const CarouselComponent = ({ data, selected, setId, save, unSave, link }) => {
                 playlistName={item.name}
                 id={item.item?.id || item?.id}
                 setId={setId}
-                height="180px"
+                height="190px"
+                width="190px"
                 followed={item.follow}
                 save={save}
                 unSave={unSave}

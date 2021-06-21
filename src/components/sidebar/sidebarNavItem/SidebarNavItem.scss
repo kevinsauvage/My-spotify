@@ -6,12 +6,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: 0.4rem;
 
 
   &__title {
     text-transform: capitalize;
-    @include openSans(400, 14px);
+    @include openSans(400, 12px);
     transition: all 0.2s ease-in-out;
     max-width: 80%;
     text-align: end;

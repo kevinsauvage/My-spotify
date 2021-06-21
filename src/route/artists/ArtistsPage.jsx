@@ -120,7 +120,7 @@ const ArtistsPage = () => {
               <ClickableTitle
                 condition={carouselFav}
                 fn={toggleCarouselFavorite}
-                title={"Recommended Artists"}
+                title={"Artists You May Like"}
               />
               <ClickableTitle
                 condition={carouselFoll}

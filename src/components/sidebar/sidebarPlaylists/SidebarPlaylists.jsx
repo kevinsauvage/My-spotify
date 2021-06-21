@@ -28,7 +28,7 @@ const SidebarPlaylist = () => {
                 }}>
                 <SidebarNavItem
                   title={playlist.item.name}
-                  icon={<BsMusicNoteBeamed size={24} />}
+                  icon={<BsMusicNoteBeamed size={18} />}
                 />
               </Link>
             );

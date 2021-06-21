@@ -11,10 +11,10 @@ import "./SidebarBrowseSection.scss";
 
 const sidebarBrowseSection = () => {
   const data = [
-    { title: "Artists", icon: <BsPeopleFill size={24} /> },
-    { title: "Albums", icon: <GiCompactDisc size={24} /> },
-    { title: "Playlists", icon: <BsMusicNoteBeamed size={24} /> },
-    { title: "Tracks", icon: <BsMusicNoteList size={24} /> },
+    { title: "Artists", icon: <BsPeopleFill size={18} /> },
+    { title: "Albums", icon: <GiCompactDisc size={18} /> },
+    { title: "Playlists", icon: <BsMusicNoteBeamed size={18} /> },
+    { title: "Tracks", icon: <BsMusicNoteList size={18} /> },
   ];
 
   return (
