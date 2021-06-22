@@ -25,14 +25,6 @@ const BibliothequeItemLogic = (ref1, ref2, trackId) => {
     };
   }, [handleClickOutside]);
 
-  // Handling save and unsave track and check if track is liked === START
-
-  // Handling save and unsave track and check if track is liked === END
-
-  // Handling save and unsave album and check if album is linked === START
-
-  // Handling save and unsave album and check if album is linked === START
-
   const handleClickMenu = (e) => {
     setShowMenu(!showMenu);
   }; // display playlist modal on user click

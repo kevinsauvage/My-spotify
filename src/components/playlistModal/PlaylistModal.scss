@@ -2,31 +2,23 @@
 @import "../../assets/stylesheets/variable";
 
 .playlist-modal {
-  position: absolute;
-  bottom: -200px;
-  right: 200px;
-  width: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
   border-radius: 5px;
+  background-color: $color-dark;
+  z-index: 5000000;
+  padding: 3rem;
 
-  background-color: rgba($color-dark, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50000;
 
-  &__container {
-    background-color: rgba($color-dark, 0.9);
-    padding: 3rem;
-    position: relative;
-    border-radius: 5px;
-    width: 300px;
-
-    h2 {
-      font-size: 20px;
-      font-weight: 600;
-      color: whitesmoke;
-      margin-bottom: 1rem;
-    }
+  &__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: whitesmoke;
+    margin-bottom: 1rem;
   }
 
   &__icon-close {
@@ -39,7 +31,7 @@
   &__item {
     margin: 5px 0;
     display: flex;
-    @include openSans(500, 11px);
+    @include openSans(600, 12px);
 
     p.span-copied {
       margin-left: 10px;
@@ -84,21 +76,25 @@
     align-items: flex-end;
 
     h2 {
-      font-size: 16px;
-      font-weight: 600;
-      color: whitesmoke;
       margin-right: 1rem;
       display: flex;
       align-items: center;
+      justify-content: center;
       margin-bottom: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: whitesmoke;
     }
   }
 
   &__new-btn {
     display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid whitesmoke;
     padding: 1rem 2rem;
     border-radius: 10px;
     cursor: pointer;
+    width: 100%;
   }
 }

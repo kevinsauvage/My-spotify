@@ -15,22 +15,31 @@ const ArtistsRelated = ({ id, setError, artistSelected, link }) => {
   } = useContext(AppContext);
 
   useEffect(() => {
-    const getArtistRelatedArtists = async () => {
-      try {
-        const relatedArtists = await spotifyApi.getArtistRelatedArtists(id);
-        const sortedArtists = relatedArtists.artists.sort((a, b) => {
-          return b.popularity - a.popularity;
+    let isMounted = true;
+    if (id && isMounted) {
+      spotifyApi
+        .getArtistRelatedArtists(id)
+        .then((response) => {
+          if (!isMounted) return;
+          return response.artists.sort((a, b) => {
+            return b.popularity - a.popularity;
+          });
+        })
+        .then((response) => {
+          if (!isMounted) return;
+          return checkIfArtistsAreFollowed(response);
+        })
+        .then((response) => {
+          if (!isMounted) return;
+          setRelatedArtists(response);
+        })
+        .catch((error) => {
+          if (!isMounted) return;
+          console.log(error);
+          setError(true);
         });
-        const ArtistsWithFollow = await checkIfArtistsAreFollowed(
-          sortedArtists
-        );
-        setRelatedArtists(ArtistsWithFollow);
-      } catch (error) {
-        console.log(error);
-        setError(true);
-      }
-    };
-    id && getArtistRelatedArtists();
+    }
+    return () => (isMounted = false); // abort on unmount for cleanup
   }, [spotifyApi, id, setError, checkIfArtistsAreFollowed]); // Get the artists related to artist
 
   return (

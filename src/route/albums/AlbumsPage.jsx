@@ -45,32 +45,48 @@ const AlbumsPage = () => {
   }, [recommendedAlbums, id]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const setAlbumShow = async () => {
       try {
-        const album = await spotifyApi.getAlbum(id);
+        const album = await spotifyApi.getAlbum(id, { signal });
         setAlbumSelected(album);
       } catch (error) {
         setError(true);
+        console.log(error);
       }
     }; // Set artist to show on artist show page
     id && setAlbumShow();
+    return () => {
+      controller.abort(); // abort on unmount for cleanup
+    };
   }, [id, spotifyApi]);
 
-  const getArtistAlbums = useCallback(async () => {
-    const artistAlbums =
-      albumSelected &&
-      (await fetchArtistAlbums(albumSelected?.artists?.[0]?.id));
-    setArtistAlbums(artistAlbums);
-  }, [fetchArtistAlbums, albumSelected]);
+  const getArtistAlbums = useCallback(
+    async (signal) => {
+      const artistAlbums =
+        albumSelected &&
+        (await fetchArtistAlbums(albumSelected?.artists?.[0]?.id, signal));
+      setArtistAlbums(artistAlbums);
+    },
+    [fetchArtistAlbums, albumSelected]
+  );
 
   useEffect(() => {
-    getArtistAlbums();
+    const controller = new AbortController();
+    const { signal } = controller;
+    getArtistAlbums(signal);
+    return () => {
+      controller.abort(); // abort on unmount for cleanup
+    };
   }, [getArtistAlbums]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const getTracks = async () => {
       try {
-        const tracks = await spotifyApi.getAlbumTracks(id);
+        const tracks = await spotifyApi.getAlbumTracks(id, { signal });
         const trackWithFollow = await checkIfTrackIsSaved(tracks.items);
         setTracks(trackWithFollow);
       } catch (error) {
@@ -78,6 +94,9 @@ const AlbumsPage = () => {
       }
     };
     id && getTracks();
+    return () => {
+      controller.abort(); // abort on unmount for cleanup
+    };
   }, [id, spotifyApi, checkIfTrackIsSaved]);
 
   const toggleShowTracks = () => {

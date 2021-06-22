@@ -12,6 +12,7 @@
     display: flex;
     align-items: flex-end;
     border-radius: 15px;
+    max-width: 70%;
   }
 
   @include respond(mobile) {
@@ -23,8 +24,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 250px;
-    padding: 2rem;
+    padding: 1rem;
+    min-height: 250px;
     min-width: 250px;
   }
 
@@ -40,7 +41,7 @@
   }
 
   &__subtitle {
-    @include openSans(600, 16px);
+    @include openSans(600, 14px);
     padding-top: 0.5rem;
     transition: all 0.2s ease-in-out;
 
@@ -51,12 +52,12 @@
   }
 
   &__name {
-    @include poppins(800, 25px);
+    @include poppins(800, 20px);
     color: white;
   }
 
   &__release {
-    @include openSans(600, 16px);
+    @include openSans(600, 14px);
     margin: 1rem 0;
   }
 
@@ -78,10 +79,12 @@
   &__img {
     display: flex;
     justify-content: center;
+    height: 100%;
 
     div {
       width: 250px;
-      height: 250px;
+      min-height: 250px;
+      height: 100%;
       background-repeat: no-repeat;
       background-size: cover;
       border-radius: 15px;
@@ -98,6 +101,7 @@
 
   &__btns {
     display: flex;
+    margin: 1rem 0;
   }
 
   &__btn {

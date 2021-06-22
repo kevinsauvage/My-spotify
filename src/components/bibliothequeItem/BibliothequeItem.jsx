@@ -11,7 +11,6 @@ import "./BibliothequeItem.scss";
 import PlaylistModal from "../playlistModal/PlaylistModal";
 import BibliothequeItemLogic from "./BibliothequeItemLogic";
 import millisToMinutesAndSeconds from "../../helpers/millisToMinutesAndSeconds.js";
-import { motion } from "framer-motion";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
@@ -52,11 +51,24 @@ const BibliothequeItem = ({
   } = BibliothequeItemLogic(menu, iconMenu, trackId, albumId);
 
   return (
-    <motion.div
-      initial={{ y: "20%", opacity: 0 }}
-      animate={{ y: "0", opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className={"bibliotheque-item"}>
+    <div className={"bibliotheque-item"}>
+      {showMenu && (
+        <div className="bibliotheque-item__menu" ref={menu}>
+          <BsFillTriangleFill
+            className="arrow-icon"
+            style={{ position: "absolute", top: "-8px", right: "5px" }}
+          />
+          <div className="bibliotheque-item__add-to-queu">
+            <MdAddCircleOutline size={18} />
+            <p onClick={addToQueu}>Add to Queu</p>
+          </div>
+          <div
+            className="bibliotheque-item__add-to-playlist"
+            onClick={handleClickAddToPlaylist}>
+            <MdAddCircleOutline size={18} /> <p>Add to Playlist</p>
+          </div>
+        </div>
+      )}
       {trackId && (
         <div className="bibliotheque-item__iconHeart">
           {followed ? (
@@ -131,23 +143,7 @@ const BibliothequeItem = ({
           <MdPlayCircleFilled size={20} />
         </div>
       )}
-      {showMenu && (
-        <div className="bibliotheque-item__menu" ref={menu}>
-          <BsFillTriangleFill
-            className="arrow-icon"
-            style={{ position: "absolute", top: "-8px", right: "5px" }}
-          />
-          <div className="bibliotheque-item__add-to-queu">
-            <MdAddCircleOutline size={18} />
-            <p onClick={addToQueu}>Add to Queu</p>
-          </div>
-          <div
-            className="bibliotheque-item__add-to-playlist"
-            onClick={handleClickAddToPlaylist}>
-            <MdAddCircleOutline size={18} /> <p>Add to Playlist</p>
-          </div>
-        </div>
-      )}
+
       {trackId && (
         <p className="bibliotheque-item__queu-icon" ref={iconMenu}>
           <CgPlayListAdd size={20} onClick={handleClickMenu} />
@@ -171,7 +167,7 @@ const BibliothequeItem = ({
           )}
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

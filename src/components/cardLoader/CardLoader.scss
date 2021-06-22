@@ -1,6 +1,10 @@
 @import "../../assets/stylesheets/variable";
 @import "../../assets/stylesheets/mixin";
 
+.carousel-loader {
+  min-height: 300px;
+}
+
 .cardLoader {
   width: 200px;
   height: 200px;

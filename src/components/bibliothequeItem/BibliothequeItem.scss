@@ -36,7 +36,7 @@
     top: 100%;
     right: 0;
     width: fit-content;
-    z-index: 10000;
+    z-index: 100000 !important;
     height: fit-content;
     background-color: $color-dark;
     border-radius: 10px;
@@ -45,9 +45,14 @@
     flex-direction: column;
     justify-content: space-between;
 
+
     .arrow-icon {
       color: $color-dark;
     }
+  }
+
+  &__add-to-queu {
+    margin-bottom: 0.5rem;
   }
 
   &__name {

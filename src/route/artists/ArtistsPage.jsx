@@ -1,11 +1,4 @@
-import React, {
-  Suspense,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  lazy,
-} from "react";
+import React, { Suspense, useContext, useEffect, useState, lazy } from "react";
 import { AppContext } from "../../context/AppContext";
 import "./ArtistsPage.scss";
 import Tracks from "../../components/tracks/Tracks";
@@ -46,9 +39,11 @@ const ArtistsPage = () => {
   }, [topArtists, id]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const setArtistShow = async () => {
       try {
-        const artist = await spotifyApi.getArtist(id);
+        const artist = await spotifyApi.getArtist(id, { signal });
         setArtistSelected(artist);
       } catch (error) {
         setError(true);
@@ -56,40 +51,62 @@ const ArtistsPage = () => {
       }
     }; // Set artist to show on artist show page
     id && setArtistShow();
+    return () => controller.abort();
   }, [id, spotifyApi]);
 
   useEffect(() => {
-    const getArtistTopTracks = async () => {
-      try {
-        const topTracks = await spotifyApi.getArtistTopTracks(id, "FR", {
+    let isMounted = true;
+    if (id && isMounted) {
+      spotifyApi
+        .getArtistTopTracks(id, "FR", {
           limit: 20,
+        })
+        .then((response) => {
+          if (!isMounted) return;
+          return checkIfTrackIsSaved(response.tracks);
+        })
+        .then((tracksWithFollow) => {
+          if (!isMounted) return;
+          setArtistTopTracks(tracksWithFollow);
+        })
+        .catch((error) => {
+          console.log(error);
+          setError(true);
         });
-        const tracksWithFollow = await checkIfTrackIsSaved(topTracks.tracks);
-        setArtistTopTracks(tracksWithFollow);
-      } catch (error) {
-        setError(true);
-        console.log(error);
-      }
-    };
-    id && getArtistTopTracks();
+    }
+
+    return () => (isMounted = false);
   }, [id, spotifyApi, checkIfTrackIsSaved, savedTracks]);
 
-  const fetchArtistAlbums = useCallback(async () => {
-    const artistAlbums = await spotifyApi.getArtistAlbums(id);
-    const unique = artistAlbums.items.filter(
-      (thing, index, self) =>
-        index ===
-        self.findIndex((t) => t.place === thing.place && t.name === thing.name)
-    );
-    const sorted = unique.sort((a, b) => a.release_date > b.release_date);
-    const albumWithFollow = await checkIfAlbumsAreFollowed(sorted);
-    setArtistAlbums(albumWithFollow);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [savedAlbums, checkIfAlbumsAreFollowed, id, spotifyApi]); // saved album can't be removed as it update album of artist page when user save/unsave album
-
   useEffect(() => {
-    id && fetchArtistAlbums();
-  }, [id, fetchArtistAlbums]);
+    const controller = new AbortController();
+    const { signal } = controller;
+    if (id) {
+      spotifyApi
+        .getArtistAlbums(id, { signal })
+        .then((response) => {
+          return response.items.filter(
+            (thing, index, self) =>
+              index ===
+              self.findIndex(
+                (t) => t.place === thing.place && t.name === thing.name
+              )
+          );
+        })
+        .then((response) =>
+          response.sort((a, b) => a.release_date > b.release_date)
+        )
+        .then((response) => {
+          return checkIfAlbumsAreFollowed(response);
+        })
+        .then((response) => setArtistAlbums(response))
+        .catch((error) => {
+          console.log(error);
+          setError(true);
+        });
+    }
+    return () => controller.abort();
+  }, [id, checkIfAlbumsAreFollowed, savedAlbums, spotifyApi]);
 
   const toggleCarouselFavorite = () => {
     setCarouselFav(true);

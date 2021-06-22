@@ -8,19 +8,16 @@
 
   &__carousel {
     .artistsPage__menu {
-      justify-content: start;
+      justify-content: flex-start;
       display: flex;
     }
   }
-
-
 
   &__content {
     display: flex;
 
     .artistsPage__menu {
       display: flex;
-      margin: 0 0rem;
     }
   }
 

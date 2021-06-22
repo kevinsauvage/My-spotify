@@ -24,18 +24,23 @@ const PlaylistShowLogic = () => {
       try {
         const playlist = await spotifyApi.getPlaylist(id, { limit: 50 });
         setPlaylist(playlist);
-        if (playlist.tracks.items.length >= 50) {
+        if (playlist.tracks.items.length > 50) {
           const tracks1 = playlist.tracks.items
             .slice(0, 50)
             .map((res) => res.track);
           const tracks2 = playlist.tracks.items
             .slice(51, 100)
             .map((res) => res.track);
+
+          console.log(tracks1);
+          console.log(tracks2);
           const tracksWithFollow1 = await checkIfTrackIsSaved(tracks1);
           const tracksWithFollow2 = await checkIfTrackIsSaved(tracks2);
           setTracks([...tracksWithFollow1, ...tracksWithFollow2]);
         } else {
+          console.log(playlist.tracks.items);
           const tracks = playlist.tracks.items.map((item) => item.track);
+          console.log(tracks);
           const tracksWithFollow = await checkIfTrackIsSaved(tracks);
           setTracks(tracksWithFollow);
         }

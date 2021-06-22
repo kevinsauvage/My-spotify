@@ -30,15 +30,18 @@ const PlaylistsPage = () => {
   }, [featuredPlaylists]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const setPlaylistShow = async () => {
       try {
-        const playlist = await spotifyApi.getPlaylist(id);
+        const playlist = await spotifyApi.getPlaylist(id, { signal });
         setPlaylistSelected(playlist);
       } catch (error) {
         setError(true);
       }
     }; // Set Playlist selected
     id && setPlaylistShow();
+    return () => controller.abort();
   }, [id, spotifyApi]);
 
   useEffect(() => {
@@ -59,19 +62,27 @@ const PlaylistsPage = () => {
   }, [id, spotifyApi, checkIfTrackIsSaved]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const getCategories = async () => {
-      const response = await spotifyApi.getCategories();
+      const response = await spotifyApi.getCategories({ signal });
       setCategories(response.categories.items);
     };
     getCategories();
+    return () => controller.abort();
   }, [spotifyApi]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const getPlaylistsFromCategory = async () => {
-      const response = await spotifyApi.getCategoryPlaylists(categorySelected);
+      const response = await spotifyApi.getCategoryPlaylists(categorySelected, {
+        signal,
+      });
       setPlaylistsFromCategory(response.playlists.items);
     };
     categorySelected && getPlaylistsFromCategory();
+    return () => controller.abort();
   }, [spotifyApi, categorySelected]);
 
   const toggleFeaturedPlaylists = () => {

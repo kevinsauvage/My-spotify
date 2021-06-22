@@ -74,18 +74,24 @@ export const AppProvider = (props) => {
   };
 
   useEffect(() => {
-    const getTopArtist = async () => {
-      try {
-        const topArtists = await spotifyApi.getMyTopArtists();
-        const artistsWithFollow = await checkIfArtistsAreFollowed(
-          topArtists.items
-        );
-        setTopArtists(artistsWithFollow);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getTopArtist();
+    let isMounted = true;
+    if (isMounted) {
+      spotifyApi
+        .getMyTopArtists()
+        .then((response) => {
+          if (!isMounted) return;
+          return checkIfArtistsAreFollowed(response.items);
+        })
+        .then((response) => {
+          if (!isMounted) return;
+          setTopArtists(response);
+        })
+        .catch((error) => {
+          if (!isMounted) return;
+          console.log(error);
+        });
+    }
+    return () => (isMounted = false);
   }, [setTopArtists, followedArtists]);
   // Handle fetch Artists === END =========================================================
   // Handle fetch Artists === END =========================================================
@@ -129,8 +135,8 @@ export const AppProvider = (props) => {
     });
   }, [topArtists, checkIfAlbumsAreFollowed]);
 
-  const fetchArtistAlbums = async (id) => {
-    const artistAlbums = await spotifyApi.getArtistAlbums(id);
+  const fetchArtistAlbums = async (id, signal) => {
+    const artistAlbums = await spotifyApi.getArtistAlbums(id, { signal });
     const unique = artistAlbums.items.filter(
       (thing, index, self) =>
         index ===
@@ -140,6 +146,7 @@ export const AppProvider = (props) => {
     const albumsWithFollow = await checkIfAlbumsAreFollowed(sorted);
     return albumsWithFollow;
   };
+
   useEffect(() => {
     const getNewReleases = async () => {
       const response = await spotifyApi.getNewReleases({ limit: 50 });
@@ -240,6 +247,7 @@ export const AppProvider = (props) => {
     }
   };
   const getUserPlaylists = useCallback(async () => {
+    console.log("eeee");
     const response = await spotifyApi.getUserPlaylists({ limit: 50 });
     const playlists = response.items.map((item) => {
       return { item: item };

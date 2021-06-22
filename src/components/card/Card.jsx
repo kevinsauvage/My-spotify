@@ -38,6 +38,7 @@ const Card = ({
     width: width,
     cursor: setId ? "pointer" : "default",
   };
+
   const styleWithoutImage = {
     background: Colors[Math.ceil(Math.random() * 250)],
     height: height,
