@@ -8,15 +8,13 @@
   margin: 0 0 15px 0;
   border-radius: 15px;
   padding: 15px;
-  background-color: rgb(0,
-      0,
-      119);
+  background-color: $color-light;
 
 
   p {
     z-index: 5000;
     color: white;
-    @include openSans(600, 13px);
+    @include openSans(600, 14px);
 
 
     @include respond(mobileS) {
