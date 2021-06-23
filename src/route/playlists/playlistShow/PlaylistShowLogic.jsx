@@ -38,9 +38,7 @@ const PlaylistShowLogic = () => {
           const tracksWithFollow2 = await checkIfTrackIsSaved(tracks2);
           setTracks([...tracksWithFollow1, ...tracksWithFollow2]);
         } else {
-          console.log(playlist.tracks.items);
           const tracks = playlist.tracks.items.map((item) => item.track);
-          console.log(tracks);
           const tracksWithFollow = await checkIfTrackIsSaved(tracks);
           setTracks(tracksWithFollow);
         }
@@ -60,7 +58,7 @@ const PlaylistShowLogic = () => {
   useEffect(() => {
     id && checkIsFollowed();
   }, [id, checkIsFollowed]);
-  const bg = "url(" + playlist?.images[0].url + ")";
+  const bg = "url(" + playlist?.images[0]?.url + ")";
 
   const handleFollow = () => {
     if (isFollowed) {

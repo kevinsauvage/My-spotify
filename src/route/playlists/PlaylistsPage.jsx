@@ -65,7 +65,10 @@ const PlaylistsPage = () => {
     const controller = new AbortController();
     const { signal } = controller;
     const getCategories = async () => {
-      const response = await spotifyApi.getCategories({ signal });
+      const response = await spotifyApi.getCategories(
+        { limit: 50 },
+        { signal }
+      );
       setCategories(response.categories.items);
     };
     getCategories();

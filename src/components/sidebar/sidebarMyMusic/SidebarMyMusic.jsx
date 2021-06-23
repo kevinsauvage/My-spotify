@@ -15,7 +15,7 @@ const SidebarMyMusic = () => {
       link: "/library",
       icon: <MdFavoriteBorder size={18} />,
     },
-    { text: "Top Tracks", link: "/library", icon: <BsMusicNote size={18} /> },
+    { text: "Top", link: "/library", icon: <BsMusicNote size={18} /> },
   ];
   return (
     <div className="sidebarMyMusic">

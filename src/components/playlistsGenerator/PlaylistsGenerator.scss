@@ -1,0 +1,98 @@
+@import "../../assets/stylesheets/variable";
+@import "../../assets/stylesheets/mixin";
+
+.playlists-generator {
+  position: absolute;
+  position: absolute;
+  z-index: 50000;
+  top: 1.5rem;
+  right: 2rem;
+  background-color: $color-extra-dark;
+  padding: 0 2rem;
+  height: 40px;
+  border-radius: 8px;
+
+  &__btn {
+    background-color: transparent;
+    color: whitesmoke;
+    border: none;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+}
+
+.generate-playlist-modal {
+  width: 500px;
+  height: 500px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $color-extra-dark;
+  border-radius: 5px;
+
+  &__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: fit-content;
+    cursor: pointer;
+  }
+
+
+  &__title {
+    text-align: center;
+    color: whitesmoke;
+    padding: 2rem 0 0 0;
+    @include openSans(600, 20px);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+
+    label {
+      @include poppins(600, 14px);
+      color: whitesmoke;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    input,
+    select {
+      height: 30px;
+      @include poppins(600, 12px);
+      background-color: rgb(172, 175, 182);
+      border: none;
+    }
+
+    input {
+      padding-left: 0.3rem;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translate(-50%);
+    height: 35px;
+    padding: 0 1rem;
+    background-color: $color-light;
+    color: whitesmoke;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  &__loader {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

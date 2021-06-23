@@ -1,10 +1,10 @@
 @import "../../../assets/stylesheets/mixin";
 
 .sidebarSectionTitle {
-  margin: 2rem 0;
+  margin: 1rem 0;
 
   &__title {
-    @include raleway(800, 18px);
+    @include raleway(800, 14px);
     color: whitesmoke;
   }
 

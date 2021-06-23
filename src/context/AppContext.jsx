@@ -67,6 +67,7 @@ export const AppProvider = (props) => {
 
   const checkIfArtistsAreFollowed = async (artists) => {
     const ids = artists.map((artist) => artist.id);
+    if (ids.length === 0) return;
     const isFollowing = await spotifyApi.isFollowingArtists([ids]);
     return artists.map((artist, i) => {
       return { item: artist, follow: isFollowing[i] };
@@ -100,6 +101,7 @@ export const AppProvider = (props) => {
   // Handling fetch saved album and save and unsave album === START =======================
   const checkIfAlbumsAreFollowed = useCallback(async (albums) => {
     const ids = albums.map((album) => album.id);
+    if (ids.length === 0) return;
     const isFollowing = await spotifyApi.containsMySavedAlbums([ids]);
     return albums.map((album, i) => {
       return { item: album, follow: isFollowing[i] };
@@ -205,6 +207,7 @@ export const AppProvider = (props) => {
 
   const checkIfTrackIsSaved = async (tracks) => {
     const ids = tracks.map((track) => track?.id);
+    if (ids.length === 0) return;
     const response = await spotifyApi.containsMySavedTracks([ids]);
     return tracks.map((track, i) => {
       return { item: track, follow: response[i] };

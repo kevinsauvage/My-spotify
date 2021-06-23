@@ -5,6 +5,7 @@ import NavbarMobile from "../../components/navbarMobile/NavbarMobile";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import PlaylistsGenerator from "../../components/playlistsGenerator/PlaylistsGenerator";
 
 const Main = () => {
   const main = useRef(null);
@@ -16,6 +17,7 @@ const Main = () => {
 
   return (
     <div ref={main} className="main">
+      <PlaylistsGenerator />
       <SearchBar />
       <Content />
       <ControlBar />

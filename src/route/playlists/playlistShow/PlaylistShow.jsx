@@ -26,7 +26,11 @@ const PlaylistShow = () => {
           ) : (
             <TextLoader />
           )}
-          <Tracks data={tracks} />
+          {tracks ? (
+            <Tracks data={tracks} />
+          ) : (
+            <h6>Sorry, There is no tracks here</h6>
+          )}
         </>
       ) : (
         <WentWrong title="Oupss... , something went wrong!" btn />

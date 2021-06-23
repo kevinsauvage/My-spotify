@@ -21,7 +21,7 @@ const SidebarPlaylist = () => {
               <Link
                 key={playlist.item.id}
                 to={{
-                  pathname: `/Playlists/${playlist.item.id}`,
+                  pathname: `/Playlists/${playlist.item.name}`,
                   state: {
                     id: playlist.item.id,
                   },

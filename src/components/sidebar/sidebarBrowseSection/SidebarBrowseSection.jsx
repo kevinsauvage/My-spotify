@@ -5,11 +5,11 @@ import {
 } from "react-icons/bs";
 import { GiCompactDisc } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import SidebarLeftNavItem from "../sidebarNavItem/SidebarNavItem";
+import SidebarNavItem from "../sidebarNavItem/SidebarNavItem";
 import SidebarSectionTitle from "../sidebarSectionTitle/SidebarSectionTitle";
 import "./SidebarBrowseSection.scss";
 
-const sidebarBrowseSection = () => {
+const SidebarBrowseSection = () => {
   const data = [
     { title: "Artists", icon: <BsPeopleFill size={18} /> },
     { title: "Albums", icon: <GiCompactDisc size={18} /> },
@@ -27,7 +27,7 @@ const sidebarBrowseSection = () => {
             to={{
               pathname: `/${item.title}`,
             }}>
-            <SidebarLeftNavItem title={item.title} icon={item.icon} />
+            <SidebarNavItem title={item.title} icon={item.icon} />
           </Link>
         );
       })}
@@ -35,4 +35,4 @@ const sidebarBrowseSection = () => {
   );
 };
 
-export default sidebarBrowseSection;
+export default SidebarBrowseSection;
