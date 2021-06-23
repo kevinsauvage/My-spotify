@@ -14,11 +14,8 @@ const CreatePlaylist = ({ setDisplayCreatePlaylist }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    spotifyApi.createPlaylist(user.id, value);
+    spotifyApi.createPlaylist(user.id, value, getUserPlaylists);
     setValue({ name: "", description: "" });
-    setTimeout(() => {
-      getUserPlaylists();
-    }, 300);
     setDisplayCreatePlaylist(false);
   };
 

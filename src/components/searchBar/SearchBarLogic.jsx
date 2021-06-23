@@ -3,8 +3,7 @@ import { useHistory } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
 const SearchBarLogic = () => {
-  const { spotifyApi, checkIfArtistsAreFollowed, checkIfTrackIsSaved } =
-    useContext(AppContext);
+  const props = useContext(AppContext);
   const history = useHistory();
   const [changeCount, setChangeCount] = useState(0);
 
@@ -15,15 +14,15 @@ const SearchBarLogic = () => {
       history.go("-" + changeCount);
     }
     if (e.target.value === "") return;
-    const searchResults = await spotifyApi.search(e.target.value, [
+    const searchResults = await props?.spotifyApi.search(e.target.value, [
       "artist",
       "playlist",
       "track",
     ]);
-    const artistsWithFollow = await checkIfArtistsAreFollowed(
+    const artistsWithFollow = await props?.checkIfArtistsAreFollowed(
       searchResults.artists.items
     );
-    const tracksWithFollow = await checkIfTrackIsSaved(
+    const tracksWithFollow = await props?.checkIfTrackIsSaved(
       searchResults.tracks.items
     );
 

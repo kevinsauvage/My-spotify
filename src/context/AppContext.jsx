@@ -48,21 +48,11 @@ export const AppProvider = (props) => {
   }, [settingFollowedArtists]);
 
   const followArtist = (id) => {
-    spotifyApi.followArtists([id]);
-    setTimeout(() => {
-      settingFollowedArtists();
-    }, 500);
+    spotifyApi.followArtists([id], settingFollowedArtists);
   };
 
   const unfollowArtist = (id) => {
-    try {
-      spotifyApi.unfollowArtists([id]);
-    } catch (error) {
-      console.log(error);
-    }
-    setTimeout(() => {
-      settingFollowedArtists();
-    }, 500);
+    spotifyApi.unfollowArtists([id], settingFollowedArtists);
   };
 
   const checkIfArtistsAreFollowed = async (artists) => {
@@ -149,16 +139,17 @@ export const AppProvider = (props) => {
     return albumsWithFollow;
   };
 
-  useEffect(() => {
-    const getNewReleases = async () => {
-      const response = await spotifyApi.getNewReleases({ limit: 50 });
-      const albumWithFollow = await checkIfAlbumsAreFollowed(
-        response.albums.items
-      );
-      setNewReleasesAlbums(albumWithFollow);
-    };
-    getNewReleases();
+  const getNewReleases = useCallback(async () => {
+    const response = await spotifyApi.getNewReleases({ limit: 50 });
+    const albumWithFollow = await checkIfAlbumsAreFollowed(
+      response.albums.items
+    );
+    setNewReleasesAlbums(albumWithFollow);
   }, [checkIfAlbumsAreFollowed]);
+
+  useEffect(() => {
+    getNewReleases();
+  }, [getNewReleases]);
 
   useEffect(() => {
     getAlbumFromTopArtists();
@@ -173,14 +164,19 @@ export const AppProvider = (props) => {
     setTimeout(() => {
       fetchSavedAlbums();
       getAlbumFromTopArtists();
-    }, 500);
+      getNewReleases();
+      getAlbumFromTopArtists();
+    }, 400);
   };
+
   const unSaveAlbum = (id) => {
     spotifyApi.removeFromMySavedAlbums([id]);
     setTimeout(() => {
       fetchSavedAlbums();
       getAlbumFromTopArtists();
-    }, 500);
+      getNewReleases();
+      getAlbumFromTopArtists();
+    }, 400);
   };
 
   // Handling fetch saved album and save and unsave album === END =========================
@@ -215,17 +211,11 @@ export const AppProvider = (props) => {
   };
 
   const unSaveTrack = (id) => {
-    spotifyApi.removeFromMySavedTracks([id]);
-    setTimeout(() => {
-      getLikedTracks();
-    }, 500);
+    spotifyApi.removeFromMySavedTracks([id], null, getLikedTracks());
   }; // unsave track and update the view
 
   const saveTrack = (id) => {
-    spotifyApi.addToMySavedTracks([id]);
-    setTimeout(() => {
-      getLikedTracks();
-    }, 500);
+    spotifyApi.addToMySavedTracks([id], null, getLikedTracks);
   }; // Save track and update the view
 
   useEffect(() => {
