@@ -36,7 +36,6 @@ const ArtistsRelated = ({ id, setError, artistSelected, link }) => {
         .catch((error) => {
           if (!isMounted) return;
           console.log(error);
-          setError(true);
         });
     }
     return () => (isMounted = false); // abort on unmount for cleanup

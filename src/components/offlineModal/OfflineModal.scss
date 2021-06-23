@@ -1,0 +1,18 @@
+@import "../../assets/stylesheets/variable";
+
+.offline-modal {
+  width: 100vw;
+  height: 100vh;
+  z-index: 5000000;
+  background-color: $color-dark;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+}

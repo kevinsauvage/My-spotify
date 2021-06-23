@@ -15,7 +15,7 @@ const LibraryShowLogic = () => {
     const getTopTracks = () => {
       setTracks(topTracks);
     };
-    if (id === "Top Tracks") {
+    if (id === "Top") {
       getTopTracks();
     }
   }, [id, topTracks]);
